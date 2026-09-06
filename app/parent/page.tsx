@@ -1,25 +1,10 @@
 import Link from "next/link";
 import { prisma } from "../lib/db";
 import { buildReport } from "../lib/report";
+import { complianceForStudent, summarize } from "../lib/compliance";
 
 export const dynamic = "force-dynamic";
 
-/**
- * Les échéances imposées au parent par le régime d'enseignement à la maison.
- *
- * Sept obligations, dont l'inscription aux évaluations avant le 1er mars, celle
- * qu'une famille rencontrée avait ratée : son fils n'a passé aucune épreuve
- * cette année-là et n'a gagné aucune unité vers son diplôme.
- */
-const DEADLINES = [
-  { date: "1er juillet", label: "Avis de scolarisation à domicile", to: "DEM et centre de services scolaire" },
-  { date: "30 septembre", label: "Projet d'apprentissage", to: "DEM" },
-  { date: "1er mars", label: "Inscription aux épreuves ministérielles", to: "Centre de services scolaire" },
-  { date: "3e au 5e mois", label: "État de situation", to: "DEM" },
-  { date: "3e au 5e mois", label: "Bilan de mi-parcours", to: "DEM" },
-  { date: "15 juin", label: "Bilan de fin d'année", to: "DEM" },
-  { date: "10 juillet", label: "Preuve de l'évaluateur", to: "DEM" },
-];
 
 export default async function ParentPage() {
   // Le premier parent du jeu de données. L'authentification n'existe pas encore :
@@ -39,6 +24,15 @@ export default async function ParentPage() {
   }
 
   const reports = await Promise.all(parent.children.map((c) => buildReport(c.id)));
+
+  // Le resume des echeances du premier enfant, pour que la carte ne soit pas un
+  // lien mort mais un chiffre qui change.
+  const rows = await complianceForStudent(parent.children[0].id);
+  const compliance = summarize(rows);
+  const next = rows.find((r) => r.status !== "fait");
+  const segments = await prisma.transcriptSegment.count({
+    where: { studentId: { in: parent.children.map((c) => c.id) } },
+  });
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
@@ -128,22 +122,44 @@ export default async function ParentPage() {
         );
       })}
 
-      <section>
-        <h2 className="mb-3 font-mono text-xs uppercase tracking-wider text-neutral-500">
-          Vos sept échéances
-        </h2>
-        <ul className="grid gap-1">
-          {DEADLINES.map((d) => (
-            <li
-              key={d.label}
-              className="flex flex-wrap items-baseline gap-x-3 border-b border-neutral-200 py-2 text-sm dark:border-neutral-800"
-            >
-              <span className="w-32 shrink-0 font-mono text-xs text-neutral-500">{d.date}</span>
-              <span className="flex-1">{d.label}</span>
-              <span className="text-xs text-neutral-500">{d.to}</span>
-            </li>
-          ))}
-        </ul>
+      <section className="grid gap-4 sm:grid-cols-2">
+        <Link
+          href="/obligations"
+          className="rounded border border-neutral-200 p-5 hover:border-neutral-900 dark:border-neutral-800 dark:hover:border-neutral-100"
+        >
+          <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+            Vos échéances
+          </p>
+          <p className="mt-2 font-mono text-2xl tabular-nums">
+            {compliance.done}/{compliance.total}
+            {compliance.late > 0 && (
+              <span className="ml-3 text-base text-red-700 dark:text-red-400">
+                {compliance.late} en retard
+              </span>
+            )}
+          </p>
+          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+            Huit documents, deux organismes, aucune reprise. La prochaine est le{" "}
+            {next ? `${next.legalDate.toLowerCase()}` : "—"}.
+          </p>
+        </Link>
+
+        <Link
+          href="/privacy"
+          className="rounded border border-neutral-200 p-5 hover:border-neutral-900 dark:border-neutral-800 dark:hover:border-neutral-100"
+        >
+          <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+            Confidentialité
+          </p>
+          <p className="mt-2 font-mono text-2xl tabular-nums">
+            {segments}
+            <span className="text-base text-neutral-500"> segments</span>
+          </p>
+          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+            Ce que nous détenons de la voix de votre enfant, la durée de conservation, et le bouton
+            qui supprime pour de vrai.
+          </p>
+        </Link>
       </section>
     </main>
   );

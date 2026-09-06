@@ -48,6 +48,11 @@ model User {
   memberships CohortMember[]
   attendance  Attendance[]
   attempts    ExerciseAttempt[]
+
+  complianceTasks ComplianceTask[]
+  consent         RecordingConsent?
+  privacyEvents   PrivacyEvent[]
+  transcriptSaid  TranscriptSegment[]
 }
 
 // --- Cohorte -----------------------------------------------------------------
@@ -187,9 +192,80 @@ model TranscriptSegment {
   sessionId String
   session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   speaker   String // "instructor" ou "student"
+
+  // Sans ce lien, le droit a l'effacement de la Loi 25 est intenable : on ne
+  // peut pas supprimer les paroles d'un enfant si on ne sait pas lesquelles
+  // sont les siennes. Nullable parce que la voix de l'instructeur n'appartient
+  // a aucun eleve.
+  studentId String?
+  student   User?   @relation(fields: [studentId], references: [id], onDelete: SetNull)
+
   text      String
   startsAtMs Int
   createdAt DateTime @default(now())
 
   @@index([sessionId, startsAtMs])
+}
+
+// --- Conformité --------------------------------------------------------------
+
+// Les sept obligations du régime d'enseignement à la maison.
+//
+// Les DATES ne sont pas ici. Elles sont fixées par le Règlement sur
+// l'enseignement à la maison, elles sont les mêmes pour toutes les familles du
+// Québec, et une date recopiée dans une base de données est une date qu'on peut
+// se tromper en modifiant. Elles vivent dans app/lib/compliance.ts, où elles
+// sont calculées à partir de l'année scolaire.
+//
+// Cette table ne retient donc qu'une chose : est-ce que cette famille l'a fait,
+// et quand. Le statut en retard, à venir ou fait est déduit de completedAt et de
+// la date d'aujourd'hui, jamais stocké.
+model ComplianceTask {
+  id          String    @id @default(cuid())
+  studentId   String
+  student     User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  key         String // avis, projet, etat-situation, suivi, bilan-mi, epreuves, bilan-final, evaluateur
+  schoolYear  String // "2026-2027"
+  completedAt DateTime?
+  note        String?
+
+  @@unique([studentId, key, schoolYear])
+  @@index([studentId, schoolYear])
+}
+
+// --- Loi 25 ------------------------------------------------------------------
+
+// Consentement parental à l'enregistrement de la voix d'un mineur.
+//
+// La Loi 25 exige un consentement libre et éclairé, donné par le titulaire de
+// l'autorité parentale pour un enfant de moins de 14 ans, pour une finalité
+// précise, et retirable en tout temps. Le défaut est donc FALSE : tant qu'un
+// parent n'a rien décidé, aucun enregistrement n'est permis.
+//
+// retentionDays porte la durée de conservation. La loi n'impose pas un nombre,
+// elle impose de la fixer, de l'annoncer et de la respecter. Le nombre est donc
+// une décision d'affaires, et il est modifiable par le parent vers le bas.
+model RecordingConsent {
+  id            String   @id @default(cuid())
+  studentId     String   @unique
+  student       User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  granted       Boolean  @default(false)
+  retentionDays Int      @default(90)
+  decidedAt     DateTime @default(now())
+}
+
+// Journal des gestes de confidentialité.
+//
+// Un bouton « supprimer » sans trace est invérifiable : le parent doit croire
+// sur parole que quelque chose s'est passé. Chaque geste écrit une ligne ici, et
+// cette ligne survit à la suppression des données qu'elle décrit.
+model PrivacyEvent {
+  id         String   @id @default(cuid())
+  studentId  String
+  student    User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  type       String // CONSENT_GRANTED, CONSENT_REVOKED, RETENTION_CHANGED, TRANSCRIPTS_DELETED, RETENTION_PURGE
+  detail     String?
+  occurredAt DateTime @default(now())
+
+  @@index([studentId, occurredAt])
 }

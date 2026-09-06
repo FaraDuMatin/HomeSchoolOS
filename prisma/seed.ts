@@ -6,6 +6,9 @@ const prisma = new PrismaClient();
 // C'est ce cinquième qui sert la démo : essayer de l'ajouter fait apparaître le
 // refus légal.
 async function main() {
+  await prisma.privacyEvent.deleteMany();
+  await prisma.recordingConsent.deleteMany();
+  await prisma.complianceTask.deleteMany();
   await prisma.exerciseAttempt.deleteMany();
   await prisma.transcriptSegment.deleteMany();
   await prisma.sessionEvent.deleteMany();
@@ -193,6 +196,79 @@ async function main() {
           });
         }
       }
+    }
+  }
+
+  // --- Conformite -----------------------------------------------------------
+  //
+  // L'annee scolaire bascule au 1er juillet. On est donc apres l'avis et avant
+  // le projet d'apprentissage. Trois familles ont envoye leur avis, une ne l'a
+  // pas fait : sans ce retard, le calendrier serait tout vert et ne prouverait
+  // rien. C'est le meme role que Sara dans la demo du plafond de 4.
+  const now = new Date();
+  const schoolYear = `${now.getMonth() >= 6 ? now.getFullYear() : now.getFullYear() - 1}-${
+    now.getMonth() >= 6 ? now.getFullYear() + 1 : now.getFullYear()
+  }`;
+
+  for (const [i, s] of students.entries()) {
+    if (i === 2) continue; // Noah Okonkwo : avis jamais envoye, donc en retard.
+    const sent = new Date(now.getFullYear(), 5, 20 + i); // fin juin, avant le 1er juillet
+    await prisma.complianceTask.create({
+      data: { studentId: s.id, key: "avis", schoolYear, completedAt: sent },
+    });
+  }
+
+  // --- Loi 25 ---------------------------------------------------------------
+  //
+  // Le parent de demonstration a consenti, les autres non : le defaut du systeme
+  // est le refus, et l'ecran doit pouvoir montrer les deux etats.
+  //
+  // Les segments de transcription ci-dessous sont des donnees de test. Le module
+  // d'enregistrement n'existe pas encore. Ils sont la pour que le bouton de
+  // suppression ait quelque chose de reel a detruire : un bouton qui supprime
+  // zero ligne ne demontre rien. Deux d'entre eux sont dates d'il y a plus de
+  // 90 jours pour que la purge de retention ait, elle aussi, du travail.
+  await prisma.recordingConsent.create({
+    data: { studentId: students[0].id, granted: true, retentionDays: 90 },
+  });
+  await prisma.privacyEvent.create({
+    data: {
+      studentId: students[0].id,
+      type: "CONSENT_GRANTED",
+      detail:
+        "Transcrire ce qui se dit pendant le bloc pour produire les traces datees exigees dans le bilan.",
+      occurredAt: new Date(now.getTime() - 120 * 86400000),
+    },
+  });
+
+  const endedSessions = await prisma.session.findMany({
+    where: { status: "ENDED" },
+    orderBy: { plannedAt: "desc" },
+    take: 6,
+  });
+
+  const lines: [string, string][] = [
+    ["instructor", "On reprend la comparaison de fractions de la semaine derniere."],
+    ["student", "Trois quarts c'est plus grand parce que le quart est plus petit que le tiers."],
+    ["instructor", "Explique-moi comment tu le sais sans dessiner."],
+    ["student", "Si je coupe la pizza en quatre les morceaux sont plus petits qu'en trois."],
+    ["instructor", "Bien. Ecris ta demarche en mots dans ton cahier."],
+    ["student", "Est-ce que je peux faire le dessin en plus des mots ?"],
+  ];
+
+  for (const [i, session] of endedSessions.entries()) {
+    for (const [k, [speaker, text]] of lines.entries()) {
+      const age = i < 2 ? 100 + i * 5 : 20 + i * 3; // deux blocs au-dela de 90 jours
+      await prisma.transcriptSegment.create({
+        data: {
+          sessionId: session.id,
+          speaker,
+          text,
+          studentId: speaker === "student" ? students[0].id : null,
+          startsAtMs: k * 45_000,
+          createdAt: new Date(now.getTime() - age * 86400000),
+        },
+      });
     }
   }
 

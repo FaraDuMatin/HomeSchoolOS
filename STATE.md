@@ -18,14 +18,23 @@ npm run dev
 
 | Item | Quoi | Route | État |
 |---|---|---|---|
-| **B1** | Squelette Next.js, Prisma sur SQLite, 6 tables | — | fait |
+| **B1** | Squelette Next.js, Prisma sur SQLite | — | fait |
 | **B2** | Cohorte plafonnée à 4, refus légal du 5e élève | `/cohorts` | fait |
 | **B3** | Bloc en direct, présences, minuterie, journal d'événements | `/sessions`, `/sessions/[id]` | fait |
-| **B4** | Transcription Groq Whisper | — | à faire |
-| **B5** | Exercices liés aux compétences du PFEQ | — | à faire |
-| **B6** | Générateur de bilan de progression | — | à faire |
-| **B7** | Tableau de bord du parent | — | à faire |
-| **B8** | Seed complet | — | partiel, 6 semaines d'historique en place |
+| **B4** | Transcription Groq Whisper | — | **non fait, coupé** |
+| **B5** | Exercices liés aux compétences du PFEQ | `/sessions/[id]` | fait |
+| **B6** | Générateur de bilan de progression | `/report/[studentId]` | fait |
+| **B7** | Tableau de bord du parent | `/parent` | fait |
+| **B8** | Seed complet | — | fait, sauf ce que B4 aurait produit |
+| **B9** | Vue qualité du superviseur | `/supervisor` | fait |
+| **B10** | Calendrier des huit obligations | `/obligations` | fait |
+| **B11** | Consentement et rétention, Loi 25 | `/privacy` | fait |
+| **B12** | Viabilité, remplissage et points morts | `/viability` | fait |
+
+**B4 est coupé volontairement.** Il exige internet et un micro, c'est la pièce la plus fragile en direct, et rien
+d'autre n'en dépend. Les segments de transcription du seed sont des données de test : ils existent pour que le bouton
+de suppression de `/privacy` ait quelque chose de réel à détruire. Ne jamais laisser entendre en démo qu'un micro les
+a produits.
 
 ## La règle qui gouverne le code
 
@@ -54,13 +63,17 @@ deux « 4 » et écriraient toutes les deux. Toute écriture d'un membre de coho
 
 | Fichier | Rôle |
 |---|---|
-| `prisma/schema.prisma` | 6 tables, commentées avec la raison de chaque décision |
-| `prisma/seed.ts` | 4 élèves inscrits, 1 en attente pour la démo, 12 blocs passés, 1 bloc à ouvrir |
+| `prisma/schema.prisma` | 9 tables, commentées avec la raison de chaque décision |
+| `prisma/seed.ts` | 4 élèves inscrits, 1 en attente, 12 blocs passés, 1 bloc à ouvrir, 1 avis en retard, 36 segments |
 | `app/lib/db.ts` | Client Prisma, mis en cache global pour survivre au rechargement de Next en dev |
 | `app/lib/cohort.ts` | Le plafond légal et son erreur nommée |
 | `app/lib/session.ts` | Ouverture, présence, fermeture, et le calcul des durées |
-| `app/cohorts/` | La page qui refuse le 5e élève |
-| `app/sessions/` | La liste des blocs et la page d'un bloc |
+| `app/lib/pfeq.ts` | Les 17 compétences du programme, par matière |
+| `app/lib/report.ts` | Le bilan de progression, lu depuis les traces |
+| `app/lib/quality.ts` | Les indicateurs du superviseur, des comptes et non des scores |
+| `app/lib/compliance.ts` | Les huit échéances, calculées et jamais stockées |
+| `app/lib/privacy.ts` | Consentement, rétention, effacement réel, registre |
+| `app/lib/economics.ts` | Le modèle financier, fonctions pures, réutilisées par le curseur côté client |
 
 ## Données de démonstration
 
@@ -69,6 +82,10 @@ deux « 4 » et écriraient toutes les deux. Toute écriture d'un membre de coho
 - **Sara Farouk n'est dans aucune cohorte.** C'est elle qu'on essaie d'ajouter pendant la démo pour déclencher le refus
 - 12 blocs terminés sur 6 semaines, une absence volontaire pour que les chiffres n'aient pas l'air inventés
 - 1 bloc à l'état `SCHEDULED`, c'est celui qu'on ouvre en direct
+- **Noah Okonkwo n'a pas d'avis de scolarisation.** Il est en retard sur `/obligations`. Même rôle que Sara : sans un
+  retard visible, un calendrier tout vert ne prouve rien
+- Yacine Sy a un consentement accordé et 18 segments, dont 6 au-delà de la rétention de 90 jours. Les deux boutons de
+  `/privacy` ont donc du travail réel à faire
 
 ## Décisions prises, et pourquoi
 
@@ -82,6 +99,18 @@ deux « 4 » et écriraient toutes les deux. Toute écriture d'un membre de coho
   moment.
 - **UI volontairement nue.** Le fond est en place pour que l'apparence puisse changer vite à la fin sans toucher à la
   logique.
+
+## Ce que le modèle financier a révélé
+
+`app/lib/economics.ts` calcule le point mort par paliers d'embauche plutôt qu'en droite. Résultat : **il y a deux
+points morts, pas un.** Le site cesse de perdre de l'argent à **60 enfants**, redevient déficitaire à **65** quand le
+cinquième instructeur est embauché pour un enfant de plus, et ne replonge plus à partir de **70**.
+
+Le chiffre de **63** qui figure dans `MUSLIMHACKS_2026.md` vient d'un calcul linéaire. Il est rentable, mais ce
+n'est pas un plancher sûr. À corriger dans le modèle d'affaires et dans le pitch avant dimanche.
+
+Au tarif du marché pour le local, **aucun remplissage ne rend le site viable**, pas même 96 sur 96. Ça confirme, en
+calcul plutôt qu'en affirmation, que le local prêté est la condition d'existence du modèle.
 
 ## Documents à côté
 

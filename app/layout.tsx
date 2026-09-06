@@ -29,6 +29,9 @@ const NAV = [
   { href: "/sessions", label: "Blocs", role: "Instructeur" },
   { href: "/supervisor", label: "Supervision", role: "Enseignant breveté" },
   { href: "/parent", label: "Espace parent", role: "Parent" },
+  { href: "/obligations", label: "Échéances", role: "Parent" },
+  { href: "/privacy", label: "Confidentialité", role: "Parent" },
+  { href: "/viability", label: "Viabilité", role: "Direction" },
 ];
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -43,18 +46,24 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Link href="/" className="font-mono text-xs uppercase tracking-widest">
               HomeSchoolOs
             </Link>
-            <div className="ml-auto flex flex-wrap gap-x-5 gap-y-1">
-              {NAV.map((n) => (
-                <Link
-                  key={n.href}
-                  href={n.href}
-                  className="group text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
-                >
-                  {n.label}
-                  <span className="ml-1.5 font-mono text-[10px] uppercase tracking-wider text-neutral-400">
-                    {n.role}
-                  </span>
-                </Link>
+            {/* Le rôle n'est affiché qu'une fois par groupe. Répété sur chacun
+                des trois écrans du parent, il transformait la barre en mur de
+                texte et on ne voyait plus les liens. */}
+            <div className="ml-auto flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              {NAV.map((n, i) => (
+                <span key={n.href} className="flex items-baseline gap-1.5">
+                  {n.role !== NAV[i - 1]?.role && (
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400">
+                      {n.role}
+                    </span>
+                  )}
+                  <Link
+                    href={n.href}
+                    className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+                  >
+                    {n.label}
+                  </Link>
+                </span>
               ))}
             </div>
           </div>
