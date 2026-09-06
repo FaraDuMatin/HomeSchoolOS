@@ -74,7 +74,44 @@ async function main() {
   // Six semaines de blocs passés, plus un bloc du jour laissé à l'état prévu :
   // c'est celui que l'instructeur ouvre pendant la démo. Sans historique, le
   // bilan généré serait vide et la démo ne montrerait rien.
-  const SUBJECTS = ["mathématiques", "français", "science et technologie", "univers social"];
+  // Une banque d'exercices, deux par compétence du programme. Deux suffisent :
+  // ce qui compte pour le bilan, c'est qu'aucune compétence ne reste sans trace.
+  const bank: Record<string, [string, string][]> = {
+    "FR-C1": [["Lire un récit et repérer le problème", "Qui a un problème dans l'histoire, et lequel ?"], ["Lire une recette et en extraire l'ordre", "Écris les étapes dans le bon ordre."]],
+    "FR-C2": [["Écrire une carte postale", "Raconte ta fin de semaine en cinq phrases."], ["Écrire la suite d'un récit", "Que se passe-t-il après le départ du personnage ?"]],
+    "FR-C3": [["Présenter un objet au groupe", "Décris un objet sans le nommer, le groupe devine."], ["Raconter un souvenir", "Raconte un souvenir en respectant l'ordre des événements."]],
+    "FR-C4": [["Comparer deux albums", "Lequel préfères-tu, et pourquoi ?"], ["Réagir à un poème", "Quelle image du poème te reste en tête ?"]],
+    "EN-C1": [["Introduce yourself", "Say your name, your age and one thing you like."], ["Ask three questions", "Ask a classmate about their weekend."]],
+    "EN-C2": [["Read a short comic", "What happens on the last panel?"], ["Follow written instructions", "Draw what the text describes."]],
+    "EN-C3": [["Write a short note", "Write four sentences about your favourite animal."], ["Label a picture", "Write the words for what you see."]],
+    "MA-C1": [["Partager une collation", "Vous êtes 4 et il y a 18 biscuits. Combien chacun, et combien reste-t-il ?"], ["Organiser une sortie", "Le trajet coûte 3 $ par personne. Combien pour la cohorte ?"]],
+    "MA-C2": [["Suite de nombres", "Trouve la règle : 4, 8, 12, 16, ..."], ["Comparer des fractions", "Qu'est-ce qui est plus grand, 3/4 ou 2/3 ? Explique."]],
+    "MA-C3": [["Expliquer sa démarche", "Explique comment tu as trouvé, en mots."], ["Lire un diagramme", "Que raconte ce diagramme à bandes ?"]],
+    "ST-C1": [["Pourquoi ça flotte", "Propose une explication au fait que le bois flotte."], ["Faire pousser une plante", "Propose une façon de vérifier si la lumière est nécessaire."]],
+    "ST-C2": [["Mesurer avec une règle", "Mesure trois objets et note les résultats."], ["Trier des matériaux", "Classe ces matériaux selon s'ils conduisent l'électricité."]],
+    "ST-C3": [["Dessiner une observation", "Dessine ce que tu observes et annote ton dessin."], ["Écrire un compte rendu", "Raconte l'expérience en trois étapes."]],
+    "US-C1": [["Lire une carte du quartier", "Où sont l'école, le parc et l'épicerie ?"], ["Décrire un territoire", "Comment le fleuve a-t-il influencé où les gens se sont installés ?"]],
+    "US-C2": [["Avant et maintenant", "Qu'est-ce qui a changé dans les transports depuis 1900 ?"], ["Ligne du temps", "Place ces cinq événements dans l'ordre."]],
+    "US-C3": [["Comparer deux sociétés", "Nomme une ressemblance et une différence."], ["Une fête ailleurs", "Décris une fête d'une autre société."]],
+  };
+
+  const exercises: { id: string; competency: string }[] = [];
+  for (const [competency, items] of Object.entries(bank)) {
+    const subjectKey =
+      competency.startsWith("FR") ? "francais"
+      : competency.startsWith("EN") ? "anglais"
+      : competency.startsWith("MA") ? "mathematiques"
+      : competency.startsWith("ST") ? "science"
+      : "univers-social";
+    for (const [title, prompt] of items) {
+      const ex = await prisma.exercise.create({
+        data: { title, prompt, competency, subject: subjectKey },
+      });
+      exercises.push({ id: ex.id, competency });
+    }
+  }
+
+  const SUBJECTS = ["mathematiques", "francais", "science", "univers-social"];
   const enrolled = students.slice(0, 4);
 
   for (let week = 6; week >= 1; week--) {
@@ -125,6 +162,36 @@ async function main() {
             occurredAt: startedAt,
           },
         });
+
+        if (!present) continue;
+
+        // Deux exercices complétés par élève et par bloc, tirés de la matière du
+        // bloc. Six semaines de ce régime laissent chaque compétence avec des
+        // traces, sauf une ou deux volontairement à zéro : le tableau de bord du
+        // parent doit avoir quelque chose à signaler.
+        const pool = exercises.filter((e) => {
+          const key =
+            e.competency.startsWith("FR") ? "francais"
+            : e.competency.startsWith("EN") ? "anglais"
+            : e.competency.startsWith("MA") ? "mathematiques"
+            : e.competency.startsWith("ST") ? "science"
+            : "univers-social";
+          return key === session.subject && !e.competency.endsWith("C4");
+        });
+
+        for (let k = 0; k < 2 && pool.length > 0; k++) {
+          const pick = pool[(week * 3 + day * 2 + i + k) % pool.length];
+          await prisma.exerciseAttempt.create({
+            data: {
+              exerciseId: pick.id,
+              studentId: s.id,
+              sessionId: session.id,
+              completed: true,
+              answer: null,
+              completedAt: new Date(startedAt.getTime() + (k + 1) * 30 * 60 * 1000),
+            },
+          });
+        }
       }
     }
   }
@@ -134,7 +201,7 @@ async function main() {
   const liveSession = await prisma.session.create({
     data: {
       cohortId: cohort.id,
-      subject: "mathématiques",
+      subject: "mathematiques",
       plannedAt: today,
       status: "SCHEDULED",
     },

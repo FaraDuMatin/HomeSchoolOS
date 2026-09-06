@@ -1,7 +1,19 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { completeExercise } from "../lib/exercises";
 import { endSession, markAttendance, startSession } from "../lib/session";
+
+export async function completeExerciseAction(formData: FormData) {
+  const sessionId = String(formData.get("sessionId"));
+  await completeExercise({
+    sessionId,
+    exerciseId: String(formData.get("exerciseId")),
+    studentId: String(formData.get("studentId")),
+    answer: (formData.get("answer") as string) || undefined,
+  });
+  revalidatePath(`/sessions/${sessionId}`);
+}
 
 export async function startSessionAction(formData: FormData) {
   const id = String(formData.get("sessionId"));

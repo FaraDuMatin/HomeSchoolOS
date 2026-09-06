@@ -1,5 +1,13 @@
+import { prisma } from "../../lib/db";
+import { listExercisesForSubject } from "../../lib/exercises";
+import { competencyLabel, SUBJECTS } from "../../lib/pfeq";
 import { getSession } from "../../lib/session";
-import { endSessionAction, markAttendanceAction, startSessionAction } from "../actions";
+import {
+  completeExerciseAction,
+  endSessionAction,
+  markAttendanceAction,
+  startSessionAction,
+} from "../actions";
 import { Elapsed } from "./Elapsed";
 
 export const dynamic = "force-dynamic";
@@ -18,11 +26,24 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
   const live = session.status === "LIVE";
   const ended = session.status === "ENDED";
 
+  const subjectLabel =
+    SUBJECTS.find((s) => s.key === session.subject)?.label ?? session.subject;
+  const exercises = await listExercisesForSubject(session.subject);
+  const presentStudents = session.cohort.members
+    .map((m) => m.student)
+    .filter((s) => attendanceByStudent.get(s.id)?.present);
+
+  const doneThisSession = await prisma.exerciseAttempt.findMany({
+    where: { sessionId: session.id, completed: true },
+    include: { exercise: true, student: true },
+    orderBy: { completedAt: "asc" },
+  });
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
       <header className="mb-8 border-b-2 border-neutral-900 pb-6 dark:border-neutral-100">
         <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
-          {session.cohort.name} · {session.subject}
+          {session.cohort.name} · {subjectLabel}
         </p>
         <div className="mt-3 flex flex-wrap items-baseline justify-between gap-3">
           <h1 className="text-3xl font-bold tracking-tight">Bloc du jour</h1>
@@ -113,6 +134,82 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
             );
           })}
         </ul>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="mb-3 font-mono text-xs uppercase tracking-wider text-neutral-500">
+          Exercices
+        </h2>
+        <p className="mb-4 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
+          Chaque exercice porte une compétence du programme. C&apos;est ce qui rend le bilan
+          acceptable : la Direction de l&apos;enseignement à la maison renvoie les bilans qui ne
+          couvrent pas toutes les compétences d&apos;une matière.
+        </p>
+
+        {!live && !ended && (
+          <p className="text-sm text-neutral-400">Ouvrez la séance pour assigner des exercices.</p>
+        )}
+
+        {live && presentStudents.length === 0 && (
+          <p className="text-sm text-neutral-400">
+            Pointez au moins un élève présent avant d&apos;assigner un exercice.
+          </p>
+        )}
+
+        {live &&
+          presentStudents.length > 0 &&
+          exercises.map((ex) => (
+            <div
+              key={ex.id}
+              className="mb-2 rounded border border-neutral-200 p-4 dark:border-neutral-800"
+            >
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <p className="text-sm font-medium">{ex.title}</p>
+                <span className="font-mono text-xs text-neutral-500">
+                  {ex.competency} · {competencyLabel(ex.competency)}
+                </span>
+              </div>
+              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{ex.prompt}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {presentStudents.map((s) => (
+                  <form key={s.id} action={completeExerciseAction}>
+                    <input type="hidden" name="sessionId" value={session.id} />
+                    <input type="hidden" name="exerciseId" value={ex.id} />
+                    <input type="hidden" name="studentId" value={s.id} />
+                    <button
+                      type="submit"
+                      className="rounded border border-neutral-300 px-3 py-1 text-xs hover:border-neutral-900 dark:border-neutral-700 dark:hover:border-neutral-100"
+                    >
+                      ✓ {s.name.split(" ")[0]}
+                    </button>
+                  </form>
+                ))}
+              </div>
+            </div>
+          ))}
+
+        {doneThisSession.length > 0 && (
+          <div className="mt-4">
+            <p className="mb-2 font-mono text-xs uppercase tracking-wider text-neutral-500">
+              Complétés dans ce bloc
+            </p>
+            <ul className="grid gap-1">
+              {doneThisSession.map((a) => (
+                <li
+                  key={a.id}
+                  className="flex flex-wrap items-baseline justify-between gap-2 border-b border-neutral-200 py-1.5 text-sm dark:border-neutral-800"
+                >
+                  <span>
+                    {a.student.name} · {a.exercise.title}
+                  </span>
+                  <span className="font-mono text-xs text-neutral-500">
+                    {a.exercise.competency}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
       <section>
