@@ -47,31 +47,25 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${archivo.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <nav className="border-b border-rule print:hidden">
-          <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-6 gap-y-1 px-6 py-3">
-            <Link href="/" className="eyebrow">
+        <nav className="border-b-2 border-rule print:hidden">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-baseline gap-x-5 gap-y-2 px-6 py-3">
+            <Link href="/" className="eyebrow mr-2 text-ink">
               HomeSchoolOs
             </Link>
-            {/* Le rôle n'est affiché qu'une fois par groupe. Répété sur chacun
-                des trois écrans du parent, il transformait la barre en mur de
-                texte et on ne voyait plus les liens. */}
-            <div className="ml-auto flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              {NAV.map((n, i) => (
-                <span key={n.href} className="flex items-baseline gap-1.5">
-                  {n.role !== NAV[i - 1]?.role && (
-                    <span className="eyebrow text-[10px]">
-                      {n.role}
-                    </span>
-                  )}
-                  <Link
-                    href={n.href}
-                    className="text-sm text-ink-2 hover:text-ink dark:hover:text-ink-2"
-                  >
-                    {n.label}
-                  </Link>
-                </span>
-              ))}
-            </div>
+            {/* Le role a ete retire de la barre. Ecrit a cote de chaque lien,
+                il doublait le nombre de mots et faisait un mur de majuscules
+                dans lequel on ne trouvait plus les liens. Il reste sur /routes,
+                ou c'est justement l'information qu'on cherche. */}
+            {NAV.map((n) => (
+              <Link
+                key={n.href}
+                href={n.href}
+                title={n.role}
+                className="text-sm text-ink-2 hover:text-ink"
+              >
+                {n.label}
+              </Link>
+            ))}
           </div>
         </nav>
         {children}
