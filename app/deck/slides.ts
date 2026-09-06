@@ -176,15 +176,16 @@ export const SLIDES: Slide[] = [
     eyebrow: "Viabilité 3 sur 3",
     title: "On achète le local au lieu de le louer",
     image: { file: "salle.jpg", mode: "side", alt: "Une salle communautaire vide en semaine" },
-    lede: "Le loyer monte avec chaque instructeur. Une hypothèque, non.",
+    lede: "Le loyer monte avec chaque instructeur. Un bâtiment possédé, non. Et sans dette : aucun financement par intérêt.",
     chart: "space",
     bullets: [
       "On occupe le bâtiment de 9 h à 15 h en semaine. Personne d'autre n'en veut à ces heures-là.",
       "Le soir et la fin de semaine se louent : 30 h par semaine à 30 $, 44 semaines.",
+      "Trois voies sans intérêt : l'organisme achète et on est locataire ancre, une campagne de type waqf, ou comptant.",
       "Le local cesse d'être notre plus gros coût pour devenir notre deuxième revenu.",
     ],
-    say: "Voici le calcul. Immeuble à 500 000, mise de fonds de 25 pour cent, 7 pour cent sur 25 ans : l'hypothèque coûte 31 805 par an. Taxes, assurance et entretien, 28 000. Total 59 805. Moins 39 600 de sous-location. Net 20 205, et ce chiffre ne bouge pas avec le nombre d'enfants.",
-    source: "Bâtisse commerciale à Gatineau : 349 900 $ à 595 000 $ [Centris, LesPAC]. À Montréal, prévoir davantage : le modèle prend le prix en paramètre. Hypothèque commerciale : mise de fonds 20 à 30 %, taux 6 à 8 % fin 2025 [Desjardins, LendCity].",
+    say: "Sans dette, il ne reste que les taxes, l'assurance et l'entretien : 35 000 par an. La sous-location du soir et de la fin de semaine rapporte 39 600. Le bâtiment ne coûte rien, il rapporte. Trois façons de l'acquérir sans intérêt : l'organisme partenaire l'achète et on est locataire ancre, une campagne de type waqf, ou comptant sur les surplus. On ne contracte aucun prêt.",
+    source: "Local commercial à Montréal : à partir de 400 000 $, plex médian 880 000 $ [Centris]. Le modèle prend 700 000 $. Acquisition sans dette portant intérêt.",
   },
 
   {

@@ -16,7 +16,7 @@
  * coût pour devenir notre deuxième source de revenus.
  *
  * Résultat du calcul, et c'est l'inverse de ce qu'on disait : à 96 enfants, la
- * location au tarif du marché perd 47 676 $ par an, l'achat en gagne 81 931 $.
+ * location au tarif du marché perd 47 676 $ par an, et le bâtiment possédé sans dette rapporte plus encore.
  *
  * SOURCES
  * - Crédit pour frais de garde 2025 : plafond de 6 180 $ par enfant de 7 à
@@ -29,8 +29,8 @@
  * - Local commercial à Montréal : à partir de 400 000 $ pour un petit local,
  *   souvent plus de 3 M$ selon le quartier, plex médian à 880 000 $ [Centris].
  *   Le modèle prend 700 000 $, et le conclusion tient aussi à ce prix-là.
- * - Hypothèque commerciale : mise de fonds de 20 % à 30 %, taux de 6 % à 8 %
- *   fin 2025, amortissement de 20 à 25 ans [Desjardins, LendCity].
+ * - Aucun financement par emprunt à intérêt. Le bâtiment est acquis sans dette,
+ *   voir ACQUISITION.
  * - Salle au tarif communautaire : 85 $ le bloc de 4 h [Centre St-Pierre].
  *
  * CE QUI RESTE NON RÉSOLU, et qu'il faut dire à voix haute : le relevé 24 est
@@ -168,13 +168,10 @@ export const COSTS = {
  * organismes communautaires.
  */
 export const BUILDING = {
-  /** Montreal, petit local commercial. Les annonces partent de 400 000 $ et
-   *  depassent souvent 3 M$ selon le quartier ; le plex median est a 880 000 $.
+  /** Montréal, petit local commercial. Les annonces partent de 400 000 $ et
+   *  dépassent souvent 3 M$ selon le quartier ; le plex médian est à 880 000 $.
    *  700 000 $ est un choix prudent au milieu de la fourchette basse. */
   price: 700_000,
-  downPayment: 0.25,
-  rate: 0.07,
-  years: 25,
   taxes: 16_000,
   insurance: 5000,
   upkeep: 14_000,
@@ -184,23 +181,46 @@ export const BUILDING = {
   subletWeeks: 44,
 } as const;
 
-export function mortgageAnnual(): number {
-  const loan = BUILDING.price * (1 - BUILDING.downPayment);
-  const r = BUILDING.rate / 12;
-  const n = BUILDING.years * 12;
-  return (loan * r) / (1 - Math.pow(1 + r, -n)) * 12;
-}
-
 export function subletRevenue(): number {
   return BUILDING.subletHoursPerWeek * BUILDING.subletRate * BUILDING.subletWeeks;
 }
 
-/** Coût net d'occupation quand on est propriétaire. Fixe, quelle que soit la taille. */
+/**
+ * Coût net d'occupation quand le bâtiment est possédé sans dette.
+ *
+ * AUCUNE HYPOTHÈQUE. La première version finançait l'achat par un prêt à 7 %,
+ * donc par de l'intérêt, ce qui est exclu. Le bâtiment doit être acquis sans
+ * dette portant intérêt, par l'une des trois voies décrites dans ACQUISITION.
+ *
+ * Il ne reste alors que les taxes, l'assurance et l'entretien, moins ce que la
+ * sous-location du soir et de la fin de semaine rapporte. Le résultat est
+ * négatif : le bâtiment ne coûte rien, il rapporte.
+ */
 export function ownedOccupancyCost(): number {
-  return (
-    mortgageAnnual() + BUILDING.taxes + BUILDING.insurance + BUILDING.upkeep - subletRevenue()
-  );
+  return BUILDING.taxes + BUILDING.insurance + BUILDING.upkeep - subletRevenue();
 }
+
+/** Les trois façons d'acquérir sans intérêt. Aucune n'est un prêt. */
+export const ACQUISITION = [
+  {
+    key: "waqf",
+    label: "L'organisme achète, on est locataire ancre",
+    what: "Une mosquée, une église ou un OSBL détient l'immeuble. On l'occupe en semaine de 9 h à 15 h à tarif partenaire, il l'utilise le soir et la fin de semaine. Zéro dette pour nous, et le partenariat devient structurel au lieu d'être une faveur.",
+    capital: 0,
+  },
+  {
+    key: "campagne",
+    label: "Campagne et coinvestissement",
+    what: "Les familles et le partenaire financent l'achat contre des heures d'usage garanties. C'est un modèle de waqf, pas un emprunt.",
+    capital: BUILDING.price,
+  },
+  {
+    key: "comptant",
+    label: "Achat comptant sur les surplus",
+    what: "Possible mais lent : au rythme d'un seul site, il faut plus de vingt ans. Réaliste seulement avec plusieurs sites en parallèle.",
+    capital: BUILDING.price,
+  },
+] as const;
 
 // --- Le compte -------------------------------------------------------------
 
@@ -355,17 +375,13 @@ export function path(): Step[] {
     { children: 48, occupancy: "partenaire" },
     { children: 64, occupancy: "partenaire" },
     { children: 80, occupancy: "partenaire" },
-    { children: 96, occupancy: "achat" },
+    { children: 96, occupancy: "partenaire" },
     { children: 96, occupancy: "achat" },
   ];
   let cash = 0;
   return growth.map((g, i) => {
     const p = plan(g.children, g.occupancy, i === 0);
-    // L'année de l'achat, la mise de fonds sort de la caisse.
-    const down = g.occupancy === "achat" && growth[i - 1]?.occupancy !== "achat"
-      ? BUILDING.price * BUILDING.downPayment
-      : 0;
-    cash += p.result - down;
+    cash += p.result;
     return { year: i + 1, children: g.children, occupancy: g.occupancy, result: p.result, cash };
   });
 }

@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from "react";
 import {
+  ACQUISITION,
   BUILDING,
   breakEven,
   CREDIT,
   curve,
   hourlyMargin,
   money,
-  mortgageAnnual,
   OCCUPANCY_LABEL,
   OFFER,
   ownedOccupancyCost,
@@ -312,14 +312,25 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           </table>
         </div>
         <p className="mt-3 max-w-prose text-xs text-neutral-500">
-          Immeuble à {money(BUILDING.price)} [annonces courantes à Gatineau, 349 900 $ à 595 000 $],
-          mise de fonds de {Math.round(BUILDING.downPayment * 100)} % soit{" "}
-          {money(BUILDING.price * BUILDING.downPayment)}, {Math.round(BUILDING.rate * 100)} % sur{" "}
-          {BUILDING.years} ans [taux commerciaux de 6 % à 8 % fin 2025]. Hypothèque{" "}
-          {money(mortgageAnnual())}, taxes, assurance et entretien {money(BUILDING.taxes + BUILDING.insurance + BUILDING.upkeep)},
-          moins {money(subletRevenue())} de sous-location le soir et la fin de semaine. Net{" "}
-          {money(ownedOccupancyCost())}, et ce chiffre ne bouge pas avec le nombre d&apos;enfants.
+          Immeuble à {money(BUILDING.price)} [annonces à Montréal : à partir de 400 000 $, plex
+          médian 880 000 $]. <strong>Aucune hypothèque, aucun financement par intérêt.</strong> Sans
+          dette il ne reste que {money(BUILDING.taxes + BUILDING.insurance + BUILDING.upkeep)} de
+          taxes, assurance et entretien, moins {money(subletRevenue())} de sous-location. Net{" "}
+          {money(ownedOccupancyCost())} : le bâtiment ne coûte rien, il rapporte, et ce chiffre ne
+          bouge pas avec le nombre d&apos;enfants.
         </p>
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {ACQUISITION.map((a) => (
+            <div key={a.key} className="border-l-2 border-neutral-300 pl-3 dark:border-neutral-700">
+              <p className="text-sm font-medium">{a.label}</p>
+              <p className="mt-1 text-xs text-neutral-500">{a.what}</p>
+              <p className="mt-1 font-mono text-xs text-neutral-500">
+                Capital requis : {a.capital === 0 ? "aucun" : money(a.capital)}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* 4. Le curseur. */}
@@ -411,9 +422,8 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           5 · Le chemin jusqu&apos;à l&apos;immeuble
         </h2>
         <p className="mb-4 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
-          On loue tant qu&apos;on n&apos;a pas la mise de fonds, et on achète dès qu&apos;on
-          l&apos;a. L&apos;année de l&apos;achat, {money(BUILDING.price * BUILDING.downPayment)}{" "}
-          sortent de la caisse.
+          On reste au tarif partenaire tant que l&apos;immeuble n&apos;est pas acquis sans dette.
+          Le surplus s&apos;accumule, il ne sert pas à rembourser un prêt.
         </p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
