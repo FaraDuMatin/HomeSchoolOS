@@ -29,6 +29,7 @@ const NAV = [
   { href: "/cohorts", label: "Cohortes", role: "Gestionnaire" },
   { href: "/sessions", label: "Blocs", role: "Instructeur" },
   { href: "/supervisor", label: "Supervision", role: "Enseignant breveté" },
+  { href: "/horaire", label: "Ma semaine", role: "Élève" },
   { href: "/parent", label: "Espace parent", role: "Parent" },
   { href: "/obligations", label: "Échéances", role: "Parent" },
   { href: "/privacy", label: "Confidentialité", role: "Parent" },

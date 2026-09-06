@@ -47,6 +47,12 @@ const STATIC_ROUTES = [
     what: "Quatre instructeurs vus d'un coup. Des comptes, pas le jugement d'un modèle.",
   },
   {
+    href: "/horaire",
+    label: "Ma semaine",
+    role: "Élève",
+    what: "L'horaire complet : les matières du programme et le religieux dans la même grille. Chaque bloc mène à son dépôt.",
+  },
+  {
     href: "/parent",
     label: "Espace parent",
     role: "Parent",

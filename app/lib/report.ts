@@ -1,5 +1,5 @@
 import { prisma } from "./db";
-import { competencyLabel, SUBJECTS, type Subject } from "./pfeq";
+import { ALL_COMPETENCIES, competencyLabel, SUBJECTS, type Subject } from "./pfeq";
 
 /**
  * Le bilan de progression.
@@ -85,11 +85,19 @@ export async function buildReport(studentId: string): Promise<Report | null> {
   });
   if (!student) return null;
 
-  const attempts = await prisma.exerciseAttempt.findMany({
+  // Seuls les travaux étiquetés d'une compétence du programme entrent ici. Un
+  // élève dépose aussi du Coran, de l'arabe et des études islamiques, portés par
+  // des codes REL-* qui n'existent dans aucun programme du ministère : ils sont
+  // consignés pour la famille et n'ont rien à faire dans un document remis à
+  // l'État. Le filtre est ici, une fois, plutôt que dans chaque compteur.
+  const allAttempts = await prisma.exerciseAttempt.findMany({
     where: { studentId, completed: true },
     include: { exercise: true, session: true },
     orderBy: { completedAt: "asc" },
   });
+  const attempts = allAttempts.filter((a) =>
+    ALL_COMPETENCIES.some((c) => c.code === a.exercise.competency),
+  );
 
   const attendance = await prisma.attendance.findMany({
     where: { studentId },

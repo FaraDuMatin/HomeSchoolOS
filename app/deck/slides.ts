@@ -141,6 +141,28 @@ export const SLIDES: Slide[] = [
   },
 
   {
+    eyebrow: "L'horaire",
+    title: "Le religieux entre dans l'horaire, pas à côté",
+    lede: "La loi impose les matières. Elle n'impose pas comment la journée est remplie.",
+    table: {
+      head: ["Bloc", "Fréquence", "Ce que ça règle"],
+      rows: [
+        { label: "Matières du programme", values: ["Chaque jour de présence", "Les huit obligations et les épreuves"] },
+        { label: "Coran, mémorisation", values: ["Un peu chaque jour", "La régularité, pas le rattrapage du dimanche"], tone: "good" },
+        { label: "Arabe et études islamiques", values: ["Blocs fixes dans la semaine", "Ce pour quoi beaucoup de familles ont quitté l'école"], tone: "good" },
+        { label: "Activité physique ou artistique", values: ["Un bloc par semaine", "Le crédit d'impôt et la socialisation"] },
+      ],
+    },
+    bullets: [
+      "Le système planifie tout ce que l'enfant doit faire, religieux compris.",
+      "L'enfant dépose son travail au même endroit, quelle que soit la matière.",
+      "Le bilan du ministère ne sort que les compétences du programme. Le reste reste privé.",
+    ],
+    demo: "Démo : /horaire, puis le bouton Déposer d'un bloc de Coran.",
+    say: "Beaucoup de familles musulmanes font l'école à la maison précisément pour ça, et se retrouvent à empiler le religieux le soir sur un enfant déjà vidé. On ne rajoute pas une matière, on planifie la journée complète. Un peu de Coran chaque jour tient mieux que trois heures le dimanche.",
+  },
+
+  {
     eyebrow: "Le besoin",
     title: "Les cinq raisons pour lesquelles les familles abandonnent",
     image: { file: "fatigue.png", mode: "side", alt: "Un parent épuisé devant des papiers" },
@@ -157,20 +179,6 @@ export const SLIDES: Slide[] = [
     },
     say: "C'est le seul endroit du pitch où on répond à un besoin documenté plutôt qu'imaginé. Ne pas l'improviser.",
     source: "r/homeschool, r/HomeschoolRecovery.",
-  },
-
-  {
-    eyebrow: "Démonstration",
-    title: "Ce qui tourne, en direct",
-    bullets: [
-      "Le système refuse le cinquième élève.",
-      "Un bloc en direct : rien n'est saisi à la main.",
-      "Le bilan du ministère, généré en un clic.",
-      "L'échéance ratée, en rouge.",
-      "La suppression Loi 25, le compteur tombe à zéro.",
-    ],
-    demo: "Basculer sur l'onglet de l'app. Revenir ici après.",
-    say: "La loi n'est pas dans une politique interne, elle est dans la base de données. Ne jamais laisser entendre que les transcriptions viennent d'un micro : ce sont des données de test.",
   },
 
   {
@@ -226,7 +234,7 @@ export const SLIDES: Slide[] = [
     bullets: [
       "Revenus : 96 × 4 700 $, plus la conformité à 70 % d'adhésion.",
       "Charges : 6 instructeurs, 6 surveillants, le local, matériel, assurances, secrétaire, coordonnateur, et 5 % d'imprévus.",
-      "Tarif partenaire : une mosquée, une église, un centre communautaire, une bibliothèque municipale, une école le soir.",
+      "Tarif partenaire : une mosquée, un centre communautaire, une bibliothèque municipale, une école le soir.",
     ],
     say: "On n'était pas condamnés sans salle gratuite. On était condamnés si on louait pour toujours. Le tarif partenaire est une hypothèse à la moitié du tarif communautaire de 85 dollars le bloc de quatre heures.",
     source: "Modèle complet et vérifiable dans l'app, page /viability.",
