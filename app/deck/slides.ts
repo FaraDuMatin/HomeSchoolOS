@@ -87,6 +87,29 @@ export const SLIDES: Slide[] = [
   },
 
   {
+    eyebrow: "Les épreuves",
+    title: "Cinq niveaux portent des épreuves obligatoires",
+    lede: "En mai et juin. Inscription au centre de services scolaire avant le 1er mars, sinon rien.",
+    table: {
+      head: ["Niveau", "Épreuves"],
+      rows: [
+        { label: "4e année", values: ["Français, lecture et écriture"] },
+        { label: "6e année", values: ["Français lecture et écriture, mathématiques, anglais"] },
+        { label: "Secondaire 2", values: ["Français, écriture"] },
+        { label: "Secondaire 4", values: ["Mathématiques, science, histoire du Québec et du Canada"] },
+        { label: "Secondaire 5", values: ["Français écriture, anglais écriture et interaction orale"] },
+      ],
+    },
+    bullets: [
+      "L'évaluation est gratuite : la loi oblige le centre de services à évaluer sans frais.",
+      "En secondaire 4 et 5, l'épreuve unique compte pour 100 % de la note finale d'un enfant scolarisé à la maison.",
+      "Cinq pics de demande, prévisibles un an d'avance.",
+    ],
+    say: "Une seule journée décide du diplôme, et la seule démarche qui va au centre de services scolaire plutôt qu'au ministère est justement celle qui se perd. C'est aussi notre calendrier commercial : cinq pics de demande qu'on connaît un an d'avance.",
+    source: "CSS des Portages-de-l'Outaouais, CSS de la Capitale, AQED.",
+  },
+
+  {
     eyebrow: "La thèse",
     title: "L'exemption plafonne la salle, pas l'instructeur",
     bullets: [
