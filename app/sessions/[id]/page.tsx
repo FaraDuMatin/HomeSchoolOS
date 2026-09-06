@@ -19,6 +19,16 @@ const STATUS_LABEL: Record<string, string> = {
   ENDED: "Terminée",
 };
 
+const EVENT_LABEL: Record<string, string> = {
+  SESSION_STARTED: "Séance ouverte",
+  SESSION_ENDED: "Séance fermée",
+  STUDENT_PRESENT: "Présent",
+  STUDENT_ABSENT: "Absent",
+};
+
+const pad = (n: number) => String(n).padStart(2, "0");
+const clock = (d: Date) => `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+
 export default async function SessionPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const session = await getSession(id);
@@ -285,14 +295,11 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
               key={e.id}
               className="flex items-baseline gap-3 border-b border-neutral-200 py-1.5 font-mono text-xs dark:border-neutral-800"
             >
-              <span className="tabular-nums text-neutral-400">
-                {e.occurredAt.toLocaleTimeString("fr-CA", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                })}
-              </span>
-              <span>{e.type}</span>
+              {/* `toLocaleTimeString` en fr-CA rend « 00 h 21 min 34 s », qui est
+                  correct et illisible dans une colonne. Un horodatage se lit en
+                  chiffres alignés. */}
+              <span className="tabular-nums text-neutral-400">{clock(e.occurredAt)}</span>
+              <span>{EVENT_LABEL[e.type] ?? e.type}</span>
               {e.actorId && (
                 <span className="text-neutral-400">
                   {session.cohort.members.find((m) => m.studentId === e.actorId)?.student.name ??

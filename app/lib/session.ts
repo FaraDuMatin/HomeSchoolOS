@@ -57,11 +57,22 @@ export async function startSession(sessionId: string) {
  * Pointe un élève présent ou absent.
  *
  * Le geste est enregistré comme événement, et la ligne d'assiduité est une
- * projection de ces événements. Repointer un élève écrit un nouvel événement
+ * projection de ces événements. Corriger un pointage écrit un nouvel événement
  * plutôt que de réécrire l'histoire : le journal reste la source de vérité.
+ *
+ * En revanche, un clic qui ne change rien n'écrit rien. Sans ça, chaque
+ * rechargement ou double-clic ajoutait une ligne, et le journal devenait une
+ * liste de gestes de l'instructeur au lieu d'un registre de ce qui est arrivé à
+ * l'enfant. Un journal illisible ne prouve plus rien.
  */
 export async function markAttendance(sessionId: string, studentId: string, present: boolean) {
   return prisma.$transaction(async (tx) => {
+    const current = await tx.attendance.findUnique({
+      where: { sessionId_studentId: { sessionId, studentId } },
+    });
+
+    if (current && current.present === present) return current;
+
     await appendEvent(
       tx,
       sessionId,
