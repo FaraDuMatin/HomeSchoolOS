@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { prisma } from "../lib/db";
-import { MODEL } from "../lib/economics";
 import { PLANNED_BLOCK_MINUTES } from "../lib/quality";
 import Model from "./Model";
 
@@ -44,7 +43,8 @@ export default async function ViabilityPage() {
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">Est-ce que ça tient debout</h1>
         <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
-          Bougez le curseur. Les deux scénarios de local sont côte à côte.
+          Oui, à trois conditions : gagner sur chaque heure, vendre la journée et non
+          l&apos;heure, et finir par acheter le local au lieu de le louer.
         </p>
       </header>
 
@@ -94,10 +94,10 @@ export default async function ViabilityPage() {
 
       <footer className="border-t border-neutral-200 pt-6 text-xs text-neutral-500 dark:border-neutral-800">
         <p className="max-w-prose">
-          Sourcé : {MODEL.blockRate} $ le bloc de 4 h [Centre St-Pierre], {MODEL.priceCohort} $
-          [comparable à 13,33 $/h]. Hypothèses : {MODEL.instructorHourly} $/h instructeur,{" "}
-          {Math.round(MODEL.complianceAdoption * 100)} % d&apos;adhésion conformité, charges fixes,
-          instructeurs contractuels.
+          Sourcé : crédits d&apos;impôt et plafonds [Revenu Québec 2025], 85 $ le bloc de 4 h
+          [Centre St-Pierre], prix d&apos;immeuble [annonces Gatineau], conditions hypothécaires
+          [Desjardins, LendCity]. Hypothèses : les taux horaires, l&apos;adhésion à la conformité,
+          les charges fixes, la sous-location, et l&apos;admissibilité au relevé 24.
         </p>
       </footer>
     </main>
