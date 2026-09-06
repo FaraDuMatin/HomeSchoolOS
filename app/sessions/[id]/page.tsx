@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { prisma } from "../../lib/db";
 import { listExercisesForSubject } from "../../lib/exercises";
 import { competencyLabel, SUBJECTS } from "../../lib/pfeq";
@@ -21,6 +22,7 @@ const STATUS_LABEL: Record<string, string> = {
 export default async function SessionPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const session = await getSession(id);
+  if (!session) notFound();
 
   const attendanceByStudent = new Map(session.attendance.map((a) => [a.studentId, a]));
   const live = session.status === "LIVE";

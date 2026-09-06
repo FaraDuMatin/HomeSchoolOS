@@ -116,8 +116,15 @@ export async function endSession(sessionId: string) {
   });
 }
 
+/**
+ * Retourne null plutôt que de lever quand la séance n'existe pas.
+ *
+ * Le seed efface et recrée tout, donc un onglet resté ouvert pointe sur un id
+ * mort. Une page 404 est une gêne, une trace de pile rouge devant un juge est
+ * une note perdue.
+ */
 export async function getSession(sessionId: string) {
-  return prisma.session.findUniqueOrThrow({
+  return prisma.session.findUnique({
     where: { id: sessionId },
     include: {
       cohort: { include: { instructor: true, members: { include: { student: true } } } },
