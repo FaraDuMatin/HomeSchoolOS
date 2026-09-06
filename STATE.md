@@ -120,3 +120,52 @@ Dans le dossier parent `muslimHacks/` :
 - `RECHERCHE.md` — tous les faits, avec leur source ou leur étiquette d'hypothèse
 - `BUILD_SPEC.html` — le plan de construction et le script de démo de 3 minutes
 - `PITCH_PREP.html` — l'ordre du pitch et les 35 questions imposées par les juges
+
+---
+
+## État au 6 septembre, fin de journée
+
+> Ce fichier n'a pas été tenu à jour entre B9 et ici. Cette section est le seul
+> endroit fiable pour l'état réel.
+
+### Fait et poussé
+
+- **Les 16 slides du deck existent**, avec les images `.png` branchées depuis
+  `public/deck/` (cuisine, cohorte, fatigue, salle, porte, apprenantEppanoui,
+  jardinUrbain)
+- **Le slide des épreuves obligatoires** : cinq niveaux, mai et juin,
+  inscription au CSS avant le 1er mars, épreuve unique à 100 % en sec. 4-5
+- **L'hypothèque est retirée partout.** Aucun financement par intérêt. Le
+  bâtiment s'acquiert par l'organisme partenaire, une campagne de type waqf, ou
+  comptant. Sans dette il coûte 35 000 $ et rapporte 39 600 $ de sous-location
+- **Les graphiques** dans `/viability` et `/deck` : barres appariées pour la
+  marge horaire, cascade pour ce que le parent paie, barres groupées pour le
+  local, plus la courbe en dents de scie
+- **`../PITCH_SKELETON.md`** complet, sur les six cases du juge
+
+### Pas fait
+
+- **Le deck est encore dans l'ancien ordre**, 13 slides thématiques plus 3 de
+  réserve. Il n'est pas réorganisé selon les six cases du juge (la ligne, la
+  personne, le reframe, le coût, la démo, après dimanche)
+- **L'artefact du pitch** non plus : sa section 7 suit encore mes neuf temps
+- Le type `Slide` n'a pas de champ `box` ni `reserve`
+
+### Ce qu'il faut savoir pour reprendre
+
+`PITCH_SKELETON.md` est le document de scène et il est déjà dans la bonne
+structure. On peut présenter avec les slides actuels en suivant le skeleton :
+l'ordre est proche, il manque surtout les étiquettes de case.
+
+La reprise tient dans un seul fichier : réordonner `app/deck/slides.ts` selon
+les six cases, ajouter `box: string` et `reserve?: boolean` au type, et sortir
+les trois slides de graphiques des cinq minutes pour les garder au Q&R.
+
+### Les trous qui ne sont pas du code
+
+1. **Une personne nommée pour la case 2.** Le juge écrit « one named human, not
+   a market ». Une citation Reddit n'en est pas une
+2. **L'enregistrement de secours** de 30 secondes, avant 11 h dimanche, sur deux
+   téléphones
+3. **Trois répétitions chronométrées**, jamais faites
+4. **Le relevé 24** n'est pas confirmé auprès de Revenu Québec
