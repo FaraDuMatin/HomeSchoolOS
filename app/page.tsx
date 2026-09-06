@@ -58,6 +58,27 @@ function Doc({ className = "" }: { className?: string }) {
   );
 }
 
+function Pencil({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"
+      strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M4 20l1-4.5L16.2 4.3a2 2 0 0 1 2.8 0l.7.7a2 2 0 0 1 0 2.8L8.5 19 4 20z" />
+      <path d="M14.5 6l3.5 3.5M5 15.5L8.5 19" />
+    </svg>
+  );
+}
+
+function Book({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"
+      strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M12 6.5C10.5 5 8.5 4.4 4.5 4.4v13C8.5 17.4 10.5 18 12 19.5" />
+      <path d="M12 6.5C13.5 5 15.5 4.4 19.5 4.4v13c-4 0-6 .6-7.5 2.1z" />
+      <path d="M12 6.5v13" />
+    </svg>
+  );
+}
+
 const DOORS = [
   { href: "/horaire", label: "La semaine", Icon: Calendar },
   // { href: "/cohorts", label: "La limite légale", Icon: Users },
@@ -69,7 +90,14 @@ export default function Home() {
     <main className="mx-auto flex min-h-[calc(100vh-3.5rem)] max-w-4xl flex-col items-center justify-center px-6 py-12 text-center">
       <Bell className="size-12 text-accent" />
 
-      <h1 className="mt-6 text-6xl leading-none tracking-tight sm:text-8xl">HomeSchoolOS</h1>
+      {/* Deux icones d'ecole de chaque cote du nom. Elles sont decoratives :
+          l'espace vide de part et d'autre du titre ne disait rien, et un crayon
+          et un livre disent en un coup d'oeil de quoi parle le produit. */}
+      <div className="mt-6 flex items-center justify-center gap-6 sm:gap-10">
+        <Pencil className="hidden size-10 shrink-0 -rotate-12 text-ink-2 sm:block sm:size-14" />
+        <h1 className="text-6xl leading-none tracking-tight sm:text-8xl">HomeSchoolOS</h1>
+        <Book className="hidden size-10 shrink-0 rotate-6 text-ink-2 sm:block sm:size-14" />
+      </div>
 
       <p className="mt-7 max-w-2xl text-xl text-balance text-ink-2 sm:text-2xl">
         Le système complet qui aide les parents à donner à leurs enfants la meilleure éducation, à
