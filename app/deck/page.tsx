@@ -64,7 +64,7 @@ export default function DeckPage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`/deck/${s.image.file}`} alt={s.image.alt}
             className="absolute inset-0 -z-20 size-full object-cover" />
-          <div className="absolute inset-0 -z-10 bg-surface/80 dark:bg-ink/80" />
+          <div className="absolute inset-0 -z-10 bg-bg/92" />
         </>
       )}
       <div className={`mx-auto flex w-full max-w-5xl flex-1 px-8 py-8 ${side ? "gap-10" : ""}`}>

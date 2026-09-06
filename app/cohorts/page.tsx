@@ -37,7 +37,7 @@ export default async function CohortsPage() {
         return (
           <section
             key={cohort.id}
-            className="mb-8 rounded border border-rule bg-surface p-6 dark:border-rule dark:bg-ink"
+            className="mb-8 rounded border border-rule bg-surface p-6 dark:border-rule"
           >
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <h2 className="text-xl font-semibold">{cohort.name}</h2>

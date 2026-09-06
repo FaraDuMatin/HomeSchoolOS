@@ -244,7 +244,7 @@ export const SLIDES: Slide[] = [
     eyebrow: "Le démarrage",
     title: "Ça coûte 20 000 $ pour commencer, pas 200 000 $",
     table: {
-      head: ["Mise de fonds", "Phase 1, en ligne ou chez un partenaire", "Phase 3, l'immeuble"],
+      head: ["Mise de fonds", "Phases 1 et 2", "Phase 3"],
       rows: [
         { label: "Avis juridique et constitution", values: ["5 000 $", "—"] },
         { label: "Matériel et activités", values: ["2 400 $", "—"] },
@@ -256,9 +256,10 @@ export const SLIDES: Slide[] = [
       ],
     },
     bullets: [
-      "On peut commencer en ligne : zéro local, on prouve l'enseignement et le bilan.",
-      "En ligne, on perd l'encadrement et donc le crédit d'impôt. C'est une étape, pas le produit.",
-      "L'immeuble est une décision de phase 3, financée par l'exploitation et une campagne.",
+      "Phase 1, en ligne : zéro local. On prouve l'enseignement et le bilan, mais sans encadrement il n'y a pas de crédit d'impôt.",
+      "Phase 2, chez un partenaire : les salles d'un organisme. Le crédit revient, et le loyer monte avec chaque instructeur.",
+      "Phase 3, l'immeuble : le local cesse de monter avec nous. Financé par l'exploitation et une campagne, sans intérêt.",
+      "Les quatre premières lignes sont les mêmes en phase 1 et en phase 2. Seul le local change.",
     ],
     say: "La question qu'on va nous poser : où trouvez-vous 125 000. Trois réponses. Sept ans d'autofinancement, et je le dis, c'est long. Un financement d'immeuble occupé par son propriétaire demande parfois moins de 25 pour cent. Et une campagne auprès des familles et de l'organisme partenaire, qui coinvestit contre des heures d'usage garanties.",
   },
