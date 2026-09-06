@@ -25,6 +25,7 @@ export const metadata: Metadata = {
  * fait en passant d'un rôle à l'autre en un clic plutôt qu'en se déconnectant.
  */
 const NAV = [
+  { href: "/deck", label: "Deck", role: "Pitch" },
   { href: "/cohorts", label: "Cohortes", role: "Gestionnaire" },
   { href: "/sessions", label: "Blocs", role: "Instructeur" },
   { href: "/supervisor", label: "Supervision", role: "Enseignant breveté" },

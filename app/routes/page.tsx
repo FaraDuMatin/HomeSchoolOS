@@ -23,6 +23,12 @@ const STATIC_ROUTES = [
     what: "Ce qu'est le produit, en deux paragraphes.",
   },
   {
+    href: "/deck",
+    label: "Deck",
+    role: "Pitch",
+    what: "Les 13 slides. Flèches pour avancer, N pour les notes, F pour le plein écran. Texte dans app/deck/slides.ts.",
+  },
+  {
     href: "/cohorts",
     label: "Cohortes",
     role: "Gestionnaire",
