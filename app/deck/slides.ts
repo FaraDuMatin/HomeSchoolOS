@@ -46,7 +46,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "MuslimHacks 2026 · Défi 04",
     title: "« Il n'y a pas de cloche qui met fin à mon quart de travail »",
-    image: { file: "cuisine.jpg", mode: "full", alt: "Une mère et son enfant travaillent à la table de cuisine, le soir" },
+    image: { file: "cuisine.png", mode: "full", alt: "Une mère et son enfant travaillent à la table de cuisine, le soir" },
     lede: "Une mère qui fait l'école à la maison, sur r/homeschool.",
     bullets: [
       "« Ce qui m'a prise par surprise, c'est la charge mentale d'être responsable de tout, tout le temps. »",
@@ -102,7 +102,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "L'offre",
     title: "On vend la journée, pas l'heure",
-    image: { file: "cohorte.jpg", mode: "side", alt: "Quatre enfants autour d'une table avec un instructeur" },
+    image: { file: "cohorte.png", mode: "side", alt: "Quatre enfants autour d'une table avec un instructeur" },
     lede: "Deux journées complètes par semaine, 9 h à 15 h, 36 semaines.",
     table: {
       head: ["Ligne", "Prix / an", "Crédit d'impôt"],
@@ -120,7 +120,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "Le besoin",
     title: "Les cinq raisons pour lesquelles les familles abandonnent",
-    image: { file: "fatigue.jpg", mode: "side", alt: "Un parent épuisé devant des papiers" },
+    image: { file: "fatigue.png", mode: "side", alt: "Un parent épuisé devant des papiers" },
     lede: "Documentées sur r/homeschool et r/HomeschoolRecovery. On les règle une par une.",
     table: {
       head: ["Pourquoi elles arrêtent", "Ce qu'on fait"],
@@ -162,8 +162,9 @@ export const SLIDES: Slide[] = [
     eyebrow: "Viabilité 2 sur 3",
     title: "Le parent paie 50 $ la journée",
     chart: "waterfall",
+    image: { file: "apprenantEppanoui.png", mode: "side", alt: "Les Apprenants Épanouis, le comparable québécois" },
     bullets: [
-      "Les Apprenants Épanouis, le seul comparable québécois : 13,33 $/h, six enfants par groupe.",
+      "Les Apprenants Épanouis : 13,33 $/h, six enfants par groupe. Le Jardin Urbain : 6 à 12 ans, jusqu'à 4 jours, prix non publiés.",
       "Nous : le même prix de l'heure avec quatre enfants, plus la garde, les activités et le bilan.",
       "Un tuteur privé : 40 à 60 $ de l'heure, pour un enfant.",
       "Un camp de jour privé : 200 $ la semaine, et il n'enseigne rien.",
@@ -175,7 +176,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "Viabilité 3 sur 3",
     title: "On achète le local au lieu de le louer",
-    image: { file: "salle.jpg", mode: "side", alt: "Une salle communautaire vide en semaine" },
+    image: { file: "salle.png", mode: "side", alt: "Une salle communautaire vide en semaine" },
     lede: "Le loyer monte avec chaque instructeur. Un bâtiment possédé, non. Et sans dette : aucun financement par intérêt.",
     chart: "space",
     bullets: [
@@ -249,7 +250,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "La demande",
     title: "Lundi, on vend la conformité",
-    image: { file: "porte.jpg", mode: "full", alt: "La porte d'un centre communautaire" },
+    image: { file: "porte.png", mode: "full", alt: "La porte d'un centre communautaire" },
     bullets: [
       "Elle se vend partout au Québec, sans local et sans permis.",
       "Il nous faut un organisme avec des salles vides le mardi.",
