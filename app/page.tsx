@@ -60,7 +60,7 @@ function Doc({ className = "" }: { className?: string }) {
 
 const DOORS = [
   { href: "/horaire", label: "La semaine", Icon: Calendar },
-  { href: "/cohorts", label: "La limite légale", Icon: Users },
+  // { href: "/cohorts", label: "La limite légale", Icon: Users },
   { href: "/parent", label: "Le bilan", Icon: Doc },
 ];
 
