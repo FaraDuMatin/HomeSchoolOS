@@ -27,6 +27,7 @@ export const metadata: Metadata = {
 const NAV = [
   { href: "/cohorts", label: "Cohortes", role: "Gestionnaire" },
   { href: "/sessions", label: "Blocs", role: "Instructeur" },
+  { href: "/supervisor", label: "Supervision", role: "Enseignant breveté" },
   { href: "/parent", label: "Espace parent", role: "Parent" },
 ];
 
