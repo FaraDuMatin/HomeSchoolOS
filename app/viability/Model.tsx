@@ -238,9 +238,8 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
         </div>
         <p className="mt-3 text-xs text-neutral-500">
           {siteEconomics(students, "prete").instructors} instructeur
-          {siteEconomics(students, "prete").instructors > 1 ? "s" : ""} et autant de salles à ce
-          niveau. Un instructeur sert 4 cohortes de 4 enfants, donc 16 familles : le plafond légal
-          limite la salle, pas la personne.
+          {siteEconomics(students, "prete").instructors > 1 ? "s" : ""}, autant de salles. Un
+          instructeur sert 16 familles : le plafond légal limite la salle, pas la personne.
         </p>
       </div>
 
@@ -253,6 +252,10 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
         <h2 className="font-mono text-xs uppercase tracking-wider text-neutral-500">
           Résultat annuel selon le remplissage
         </h2>
+        <p className="mt-1 text-xs text-neutral-500">
+          Les dents de scie sont les embauches : chaque instructeur arrive avant les enfants qui le
+          paient.
+        </p>
         <div className="mt-4">
           <Curve students={students} />
         </div>
@@ -279,8 +282,8 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
             à partir de <span className="font-mono">{bePrete.stable}</span>.
           </p>
           <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-300">
-            Ce que ça change en pratique : on n&apos;embauche pas à la première inscription qui
-            dépasse le palier, on embauche quand la cohorte qu&apos;il va servir est remplie.
+            Donc : on embauche quand la cohorte suivante est remplie, pas à la première inscription
+            qui dépasse le palier.
           </p>
         </div>
 
@@ -290,11 +293,9 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           </p>
           <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-300">
             {beLoue.stable === null
-              ? "Au tarif du marché, aucun niveau de remplissage ne rend le site viable. Même plein à 96 enfants, il perd de l'argent."
+              ? "Aucun remplissage ne rend le site viable. Même plein à 96, il perd de l'argent."
               : `Au tarif du marché, il faut ${beLoue.stable} enfants.`}{" "}
-            Une salle louée coûte 15 300 $ par an et rapporte 700 $ de contribution par instructeur.
-            Le partenariat communautaire est la condition d&apos;existence du modèle, pas une
-            économie.
+            Une salle louée coûte 15 300 $ par an et rapporte 700 $ de contribution.
           </p>
         </div>
       </section>

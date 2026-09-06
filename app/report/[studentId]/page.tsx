@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { buildReport } from "../../lib/report";
-import { PrintButton } from "./PrintButton";
+import { PrintButton, WordButton } from "./PrintButton";
 
 export const dynamic = "force-dynamic";
 
@@ -21,14 +21,17 @@ export default async function ReportPage({
       {/* Barre d'action, absente de l'impression : le document remis au
           ministère ne doit contenir que le bilan. */}
       <div className="mb-8 flex flex-wrap items-center justify-between gap-3 print:hidden">
-        <p className="text-sm text-neutral-500">
-          Généré le {fmtDate(report.generatedAt)} à partir des séances, des présences et des
-          exercices complétés. Aucun champ n&apos;a été rempli à la main.
-        </p>
-        <PrintButton />
+        <p className="text-sm text-neutral-500">Généré le {fmtDate(report.generatedAt)}.</p>
+        <div className="flex flex-wrap gap-2">
+          <WordButton filename={`Bilan-${report.student.name.replace(/\s+/g, "-")}`} />
+          <PrintButton />
+        </div>
       </div>
 
-      <article className="border border-neutral-300 p-8 print:border-0 print:p-0 dark:border-neutral-700">
+      <article
+        id="bilan"
+        className="border border-neutral-300 p-8 print:border-0 print:p-0 dark:border-neutral-700"
+      >
         <header className="border-b-2 border-neutral-900 pb-5 dark:border-neutral-100">
           <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
             Enseignement à la maison · Québec
@@ -155,8 +158,7 @@ export default async function ReportPage({
               À documenter avant le dépôt
             </h2>
             <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-              Ces compétences ne portent encore aucune trace. Un bilan qui ne couvre pas toutes les
-              compétences d&apos;une matière peut être refusé ou renvoyé pour modification.
+              Aucune trace. Un bilan incomplet est renvoyé pour modification.
             </p>
             <ul className="mt-3 grid gap-1 text-sm">
               {report.gaps.map((g) => (
@@ -170,9 +172,8 @@ export default async function ReportPage({
 
         <footer className="mt-8 border-t border-neutral-200 pt-4 text-xs text-neutral-500 dark:border-neutral-800">
           <p>
-            Document produit automatiquement à partir du registre des séances. Chaque trace renvoie à
-            un bloc réel, une date réelle et un exercice réel. Le parent-éducateur demeure
-            responsable de l&apos;enseignement et du dépôt de ce bilan.
+            Produit à partir du registre des séances. Le parent-éducateur demeure responsable du
+            dépôt.
           </p>
         </footer>
       </article>

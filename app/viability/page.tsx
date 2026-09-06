@@ -44,10 +44,7 @@ export default async function ViabilityPage() {
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">Est-ce que ça tient debout</h1>
         <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
-          Le modèle complet d&apos;un site, recalculé à chaque déplacement du curseur. Les
-          hypothèses de prix et de coûts sont visibles dans chaque ligne, et les deux scénarios de
-          local sont côte à côte parce que c&apos;est l&apos;écart entre eux qui décide si
-          l&apos;entreprise existe.
+          Bougez le curseur. Les deux scénarios de local sont côte à côte.
         </p>
       </header>
 
@@ -84,31 +81,23 @@ export default async function ViabilityPage() {
           </div>
         </dl>
         <p className="mt-3 max-w-prose text-xs text-neutral-500">
-          {contractedHours - deliveredHours} heures-élève facturées n&apos;ont pas été livrées,
-          faute de présence. La famille paie quand même, donc cet écart est une marge, pas une
-          perte. Il devient un problème de qualité bien avant de devenir un problème d&apos;argent :
-          c&apos;est ce que surveille la{" "}
+          {contractedHours - deliveredHours} heures facturées non livrées, faute de présence. La
+          famille paie quand même :{" "}
           <Link href="/supervisor" className="underline underline-offset-2">
-            page de supervision
+            c&apos;est un enjeu de qualité
           </Link>
-          .
+          , pas d&apos;argent.
         </p>
       </section>
 
       <Model initialStudents={Math.max(enrolled, 1)} />
 
-      <footer className="border-t border-neutral-200 pt-6 text-sm text-neutral-500 dark:border-neutral-800">
+      <footer className="border-t border-neutral-200 pt-6 text-xs text-neutral-500 dark:border-neutral-800">
         <p className="max-w-prose">
-          Sourcé : le tarif de location de {MODEL.blockRate} $ par bloc de 4 h vient de la grille
-          communautaire du Centre St-Pierre. Le prix de {MODEL.priceCohort} $ est calé sur un
-          service comparable qui facture 13,33 $ l&apos;heure. Tout le reste, les
-          {" "}{MODEL.instructorHourly} $ de l&apos;heure de l&apos;instructeur, les{" "}
-          {Math.round(MODEL.complianceAdoption * 100)} % d&apos;adhésion à la conformité et les
-          charges fixes, sont nos hypothèses.
-        </p>
-        <p className="mt-3 max-w-prose">
-          Ce modèle suppose des instructeurs contractuels. Requalifiés en salariés, il faut ajouter
-          environ 20 % de charges sociales, et tous les seuils de cette page montent.
+          Sourcé : {MODEL.blockRate} $ le bloc de 4 h [Centre St-Pierre], {MODEL.priceCohort} $
+          [comparable à 13,33 $/h]. Hypothèses : {MODEL.instructorHourly} $/h instructeur,{" "}
+          {Math.round(MODEL.complianceAdoption * 100)} % d&apos;adhésion conformité, charges fixes,
+          instructeurs contractuels.
         </p>
       </footer>
     </main>

@@ -42,21 +42,9 @@ export default async function SupervisorPage() {
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">Un breveté pour quatre instructeurs</h1>
         <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
-          Un enseignant breveté démarre à 61 602 $ par an, donc on ne peut pas en mettre un dans
-          chaque salle. On en met un pour quatre instructeurs, et on lui donne de quoi voir. Sans
-          cette page, « supervisé par un enseignant breveté » ne serait qu&apos;une phrase sur un
-          slide.
+          Un breveté coûte 61 602 $ par an. On en met un pour quatre instructeurs.
         </p>
       </header>
-
-      <div className="mb-8 rounded border border-neutral-200 p-4 text-sm text-neutral-600 dark:border-neutral-800 dark:text-neutral-400">
-        <p>
-          Tous les indicateurs ci-dessous sont des <strong>comptes</strong>, pas des scores produits
-          par un modèle. Un superviseur doit pouvoir contester un chiffre en ouvrant le bloc qui
-          l&apos;a produit. Les indicateurs tirés des transcriptions, ratio de parole et nombre de
-          questions posées, arrivent avec la transcription.
-        </p>
-      </div>
 
       {cohorts.map((c) => (
         <section
@@ -149,14 +137,12 @@ export default async function SupervisorPage() {
             </div>
           ) : (
             <p className="mt-6 border-l-2 border-green-600 pl-3 text-sm text-neutral-600 dark:text-neutral-400">
-              Rien à signaler. Blocs livrés au complet, assiduité et traces au-dessus des seuils.
+              Rien à signaler.
             </p>
           )}
 
-          <p className="mt-5 text-xs text-neutral-500">
-            Seuils : un bloc dure {PLANNED_BLOCK_MINUTES} minutes, l&apos;assiduité doit rester
-            au-dessus de 85 %, et il faut au moins 1,5 travaux consignés par élève et par bloc pour
-            que le bilan de fin d&apos;année ait assez de traces.
+          <p className="mt-5 font-mono text-xs text-neutral-500">
+            Seuils : bloc {PLANNED_BLOCK_MINUTES} min · assiduité 85 % · 1,5 travaux/élève/bloc
           </p>
         </section>
       ))}

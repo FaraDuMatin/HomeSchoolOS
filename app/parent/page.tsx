@@ -42,9 +42,7 @@ export default async function ParentPage() {
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">{parent.name}</h1>
         <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
-          Vous restez l&apos;éducateur légal de votre enfant. Cette page rassemble ce que les blocs
-          ont produit, pour que le bilan que vous déposez soit écrit par les heures d&apos;enseignement
-          plutôt que de mémoire.
+          Ce que les blocs ont produit. Vous restez l&apos;éducateur légal.
         </p>
       </header>
 
@@ -114,8 +112,7 @@ export default async function ParentPage() {
 
             {r.gaps.length > 0 && (
               <p className="mt-5 border-l-2 border-amber-600 pl-3 text-sm text-amber-800 dark:text-amber-500">
-                {r.gaps.length} compétences n&apos;ont encore aucune trace. Un bilan incomplet peut
-                être refusé ou renvoyé pour modification.
+                {r.gaps.length} compétences sans trace. Un bilan incomplet est renvoyé.
               </p>
             )}
           </section>
@@ -139,8 +136,7 @@ export default async function ParentPage() {
             )}
           </p>
           <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-            Huit documents, deux organismes, aucune reprise. La prochaine est le{" "}
-            {next ? `${next.legalDate.toLowerCase()}` : "—"}.
+            Prochaine : {next ? next.legalDate.toLowerCase() : "—"}.
           </p>
         </Link>
 
@@ -156,8 +152,7 @@ export default async function ParentPage() {
             <span className="text-base text-neutral-500"> segments</span>
           </p>
           <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-            Ce que nous détenons de la voix de votre enfant, la durée de conservation, et le bouton
-            qui supprime pour de vrai.
+            Consentement, conservation, suppression.
           </p>
         </Link>
       </section>

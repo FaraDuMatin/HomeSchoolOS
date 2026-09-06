@@ -50,9 +50,7 @@ export default async function PrivacyPage() {
           On enregistre la voix d&apos;un enfant
         </h1>
         <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
-          Au Québec, la Loi 25 demande trois choses quand on collecte ça : un consentement donné par
-          le parent pour une finalité précise, une durée de conservation annoncée et respectée, et un
-          effacement qui efface pour de vrai. Cette page est l&apos;endroit où les trois se règlent.
+          Loi 25 : consentement du parent, durée de conservation annoncée, effacement réel.
         </p>
         <p className="mt-3 max-w-prose rounded border border-neutral-200 p-3 text-sm text-neutral-600 dark:border-neutral-800 dark:text-neutral-400">
           <span className="font-mono text-xs uppercase tracking-wider text-neutral-500">
@@ -85,8 +83,8 @@ export default async function PrivacyPage() {
             </p>
             <p className="mt-2 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
               {v.granted
-                ? "Les blocs de votre enfant peuvent être transcrits. Vous pouvez retirer ce consentement en tout temps, sans avoir à vous justifier."
-                : "Aucun bloc de votre enfant ne peut être transcrit. C'est l'état par défaut : tant que vous n'avez rien accordé, rien n'est enregistré."}
+                ? "Retirable en tout temps, sans justification."
+                : "État par défaut : rien n'est enregistré tant que vous n'avez rien accordé."}
             </p>
             {v.decidedAt && (
               <p className="mt-1 font-mono text-xs text-neutral-500">
@@ -115,10 +113,8 @@ export default async function PrivacyPage() {
               2 · Durée de conservation
             </p>
             <p className="mt-2 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
-              Les transcriptions sont détruites après{" "}
-              <span className="font-mono tabular-nums">{v.retentionDays}</span> jours. La loi
-              n&apos;impose pas ce nombre, elle impose de le fixer, de l&apos;annoncer et de le
-              respecter.
+              Destruction après <span className="font-mono tabular-nums">{v.retentionDays}</span>{" "}
+              jours.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {RETENTION_CHOICES.map((d) => (
@@ -190,9 +186,8 @@ export default async function PrivacyPage() {
                 </summary>
                 <div className="mt-3 max-w-prose rounded border border-red-600 p-3">
                   <p className="text-sm text-neutral-700 dark:text-neutral-300">
-                    Les {v.segments} segments de {v.student.name} seront détruits. Les présences, les
-                    exercices et les bilans déjà produits ne sont pas touchés : ils ne contiennent
-                    aucune parole. C&apos;est irréversible.
+                    {v.segments} segments détruits. Irréversible. Présences, exercices et bilans
+                    intacts.
                   </p>
                   <form action={deleteTranscriptsAction} className="mt-3">
                     <input type="hidden" name="studentId" value={v.student.id} />
@@ -209,8 +204,7 @@ export default async function PrivacyPage() {
 
             <p className="mt-3 max-w-prose text-xs text-neutral-500">
               Retirer le consentement arrête les enregistrements futurs. Ça ne supprime pas ce qui
-              existe déjà, parce que certaines familles veulent garder les traces de l&apos;année en
-              cours pour leur bilan tout en coupant la suite. Les deux gestes sont donc séparés.
+              existe déjà : les deux gestes sont séparés.
             </p>
           </div>
 
@@ -240,24 +234,14 @@ export default async function PrivacyPage() {
               </ul>
             )}
             <p className="mt-3 max-w-prose text-xs text-neutral-500">
-              Ce registre survit à la suppression des données qu&apos;il décrit. Il ne contient
-              aucune parole d&apos;enfant, seulement la preuve que le geste a eu lieu.
+              Survit à la suppression des données qu&apos;il décrit.
             </p>
           </div>
         </section>
       ))}
 
-      <footer className="border-t border-neutral-200 pt-6 text-sm text-neutral-500 dark:border-neutral-800">
-        <p className="max-w-prose">
-          Les segments présents dans cette démonstration proviennent du jeu de données de test. Le
-          module d&apos;enregistrement n&apos;est pas branché : ce qui est démontré ici, c&apos;est
-          que la suppression détruit réellement des lignes en base, pas qu&apos;un microphone les a
-          produites.
-        </p>
-        <p className="mt-3 max-w-prose">
-          Cette page traduit une lecture des obligations de la Loi 25 en comportement du logiciel.
-          Elle ne remplace pas un avis juridique.
-        </p>
+      <footer className="border-t border-neutral-200 pt-6 text-xs text-neutral-500 dark:border-neutral-800">
+        <p>Segments issus du jeu de données de test. Enregistrement pas encore branché.</p>
       </footer>
     </main>
   );

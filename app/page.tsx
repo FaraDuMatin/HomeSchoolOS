@@ -22,15 +22,12 @@ export default function Home() {
           Une séance qui devient un document légal
         </h1>
         <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
-          Au Québec, 8 700 enfants sont scolarisés à la maison. Le parent reste responsable de
-          l&apos;enseignement et doit déposer au ministère un bilan qui couvre toutes les compétences
-          du programme. Beaucoup de parents ne peuvent pas enseigner et travaillent.
+          8 700 enfants scolarisés à la maison au Québec. Le parent doit déposer un bilan couvrant
+          toutes les compétences du programme, et beaucoup ne peuvent pas enseigner.
         </p>
         <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
-          Ici, quatre enfants apprennent ensemble avec un instructeur, dans une salle communautaire
-          vide en semaine. Rien de ce qui finit dans le bilan n&apos;est saisi à la main : la présence
-          et la progression sont calculées à partir de ce que le système a observé. Le parent reste
-          l&apos;éducateur légal.
+          Ici, quatre enfants et un instructeur dans une salle communautaire prêtée. Rien du bilan
+          n&apos;est saisi à la main. Le parent reste l&apos;éducateur légal.
         </p>
       </header>
 
@@ -60,10 +57,9 @@ export default function Home() {
       </section>
 
       <footer className="border-t border-neutral-200 pt-6 text-sm text-neutral-500 dark:border-neutral-800">
-        <p className="max-w-prose">
-          Écrit au complet pendant la fin de semaine, sans réutiliser de code existant. Base locale,
-          aucun réseau requis. L&apos;enregistrement des séances n&apos;est pas branché : les segments
-          de transcription présents dans la démonstration sont des données de test.
+        <p className="max-w-prose text-xs">
+          Écrit pendant la fin de semaine, sans code réutilisé. Base locale, aucun réseau.
+          L&apos;enregistrement des séances n&apos;est pas branché.
         </p>
         <p className="mt-3">
           <Link href="/routes" className="underline underline-offset-2">
