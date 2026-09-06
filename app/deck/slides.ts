@@ -38,6 +38,8 @@ export type Slide = {
    * `side` la met à droite, moitié de l'écran.
    */
   image?: { file: string; mode: "full" | "side"; alt: string };
+  /** Un graphique, dessiné par les mêmes composants que la page /viability. */
+  chart?: "hourly" | "waterfall" | "space";
 };
 
 export const SLIDES: Slide[] = [
@@ -151,14 +153,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "Viabilité 1 sur 3",
     title: "On gagne sur chaque heure travaillée",
-    table: {
-      head: ["Heure", "Reçu", "Payé", "Marge"],
-      rows: [
-        { label: "Enseignement, 4 élèves", values: ["53,33 $", "35,00 $", "+18,33 $"], tone: "good" },
-        { label: "Encadrement, 4 élèves", values: ["28,57 $", "20,00 $", "+8,57 $"], tone: "good" },
-        { label: "Encadrement, 8 élèves", values: ["57,14 $", "20,00 $", "+37,14 $"], tone: "good" },
-      ],
-    },
+    chart: "hourly",
     say: "C'est le premier test qu'un modèle doit passer. Si une heure ne rapporte pas, aucune échelle ne sauve l'entreprise, elle accélère la perte. Nous, on multiplie un nombre positif.",
     source: "Instructeur contractuel 35 $/h, surveillant 20 $/h. [hypothèses]",
   },
@@ -166,16 +161,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "Viabilité 2 sur 3",
     title: "Le parent paie 50 $ la journée",
-    table: {
-      head: ["", "Montant"],
-      rows: [
-        { label: "Facturé", values: ["4 950 $"] },
-        { label: "Crédit frais de garde, à 70 %", values: ["−1 260 $"], tone: "good" },
-        { label: "Crédit activités", values: ["−100 $"], tone: "good" },
-        { label: "Payé par le parent", values: ["3 590 $"] },
-        { label: "Par journée de présence", values: ["50 $"] },
-      ],
-    },
+    chart: "waterfall",
     bullets: [
       "Les Apprenants Épanouis, le seul comparable québécois : 13,33 $/h, six enfants par groupe.",
       "Nous : le même prix de l'heure avec quatre enfants, plus la garde, les activités et le bilan.",
@@ -191,14 +177,7 @@ export const SLIDES: Slide[] = [
     title: "On achète le local au lieu de le louer",
     image: { file: "salle.jpg", mode: "side", alt: "Une salle communautaire vide en semaine" },
     lede: "Le loyer monte avec chaque instructeur. Une hypothèque, non.",
-    table: {
-      head: ["Coût du local", "16 enfants", "48", "96"],
-      rows: [
-        { label: "Tarif du marché", values: ["23 940 $", "71 820 $", "143 640 $"], tone: "bad" },
-        { label: "Tarif partenaire, la moitié", values: ["11 970 $", "35 910 $", "71 820 $"] },
-        { label: "Immeuble acheté, net", values: ["20 205 $", "20 205 $", "20 205 $"], tone: "good" },
-      ],
-    },
+    chart: "space",
     bullets: [
       "On occupe le bâtiment de 9 h à 15 h en semaine. Personne d'autre n'en veut à ces heures-là.",
       "Le soir et la fin de semaine se louent : 30 h par semaine à 30 $, 44 semaines.",

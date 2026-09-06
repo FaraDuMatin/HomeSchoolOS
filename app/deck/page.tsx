@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { SLIDES } from "./slides";
+import { HourlyBars, SpaceBars, Waterfall } from "../viability/Charts";
+import { hourlyMargin, parentBill, rentCost } from "../lib/economics";
 
 /**
  * Le deck, dans l'app.
@@ -86,6 +88,34 @@ export default function DeckPage() {
               </div>
             ))}
           </dl>
+        )}
+
+        {s.chart && (
+          <div className="mt-8">
+            {s.chart === "hourly" && (
+              <HourlyBars
+                rows={[
+                  { label: "Enseignement, 4 élèves", ...hourlyMargin().teaching },
+                  { label: "Encadrement, 4 élèves", ...hourlyMargin().care4 },
+                  { label: "Encadrement, 8 élèves", ...hourlyMargin().care8 },
+                ]}
+              />
+            )}
+            {s.chart === "waterfall" && <Waterfall {...parentBill(0.7, 1)} />}
+            {s.chart === "space" && (
+              <SpaceBars
+                data={[16, 48, 96].map((c) => {
+                  const k = Math.ceil(c / 16);
+                  return {
+                    children: c,
+                    marche: rentCost(k, "marche"),
+                    partenaire: rentCost(k, "partenaire"),
+                    achat: rentCost(k, "achat"),
+                  };
+                })}
+              />
+            )}
+          </div>
         )}
 
         {s.table && (
