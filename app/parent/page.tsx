@@ -36,12 +36,12 @@ export default async function ParentPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-10 border-b-2 border-ink pb-6 dark:border-ink">
+      <header className="mb-10 border-b-2 border-ink pb-6">
         <p className="eyebrow">
           HomeSchoolOs · Espace parent
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">{parent.name}</h1>
-        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
+        <p className="mt-3 max-w-prose text-ink-2">
           Ce que les blocs ont produit. Vous restez l&apos;éducateur légal.
         </p>
       </header>
@@ -54,13 +54,13 @@ export default async function ParentPage() {
         return (
           <section
             key={r.student.id}
-            className="mb-8 rounded border border-rule p-6 dark:border-rule"
+            className="mb-8 rounded border border-rule p-6"
           >
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <h2 className="text-xl font-semibold">{r.student.name}</h2>
               <Link
                 href={`/report/${r.student.id}`}
-                className="rounded bg-ink px-4 py-2 text-sm font-medium text-bg dark:bg-surface dark:text-bg"
+                className="rounded bg-ink px-4 py-2 text-sm font-medium text-bg"
               >
                 Générer le bilan de progression
               </Link>
@@ -75,7 +75,7 @@ export default async function ParentPage() {
               ].map(([label, value]) => (
                 <div
                   key={String(label)}
-                  className="border-l-2 border-rule pl-3 dark:border-rule"
+                  className="border-l-2 border-rule pl-3"
                 >
                   <dt className="text-xs text-ink-2">{label}</dt>
                   <dd className="font-mono text-xl tabular-nums">{value}</dd>
@@ -122,7 +122,7 @@ export default async function ParentPage() {
       <section className="grid gap-4 sm:grid-cols-2">
         <Link
           href="/obligations"
-          className="rounded border border-rule p-5 hover:border-ink dark:border-rule dark:hover:border-rule"
+          className="rounded border border-rule p-5 hover:border-ink dark:hover:border-rule"
         >
           <p className="eyebrow">
             Vos échéances
@@ -135,14 +135,14 @@ export default async function ParentPage() {
               </span>
             )}
           </p>
-          <p className="mt-2 text-sm text-ink-2 dark:text-ink-2">
+          <p className="mt-2 text-sm text-ink-2">
             Prochaine : {next ? next.legalDate.toLowerCase() : "—"}.
           </p>
         </Link>
 
         <Link
           href="/privacy"
-          className="rounded border border-rule p-5 hover:border-ink dark:border-rule dark:hover:border-rule"
+          className="rounded border border-rule p-5 hover:border-ink dark:hover:border-rule"
         >
           <p className="eyebrow">
             Confidentialité
@@ -151,7 +151,7 @@ export default async function ParentPage() {
             {segments}
             <span className="text-base text-ink-2"> segments</span>
           </p>
-          <p className="mt-2 text-sm text-ink-2 dark:text-ink-2">
+          <p className="mt-2 text-sm text-ink-2">
             Consentement, conservation, suppression.
           </p>
         </Link>

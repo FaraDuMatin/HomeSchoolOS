@@ -17,12 +17,12 @@ export function AddStudentForm({
   const [state, action, pending] = useActionState(addStudentAction, initial);
 
   return (
-    <form action={action} className="mt-4 border-t border-rule pt-4 dark:border-rule">
+    <form action={action} className="mt-4 border-t border-rule pt-4">
       <input type="hidden" name="cohortId" value={cohortId} />
       <div className="flex flex-wrap items-center gap-2">
         <select
           name="studentId"
-          className="rounded border border-rule bg-surface px-3 py-2 text-sm dark:border-rule dark:bg-surface-2"
+          className="rounded border border-rule bg-surface px-3 py-2 text-sm dark:bg-surface-2"
           defaultValue=""
         >
           <option value="" disabled>
@@ -37,7 +37,7 @@ export function AddStudentForm({
         <button
           type="submit"
           disabled={pending}
-          className="rounded bg-ink px-3 py-2 text-sm font-medium text-bg disabled:opacity-50 dark:bg-surface dark:text-bg"
+          className="rounded bg-ink px-3 py-2 text-sm font-medium text-bg disabled:opacity-50"
         >
           {pending ? "Ajout…" : "Ajouter à la cohorte"}
         </button>

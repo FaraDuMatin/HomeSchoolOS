@@ -47,12 +47,12 @@ export default async function DepotPage(props: {
         ← Ma semaine
       </Link>
 
-      <header className="mt-6 mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+      <header className="mt-6 mb-8 border-b-2 border-ink pb-6">
         <p className="eyebrow">
           {block.day} · {block.start} à {block.end} · {block.where === "centre" ? "au centre" : "à la maison"}
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">{block.title}</h1>
-        <p className="mt-3 text-lg text-ink-2 dark:text-ink-2">{block.deposit}</p>
+        <p className="mt-3 text-lg text-ink-2">{block.deposit}</p>
 
         <p className="mt-4 font-mono text-xs text-ink-2">
           {block.competency} · {labelOf(block.competency)}
@@ -76,11 +76,11 @@ export default async function DepotPage(props: {
           rows={5}
           required
           placeholder={block.deposit}
-          className="w-full rounded border border-rule bg-transparent p-3 dark:border-rule"
+          className="w-full rounded border border-rule bg-transparent p-3"
         />
         <button
           type="submit"
-          className="justify-self-start rounded bg-ink px-4 py-2 text-bg dark:bg-ink dark:text-bg"
+          className="justify-self-start rounded bg-ink px-4 py-2 text-bg"
         >
           Déposer
         </button>
@@ -95,7 +95,7 @@ export default async function DepotPage(props: {
         ) : (
           <ul className="grid gap-1">
             {deposits.map((d) => (
-              <li key={d.id} className="border-b border-rule py-3 dark:border-rule">
+              <li key={d.id} className="border-b border-rule py-3">
                 <p className="font-mono text-xs text-ink-2">{fmt.format(d.completedAt)}</p>
                 <p className="mt-1 whitespace-pre-wrap">{d.answer}</p>
               </li>
@@ -104,7 +104,7 @@ export default async function DepotPage(props: {
         )}
       </section>
 
-      <p className="mt-10 border-t border-rule pt-4 text-sm text-ink-2 dark:border-rule">
+      <p className="mt-10 border-t border-rule pt-4 text-sm text-ink-2">
         {auMinistere ? (
           <>
             Le dépôt apparaît immédiatement dans{" "}

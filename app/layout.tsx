@@ -47,7 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${archivo.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <nav className="border-b border-rule print:hidden dark:border-rule">
+        <nav className="border-b border-rule print:hidden">
           <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-6 gap-y-1 px-6 py-3">
             <Link href="/" className="eyebrow">
               HomeSchoolOs
@@ -65,7 +65,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                   )}
                   <Link
                     href={n.href}
-                    className="text-sm text-ink-2 hover:text-ink dark:text-ink-2 dark:hover:text-ink-2"
+                    className="text-sm text-ink-2 hover:text-ink dark:hover:text-ink-2"
                   >
                     {n.label}
                   </Link>

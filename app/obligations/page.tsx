@@ -30,7 +30,7 @@ const BORDER: Record<ObligationRow["status"], string> = {
   fait: "border-done",
   "en-retard": "border-late",
   bientot: "border-soon",
-  "a-venir": "border-rule dark:border-rule",
+  "a-venir": "border-rule",
 };
 
 export default async function ObligationsPage(props: {
@@ -74,7 +74,7 @@ export default async function ObligationsPage(props: {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-6 border-b-2 border-ink pb-5 dark:border-ink">
+      <header className="mb-6 border-b-2 border-ink pb-5">
         <p className="eyebrow">
           HomeSchoolOs · Échéances {schoolYear}
         </p>
@@ -90,8 +90,8 @@ export default async function ObligationsPage(props: {
             href={`/obligations?e=${st.id}`}
             className={
               st.id === current.id
-                ? "rounded bg-ink px-3 py-1.5 text-sm text-bg dark:bg-surface dark:text-bg"
-                : "rounded border border-rule px-3 py-1.5 text-sm hover:border-ink dark:border-rule dark:hover:border-rule"
+                ? "rounded bg-ink px-3 py-1.5 text-sm text-bg"
+                : "rounded border border-rule px-3 py-1.5 text-sm hover:border-ink dark:hover:border-rule"
             }
           >
             {st.name}
@@ -131,7 +131,7 @@ export default async function ObligationsPage(props: {
                   <input type="hidden" name="done" value={done ? "false" : "true"} />
                   <button
                     type="submit"
-                    className="rounded border border-rule px-2 py-0.5 text-xs text-ink-2 hover:border-ink hover:text-ink dark:border-rule dark:hover:border-rule dark:hover:text-ink-2"
+                    className="rounded border border-rule px-2 py-0.5 text-xs text-ink-2 hover:border-ink hover:text-ink dark:hover:border-rule dark:hover:text-ink-2"
                   >
                     {done ? "Annuler" : "Envoyé"}
                   </button>
@@ -144,7 +144,7 @@ export default async function ObligationsPage(props: {
                 </p>
               )}
               {isNext && row.status !== "en-retard" && (
-                <p className="mt-1.5 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+                <p className="mt-1.5 max-w-prose text-sm text-ink-2">
                   {row.what}
                 </p>
               )}

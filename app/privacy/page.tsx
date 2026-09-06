@@ -42,17 +42,17 @@ export default async function PrivacyPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+      <header className="mb-8 border-b-2 border-ink pb-6">
         <p className="eyebrow">
           HomeSchoolOs · Confidentialité
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">
           On enregistre la voix d&apos;un enfant
         </h1>
-        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
+        <p className="mt-3 max-w-prose text-ink-2">
           Loi 25 : consentement du parent, durée de conservation annoncée, effacement réel.
         </p>
-        <p className="mt-3 max-w-prose rounded border border-rule p-3 text-sm text-ink-2 dark:border-rule dark:text-ink-2">
+        <p className="mt-3 max-w-prose rounded border border-rule p-3 text-sm text-ink-2">
           <span className="eyebrow">
             À quoi vous consentez :{" "}
           </span>
@@ -63,7 +63,7 @@ export default async function PrivacyPage() {
       {views.map((v) => (
         <section
           key={v.student.id}
-          className="mb-8 rounded border border-rule p-6 dark:border-rule"
+          className="mb-8 rounded border border-rule p-6"
         >
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <h2 className="text-xl font-semibold">{v.student.name}</h2>
@@ -77,11 +77,11 @@ export default async function PrivacyPage() {
           </div>
 
           {/* 1. Consentement. Le défaut est non, et le bouton dit ce qui change. */}
-          <div className="mt-5 border-l-2 border-rule pl-4 dark:border-rule">
+          <div className="mt-5 border-l-2 border-rule pl-4">
             <p className="eyebrow">
               1 · Consentement
             </p>
-            <p className="mt-2 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+            <p className="mt-2 max-w-prose text-sm text-ink-2">
               {v.granted
                 ? "Retirable en tout temps, sans justification."
                 : "État par défaut : rien n'est enregistré tant que vous n'avez rien accordé."}
@@ -98,8 +98,8 @@ export default async function PrivacyPage() {
                 type="submit"
                 className={
                   v.granted
-                    ? "rounded border border-rule px-3 py-1.5 text-sm dark:border-rule"
-                    : "rounded bg-ink px-3 py-1.5 text-sm font-medium text-bg dark:bg-surface dark:text-bg"
+                    ? "rounded border border-rule px-3 py-1.5 text-sm"
+                    : "rounded bg-ink px-3 py-1.5 text-sm font-medium text-bg"
                 }
               >
                 {v.granted ? "Retirer mon consentement" : "J'autorise l'enregistrement"}
@@ -108,11 +108,11 @@ export default async function PrivacyPage() {
           </div>
 
           {/* 2. Conservation. Un nombre affiché, et modifiable vers le bas. */}
-          <div className="mt-6 border-l-2 border-rule pl-4 dark:border-rule">
+          <div className="mt-6 border-l-2 border-rule pl-4">
             <p className="eyebrow">
               2 · Durée de conservation
             </p>
-            <p className="mt-2 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+            <p className="mt-2 max-w-prose text-sm text-ink-2">
               Destruction après <span className="font-mono tabular-nums">{v.retentionDays}</span>{" "}
               jours.
             </p>
@@ -126,8 +126,8 @@ export default async function PrivacyPage() {
                     disabled={d === v.retentionDays}
                     className={
                       d === v.retentionDays
-                        ? "rounded bg-ink px-3 py-1 font-mono text-xs text-bg dark:bg-surface dark:text-bg"
-                        : "rounded border border-rule px-3 py-1 font-mono text-xs hover:border-ink dark:border-rule dark:hover:border-rule"
+                        ? "rounded bg-ink px-3 py-1 font-mono text-xs text-bg"
+                        : "rounded border border-rule px-3 py-1 font-mono text-xs hover:border-ink dark:hover:border-rule"
                     }
                   >
                     {d} j
@@ -138,7 +138,7 @@ export default async function PrivacyPage() {
           </div>
 
           {/* 3. Ce qui est détenu, et les deux façons de le détruire. */}
-          <div className="mt-6 border-l-2 border-rule pl-4 dark:border-rule">
+          <div className="mt-6 border-l-2 border-rule pl-4">
             <p className="eyebrow">
               3 · Ce que nous détenons en ce moment
             </p>
@@ -172,7 +172,7 @@ export default async function PrivacyPage() {
                 <button
                   type="submit"
                   disabled={v.expired === 0}
-                  className="rounded border border-rule px-3 py-1.5 text-sm disabled:opacity-40 dark:border-rule"
+                  className="rounded border border-rule px-3 py-1.5 text-sm disabled:opacity-40"
                 >
                   Appliquer la conservation maintenant
                 </button>
@@ -185,7 +185,7 @@ export default async function PrivacyPage() {
                   Supprimer toutes les transcriptions
                 </summary>
                 <div className="mt-3 max-w-prose rounded border border-late p-3">
-                  <p className="text-sm text-ink dark:text-ink-2">
+                  <p className="text-sm text-ink">
                     {v.segments} segments détruits. Irréversible. Présences, exercices et bilans
                     intacts.
                   </p>
@@ -209,7 +209,7 @@ export default async function PrivacyPage() {
           </div>
 
           {/* 4. La preuve. Un bouton sans trace est invérifiable. */}
-          <div className="mt-6 border-l-2 border-rule pl-4 dark:border-rule">
+          <div className="mt-6 border-l-2 border-rule pl-4">
             <p className="eyebrow">
               4 · Registre des gestes
             </p>
@@ -220,7 +220,7 @@ export default async function PrivacyPage() {
                 {v.events.map((e) => (
                   <li
                     key={e.id}
-                    className="flex flex-wrap items-baseline gap-x-3 border-b border-rule py-1.5 text-sm dark:border-rule"
+                    className="flex flex-wrap items-baseline gap-x-3 border-b border-rule py-1.5 text-sm"
                   >
                     <span className="font-mono text-xs tabular-nums text-ink-2">
                       {stamp.format(e.occurredAt)}
@@ -240,7 +240,7 @@ export default async function PrivacyPage() {
         </section>
       ))}
 
-      <footer className="border-t border-rule pt-6 text-xs text-ink-2 dark:border-rule">
+      <footer className="border-t border-rule pt-6 text-xs text-ink-2">
         <p>Segments issus du jeu de données de test. Enregistrement pas encore branché.</p>
       </footer>
     </main>

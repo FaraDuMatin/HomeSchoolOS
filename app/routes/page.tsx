@@ -90,12 +90,12 @@ export default async function RoutesPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+      <header className="mb-8 border-b-2 border-ink pb-6">
         <p className="eyebrow">
           HomeSchoolOs · Index
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">Toutes les pages</h1>
-        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
+        <p className="mt-3 max-w-prose text-ink-2">
           Page de développement, pas de démonstration. Les liens vers les routes dynamiques sont
           résolus en base, donc ils restent valides après chaque{" "}
           <span className="font-mono text-sm">npx tsx prisma/seed.ts</span>.
@@ -111,7 +111,7 @@ export default async function RoutesPage() {
             <li key={r.href}>
               <Link
                 href={r.href}
-                className="block border-b border-rule py-3 hover:bg-surface-2 dark:border-rule dark:hover:bg-surface-2"
+                className="block border-b border-rule py-3 hover:bg-surface-2 dark:hover:bg-surface-2"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3">
                   <span className="font-mono text-sm">{r.href}</span>
@@ -120,7 +120,7 @@ export default async function RoutesPage() {
                     {r.role}
                   </span>
                 </div>
-                <p className="mt-1 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+                <p className="mt-1 max-w-prose text-sm text-ink-2">
                   {r.what}
                 </p>
               </Link>
@@ -138,7 +138,7 @@ export default async function RoutesPage() {
             <li>
               <Link
                 href={`/sessions/${openSession.id}`}
-                className="block border-b border-rule py-3 hover:bg-surface-2 dark:border-rule dark:hover:bg-surface-2"
+                className="block border-b border-rule py-3 hover:bg-surface-2 dark:hover:bg-surface-2"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3">
                   <span className="font-mono text-sm">/sessions/{openSession.id}</span>
@@ -154,7 +154,7 @@ export default async function RoutesPage() {
             <li>
               <Link
                 href={`/sessions/${lastSession.id}`}
-                className="block border-b border-rule py-3 hover:bg-surface-2 dark:border-rule dark:hover:bg-surface-2"
+                className="block border-b border-rule py-3 hover:bg-surface-2 dark:hover:bg-surface-2"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3">
                   <span className="font-mono text-sm">/sessions/{lastSession.id}</span>
@@ -178,7 +178,7 @@ export default async function RoutesPage() {
             <li key={s.id}>
               <Link
                 href={`/report/${s.id}`}
-                className="block border-b border-rule py-3 hover:bg-surface-2 dark:border-rule dark:hover:bg-surface-2"
+                className="block border-b border-rule py-3 hover:bg-surface-2 dark:hover:bg-surface-2"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3">
                   <span className="font-mono text-sm">/report/{s.id}</span>

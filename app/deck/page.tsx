@@ -76,13 +76,13 @@ export default function DeckPage() {
         </h1>
 
         {s.lede && (
-          <p className="mt-4 max-w-3xl text-xl text-ink-2 dark:text-ink-2">{s.lede}</p>
+          <p className="mt-4 max-w-3xl text-xl text-ink-2">{s.lede}</p>
         )}
 
         {s.stats && (
           <dl className="mt-8 grid gap-6 sm:grid-cols-3">
             {s.stats.map((st) => (
-              <div key={st.label} className="border-l-2 border-rule pl-4 dark:border-rule">
+              <div key={st.label} className="border-l-2 border-rule pl-4">
                 <dd className={`font-mono text-4xl tabular-nums ${tone(st.tone)}`}>{st.value}</dd>
                 <dt className="mt-1 text-sm text-ink-2">{st.label}</dt>
               </div>
@@ -122,7 +122,7 @@ export default function DeckPage() {
           <div className="mt-8 overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b-2 border-ink dark:border-ink">
+                <tr className="border-b-2 border-ink">
                   {s.table.head.map((h) => (
                     <th
                       key={h}
@@ -135,7 +135,7 @@ export default function DeckPage() {
               </thead>
               <tbody>
                 {s.table.rows.map((r) => (
-                  <tr key={r.label} className="border-b border-rule dark:border-rule">
+                  <tr key={r.label} className="border-b border-rule">
                     <td className="py-2.5 pr-6 text-lg">{r.label}</td>
                     {r.values.map((v, k) => (
                       <td
@@ -166,7 +166,7 @@ export default function DeckPage() {
         )}
 
         {s.demo && (
-          <p className="mt-8 border-l-2 border-ink pl-4 font-mono text-sm uppercase tracking-wider dark:border-ink">
+          <p className="mt-8 border-l-2 border-ink pl-4 font-mono text-sm uppercase tracking-wider">
             {s.demo}
           </p>
         )}
@@ -187,27 +187,27 @@ export default function DeckPage() {
 
       {/* Les notes ne sont visibles que si tu les ouvres. La salle voit le slide. */}
       {notes && (
-        <div className="border-t-2 border-ink bg-surface-2 px-8 py-4 dark:border-ink dark:bg-surface-2">
+        <div className="border-t-2 border-ink bg-surface-2 px-8 py-4 dark:bg-surface-2">
           <div className="mx-auto max-w-5xl">
             <p className="eyebrow">Ce que tu dis</p>
-            <p className="mt-1 text-ink dark:text-ink">{s.say}</p>
+            <p className="mt-1 text-ink">{s.say}</p>
           </div>
         </div>
       )}
 
-      <div className="border-t border-rule px-8 py-2 dark:border-rule">
+      <div className="border-t border-rule px-8 py-2">
         <div className="mx-auto flex max-w-5xl items-center gap-4">
           <button
             onClick={() => go(-1)}
             disabled={i === 0}
-            className="rounded border border-rule px-3 py-1 text-sm disabled:opacity-30 dark:border-rule"
+            className="rounded border border-rule px-3 py-1 text-sm disabled:opacity-30"
           >
             ←
           </button>
           <button
             onClick={() => go(1)}
             disabled={i === SLIDES.length - 1}
-            className="rounded border border-rule px-3 py-1 text-sm disabled:opacity-30 dark:border-rule"
+            className="rounded border border-rule px-3 py-1 text-sm disabled:opacity-30"
           >
             →
           </button>
@@ -216,7 +216,7 @@ export default function DeckPage() {
           </span>
           <button
             onClick={() => setNotes(!notes)}
-            className="ml-auto rounded border border-rule px-3 py-1 font-mono text-xs dark:border-rule"
+            className="ml-auto rounded border border-rule px-3 py-1 font-mono text-xs"
           >
             N · notes
           </button>

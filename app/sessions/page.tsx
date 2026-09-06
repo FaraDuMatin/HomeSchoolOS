@@ -14,7 +14,7 @@ export default async function SessionsPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+      <header className="mb-8 border-b-2 border-ink pb-6">
         <p className="eyebrow">
           HomeSchoolOs · Séances
         </p>
@@ -28,7 +28,7 @@ export default async function SessionsPage() {
             <li key={s.id}>
               <Link
                 href={`/sessions/${s.id}`}
-                className="flex flex-wrap items-center justify-between gap-3 rounded border border-rule px-4 py-3 hover:border-ink dark:border-rule dark:hover:border-rule"
+                className="flex flex-wrap items-center justify-between gap-3 rounded border border-rule px-4 py-3 hover:border-ink dark:hover:border-rule"
               >
                 <div>
                   <p className="text-sm font-medium">{s.subject}</p>

@@ -30,9 +30,9 @@ export default async function ReportPage({
 
       <article
         id="bilan"
-        className="border border-rule p-8 print:border-0 print:p-0 dark:border-rule"
+        className="border border-rule p-8 print:border-0 print:p-0"
       >
-        <header className="border-b-2 border-ink pb-5 dark:border-ink">
+        <header className="border-b-2 border-ink pb-5">
           <p className="eyebrow">
             Enseignement à la maison · Québec
           </p>
@@ -80,7 +80,7 @@ export default async function ReportPage({
                 )}`,
               ],
             ].map(([label, value]) => (
-              <div key={String(label)} className="border-l-2 border-rule pl-3 dark:border-rule">
+              <div key={String(label)} className="border-l-2 border-rule pl-3">
                 <dt className="text-xs text-ink-2">{label}</dt>
                 <dd className="font-mono text-lg tabular-nums">{value}</dd>
               </div>
@@ -91,7 +91,7 @@ export default async function ReportPage({
         {report.subjects.map((s) => (
           <section
             key={s.subject.key}
-            className="mt-7 break-inside-avoid border-t border-rule pt-5 dark:border-rule"
+            className="mt-7 break-inside-avoid border-t border-rule pt-5"
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h2 className="text-lg font-semibold">{s.subject.label}</h2>
@@ -133,7 +133,7 @@ export default async function ReportPage({
                   {s.traces.map((t, i) => (
                     <li
                       key={i}
-                      className="border-l-2 border-rule pl-3 text-sm dark:border-rule"
+                      className="border-l-2 border-rule pl-3 text-sm"
                     >
                       <p>
                         <span className="font-mono text-xs tabular-nums text-ink-2">
@@ -141,7 +141,7 @@ export default async function ReportPage({
                         </span>{" "}
                         <span className="font-medium">{t.exerciseTitle}</span>
                       </p>
-                      <p className="text-ink-2 dark:text-ink-2">
+                      <p className="text-ink-2">
                         Intention pédagogique : {t.intent}
                       </p>
                     </li>
@@ -157,7 +157,7 @@ export default async function ReportPage({
             <h2 className="font-mono text-xs uppercase tracking-wider text-soon">
               À documenter avant le dépôt
             </h2>
-            <p className="mt-2 text-sm text-ink-2 dark:text-ink-2">
+            <p className="mt-2 text-sm text-ink-2">
               Aucune trace. Un bilan incomplet est renvoyé pour modification.
             </p>
             <ul className="mt-3 grid gap-1 text-sm">
@@ -170,7 +170,7 @@ export default async function ReportPage({
           </section>
         )}
 
-        <footer className="mt-8 border-t border-rule pt-4 text-xs text-ink-2 dark:border-rule">
+        <footer className="mt-8 border-t border-rule pt-4 text-xs text-ink-2">
           <p>
             Produit à partir du registre des séances. Le parent-éducateur demeure responsable du
             dépôt.

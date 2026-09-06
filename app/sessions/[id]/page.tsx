@@ -56,7 +56,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+      <header className="mb-8 border-b-2 border-ink pb-6">
         <p className="eyebrow">
           {session.cohort.name} · {subjectLabel}
         </p>
@@ -82,14 +82,14 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
         ].map((step) => (
           <li
             key={step.n}
-            className={step.done ? "text-ink-2 line-through" : "text-ink dark:text-ink-2"}
+            className={step.done ? "text-ink-2 line-through" : "text-ink"}
           >
             <span className="font-mono text-xs">{step.n}.</span> {step.label}
           </li>
         ))}
       </ol>
 
-      <section className="mb-8 rounded border border-rule p-6 dark:border-rule">
+      <section className="mb-8 rounded border border-rule p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="eyebrow">
@@ -113,14 +113,14 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
             <button
               type="submit"
               disabled={ended}
-              className="rounded bg-ink px-4 py-2 text-sm font-medium text-bg disabled:opacity-40 dark:bg-surface dark:text-bg"
+              className="rounded bg-ink px-4 py-2 text-sm font-medium text-bg disabled:opacity-40"
             >
               {ended ? "Séance terminée" : live ? "Terminer la séance" : "Ouvrir la séance"}
             </button>
           </form>
         </div>
 
-        <p className="mt-4 border-l-2 border-rule pl-3 text-xs text-ink-2 dark:border-rule">
+        <p className="mt-4 border-l-2 border-rule pl-3 text-xs text-ink-2">
           La durée affichée ici n&apos;est qu&apos;un indicateur. Celle qui sera écrite au dossier est
           calculée au serveur, à partir des événements d&apos;ouverture et de fermeture.
         </p>
@@ -142,7 +142,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
             return (
               <li
                 key={student.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded border border-rule px-4 py-3 dark:border-rule"
+                className="flex flex-wrap items-center justify-between gap-3 rounded border border-rule px-4 py-3"
               >
                 <span className="text-sm">{student.name}</span>
                 <div className="flex items-center gap-3">
@@ -155,7 +155,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
                       le libellé est l'état actuel se lit comme une étiquette, pas
                       comme une commande. Ici l'état actif est rempli, l'autre est
                       cliquable, et on ne se demande jamais ce qu'un clic va faire. */}
-                  <div className="flex overflow-hidden rounded border border-rule dark:border-rule">
+                  <div className="flex overflow-hidden rounded border border-rule">
                     {(
                       [
                         { value: true, label: "Présent" },
@@ -197,7 +197,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
         <h2 className="mb-3 eyebrow">
           Étape 3 · Exercices
         </h2>
-        <p className="mb-4 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+        <p className="mb-4 max-w-prose text-sm text-ink-2">
           Cochez le prénom d&apos;un élève quand il a complété l&apos;exercice. Chaque exercice porte
           une compétence du programme, et c&apos;est ce qui rend le bilan acceptable : la Direction
           de l&apos;enseignement à la maison renvoie les bilans qui ne couvrent pas toutes les
@@ -205,13 +205,13 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
         </p>
 
         {!live && !ended && (
-          <p className="rounded border border-dashed border-rule px-4 py-3 text-sm text-ink-2 dark:border-rule">
+          <p className="rounded border border-dashed border-rule px-4 py-3 text-sm text-ink-2">
             Ouvrez d&apos;abord la séance.
           </p>
         )}
 
         {live && presentStudents.length === 0 && (
-          <p className="rounded border border-dashed border-rule px-4 py-3 text-sm text-ink-2 dark:border-rule">
+          <p className="rounded border border-dashed border-rule px-4 py-3 text-sm text-ink-2">
             Marquez au moins un élève présent, puis les exercices apparaîtront ici.
           </p>
         )}
@@ -221,7 +221,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
           exercises.map((ex) => (
             <div
               key={ex.id}
-              className="mb-2 rounded border border-rule p-4 dark:border-rule"
+              className="mb-2 rounded border border-rule p-4"
             >
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <p className="text-sm font-medium">{ex.title}</p>
@@ -229,7 +229,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
                   {ex.competency} · {competencyLabel(ex.competency)}
                 </span>
               </div>
-              <p className="mt-1 text-sm text-ink-2 dark:text-ink-2">{ex.prompt}</p>
+              <p className="mt-1 text-sm text-ink-2">{ex.prompt}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {presentStudents.map((s) => {
                   const done = completedKeys.has(`${ex.id}:${s.id}`);
@@ -244,7 +244,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
                         className={`rounded border px-3 py-1.5 text-xs font-medium transition-colors ${
                           done
                             ? "border-done bg-done text-bg"
-                            : "border-rule text-ink-2 hover:border-ink dark:border-rule dark:text-ink-2 dark:hover:border-rule"
+                            : "border-rule text-ink-2 hover:border-ink dark:hover:border-rule"
                         }`}
                       >
                         {done ? "✓ " : ""}
@@ -266,7 +266,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
               {doneThisSession.map((a) => (
                 <li
                   key={a.id}
-                  className="flex flex-wrap items-baseline justify-between gap-2 border-b border-rule py-1.5 text-sm dark:border-rule"
+                  className="flex flex-wrap items-baseline justify-between gap-2 border-b border-rule py-1.5 text-sm"
                 >
                   <span>
                     {a.student.name} · {a.exercise.title}
@@ -285,7 +285,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
         <h2 className="mb-3 eyebrow">
           Journal de la séance
         </h2>
-        <p className="mb-3 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+        <p className="mb-3 max-w-prose text-sm text-ink-2">
           Chaque ligne est écrite une fois et n&apos;est jamais modifiée. C&apos;est ce journal, et
           non la parole de l&apos;instructeur, qui alimentera le bilan remis au ministère.
         </p>
@@ -293,7 +293,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
           {session.events.map((e) => (
             <li
               key={e.id}
-              className="flex items-baseline gap-3 border-b border-rule py-1.5 font-mono text-xs dark:border-rule"
+              className="flex items-baseline gap-3 border-b border-rule py-1.5 font-mono text-xs"
             >
               {/* `toLocaleTimeString` en fr-CA rend « 00 h 21 min 34 s », qui est
                   correct et illisible dans une colonne. Un horodatage se lit en

@@ -23,7 +23,7 @@ function Stat({
         ? "text-soon"
         : "";
   return (
-    <div className="border-l-2 border-rule pl-3 dark:border-rule">
+    <div className="border-l-2 border-rule pl-3">
       <p className="text-xs text-ink-2">{label}</p>
       <p className={`font-mono text-xl tabular-nums ${color}`}>{value}</p>
       {hint && <p className="mt-0.5 text-xs text-ink-2">{hint}</p>}
@@ -36,12 +36,12 @@ export default async function SupervisorPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+      <header className="mb-8 border-b-2 border-ink pb-6">
         <p className="eyebrow">
           HomeSchoolOs · Supervision
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">Un breveté pour quatre instructeurs</h1>
-        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
+        <p className="mt-3 max-w-prose text-ink-2">
           Un breveté coûte 61 602 $ par an. On en met un pour quatre instructeurs.
         </p>
       </header>
@@ -49,7 +49,7 @@ export default async function SupervisorPage() {
       {cohorts.map((c) => (
         <section
           key={c.id}
-          className="mb-8 rounded border border-rule p-6 dark:border-rule"
+          className="mb-8 rounded border border-rule p-6"
         >
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <h2 className="text-xl font-semibold">{c.name}</h2>
@@ -87,7 +87,7 @@ export default async function SupervisorPage() {
               {c.students.map((s) => (
                 <li
                   key={s.id}
-                  className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-rule py-2 text-sm dark:border-rule"
+                  className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-rule py-2 text-sm"
                 >
                   <span className="min-w-32 flex-1">{s.name}</span>
                   <span
@@ -129,14 +129,14 @@ export default async function SupervisorPage() {
               </p>
               <ul className="mt-2 grid gap-1 text-sm">
                 {c.flags.map((f) => (
-                  <li key={f} className="text-ink dark:text-ink-2">
+                  <li key={f} className="text-ink">
                     {f}
                   </li>
                 ))}
               </ul>
             </div>
           ) : (
-            <p className="mt-6 border-l-2 border-done pl-3 text-sm text-ink-2 dark:text-ink-2">
+            <p className="mt-6 border-l-2 border-done pl-3 text-sm text-ink-2">
               Rien à signaler.
             </p>
           )}

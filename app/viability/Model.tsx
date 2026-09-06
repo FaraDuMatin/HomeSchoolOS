@@ -65,9 +65,9 @@ function Ledger({ children, occupancy, yearOne }: { children: number; occupancy:
         {lines.map(([label, value]) => (
           <div
             key={label}
-            className="flex items-baseline justify-between gap-3 border-b border-rule/70 py-1 dark:border-rule"
+            className="flex items-baseline justify-between gap-3 border-b border-rule/70 py-1"
           >
-            <dt className="text-ink-2 dark:text-ink-2">{label}</dt>
+            <dt className="text-ink-2">{label}</dt>
             <dd className={`shrink-0 font-mono text-xs tabular-nums ${value < 0 ? "text-ink-2" : ""}`}>
               {money(value)}
             </dd>
@@ -125,7 +125,7 @@ function Curve({ students, yearOne }: { students: number; yearOne: boolean }) {
               y2={y(v)}
               stroke="currentColor"
               strokeWidth={v === 0 ? 1.5 : 0.5}
-              className={v === 0 ? "text-ink-2" : "text-ink-2 dark:text-ink"}
+              className={v === 0 ? "text-ink-2" : "text-ink-2"}
             />
             <text
               x={PAD.l - 8}
@@ -185,7 +185,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
         <h2 className="mb-1 eyebrow">
           1 · La marge sur chaque heure travaillée
         </h2>
-        <p className="mb-4 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+        <p className="mb-4 max-w-prose text-sm text-ink-2">
           Si une heure ne rapporte pas, aucune échelle ne sauve l&apos;entreprise. Elle accélère la
           perte.
         </p>
@@ -199,11 +199,11 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
       </section>
 
       {/* 2. Ce que le parent paie vraiment. */}
-      <section className="mb-8 rounded border border-rule p-5 dark:border-rule">
+      <section className="mb-8 rounded border border-rule p-5">
         <h2 className="eyebrow">
           2 · Ce que le parent paie vraiment
         </h2>
-        <p className="mt-1 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+        <p className="mt-1 max-w-prose text-sm text-ink-2">
           Deux journées complètes par semaine, {OFFER.weeks} semaines. Le crédit pour frais de garde
           rembourse de {Math.round(CREDIT.care.low * 100)} % à {Math.round(CREDIT.care.high * 100)} %
           selon le revenu, jusqu&apos;à {money(CREDIT.care.ceiling)} par enfant de 7 à 13 ans.
@@ -231,7 +231,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
             <select
               value={creditRate}
               onChange={(e) => setCreditRate(Number(e.target.value))}
-              className="ml-2 rounded border border-rule bg-transparent px-2 py-1 font-mono dark:border-rule"
+              className="ml-2 rounded border border-rule bg-transparent px-2 py-1 font-mono"
             >
               <option value={0.67}>67 % (revenu élevé)</option>
               <option value={0.7}>70 %</option>
@@ -243,7 +243,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
             <select
               value={careEligible}
               onChange={(e) => setCareEligible(Number(e.target.value))}
-              className="ml-2 rounded border border-rule bg-transparent px-2 py-1 font-mono dark:border-rule"
+              className="ml-2 rounded border border-rule bg-transparent px-2 py-1 font-mono"
             >
               <option value={1}>oui, en entier</option>
               <option value={0.5}>la moitié</option>
@@ -263,7 +263,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
         <h2 className="mb-1 eyebrow">
           3 · Louer ou acheter
         </h2>
-        <p className="mb-4 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+        <p className="mb-4 max-w-prose text-sm text-ink-2">
           Un loyer monte avec chaque instructeur et ne s&apos;arrête jamais. Une hypothèque est fixe.
           Et notre programme occupe le bâtiment aux heures dont personne ne veut : le soir et la fin
           de semaine se louent.
@@ -283,7 +283,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
         <div className="mt-6 overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-rule text-left text-xs uppercase tracking-wider text-ink-2 dark:border-rule">
+              <tr className="border-b border-rule text-left text-xs uppercase tracking-wider text-ink-2">
                 <th className="py-2 pr-4 font-normal">Enfants</th>
                 <th className="py-2 pr-4 text-right font-normal">Tarif partenaire</th>
                 <th className="py-2 pr-4 text-right font-normal">Tarif du marché</th>
@@ -294,7 +294,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
               {[16, 48, 96].map((n) => {
                 const i = Math.ceil(n / 16);
                 return (
-                  <tr key={n} className="border-b border-rule dark:border-rule">
+                  <tr key={n} className="border-b border-rule">
                     <td className="py-2 pr-4 font-mono tabular-nums">{n}</td>
                     <td className="py-2 pr-4 text-right font-mono tabular-nums">
                       {money(rentCost(i, "partenaire"))}
@@ -322,7 +322,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
 
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {ACQUISITION.map((a) => (
-            <div key={a.key} className="border-l-2 border-rule pl-3 dark:border-rule">
+            <div key={a.key} className="border-l-2 border-rule pl-3">
               <p className="text-sm font-medium">{a.label}</p>
               <p className="mt-1 text-xs text-ink-2">{a.what}</p>
               <p className="mt-1 font-mono text-xs text-ink-2">
@@ -334,7 +334,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
       </section>
 
       {/* 4. Le curseur. */}
-      <div className="mb-6 rounded border border-rule p-5 dark:border-rule">
+      <div className="mb-6 rounded border border-rule p-5">
         <label htmlFor="students" className="flex flex-wrap items-baseline justify-between gap-3">
           <span className="eyebrow">
             4 · Enfants inscrits
@@ -359,7 +359,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
               key={n}
               type="button"
               onClick={() => setStudents(n)}
-              className="rounded border border-rule px-2.5 py-1 font-mono text-xs hover:border-ink dark:border-rule dark:hover:border-rule"
+              className="rounded border border-rule px-2.5 py-1 font-mono text-xs hover:border-ink dark:hover:border-rule"
             >
               {n}
             </button>
@@ -367,7 +367,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           <button
             type="button"
             onClick={() => setYearOne(!yearOne)}
-            className="ml-auto rounded border border-rule px-2.5 py-1 font-mono text-xs hover:border-ink dark:border-rule dark:hover:border-rule"
+            className="ml-auto rounded border border-rule px-2.5 py-1 font-mono text-xs hover:border-ink dark:hover:border-rule"
           >
             {yearOne ? "An 1, frais légaux inclus" : "Régime de croisière"}
           </button>
@@ -380,7 +380,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
         ))}
       </div>
 
-      <section className="mb-8 rounded border border-rule p-5 dark:border-rule">
+      <section className="mb-8 rounded border border-rule p-5">
         <h2 className="eyebrow">
           Résultat annuel selon le remplissage
         </h2>
@@ -400,7 +400,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           {SCENARIOS.map((s) => {
             const be = breakEven(s, yearOne);
             return (
-              <p key={s} className="text-ink-2 dark:text-ink-2">
+              <p key={s} className="text-ink-2">
                 <span className="eyebrow">
                   {OCCUPANCY_LABEL[s]}
                 </span>
@@ -421,14 +421,14 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
         <h2 className="mb-1 eyebrow">
           5 · Le chemin jusqu&apos;à l&apos;immeuble
         </h2>
-        <p className="mb-4 max-w-prose text-sm text-ink-2 dark:text-ink-2">
+        <p className="mb-4 max-w-prose text-sm text-ink-2">
           On reste au tarif partenaire tant que l&apos;immeuble n&apos;est pas acquis sans dette.
           Le surplus s&apos;accumule, il ne sert pas à rembourser un prêt.
         </p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-rule text-left text-xs uppercase tracking-wider text-ink-2 dark:border-rule">
+              <tr className="border-b border-rule text-left text-xs uppercase tracking-wider text-ink-2">
                 <th className="py-2 pr-4 font-normal">An</th>
                 <th className="py-2 pr-4 font-normal">Enfants</th>
                 <th className="py-2 pr-4 font-normal">Local</th>
@@ -438,7 +438,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
             </thead>
             <tbody>
               {steps.map((s) => (
-                <tr key={s.year} className="border-b border-rule dark:border-rule">
+                <tr key={s.year} className="border-b border-rule">
                   <td className="py-2 pr-4 font-mono tabular-nums">{s.year}</td>
                   <td className="py-2 pr-4 font-mono tabular-nums">{s.children}</td>
                   <td className="py-2 pr-4 text-xs">{OCCUPANCY_LABEL[s.occupancy]}</td>
