@@ -4,10 +4,10 @@ import { listExercisesForSubject } from "../../lib/exercises";
 import { competencyLabel, SUBJECTS } from "../../lib/pfeq";
 import { getSession } from "../../lib/session";
 import {
-  completeExerciseAction,
   endSessionAction,
   markAttendanceAction,
   startSessionAction,
+  toggleExerciseAction,
 } from "../actions";
 import { Elapsed } from "./Elapsed";
 
@@ -41,6 +41,9 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
     orderBy: { completedAt: "asc" },
   });
 
+  const presentCount = presentStudents.length;
+  const completedKeys = new Set(doneThisSession.map((a) => `${a.exerciseId}:${a.studentId}`));
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
       <header className="mb-8 border-b-2 border-neutral-900 pb-6 dark:border-neutral-100">
@@ -58,11 +61,29 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
         </p>
       </header>
 
+      {/* Trois étapes numérotées, parce qu'un instructeur ouvre cette page pour la
+          première fois pendant qu'il a quatre enfants devant lui. */}
+      <ol className="mb-6 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+        {[
+          { n: 1, label: "Ouvrir la séance", done: live || ended },
+          { n: 2, label: "Marquer les présences", done: presentCount > 0 },
+          { n: 3, label: "Cocher les exercices complétés", done: doneThisSession.length > 0 },
+          { n: 4, label: "Terminer la séance", done: ended },
+        ].map((step) => (
+          <li
+            key={step.n}
+            className={step.done ? "text-neutral-400 line-through" : "text-neutral-700 dark:text-neutral-300"}
+          >
+            <span className="font-mono text-xs">{step.n}.</span> {step.label}
+          </li>
+        ))}
+      </ol>
+
       <section className="mb-8 rounded border border-neutral-200 p-6 dark:border-neutral-800">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
-              Temps écoulé
+              Étape 1 · Temps écoulé
             </p>
             {live && session.startedAt ? (
               <Elapsed startedAtIso={session.startedAt.toISOString()} />
@@ -96,9 +117,14 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
       </section>
 
       <section className="mb-8">
-        <h2 className="mb-3 font-mono text-xs uppercase tracking-wider text-neutral-500">
-          Présences
-        </h2>
+        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+            Étape 2 · Présences
+          </h2>
+          <span className="text-xs text-neutral-500">
+            {presentCount} présents sur {session.cohort.members.length}
+          </span>
+        </div>
         <ul className="grid gap-2">
           {session.cohort.members.map(({ student }) => {
             const record = attendanceByStudent.get(student.id);
@@ -110,27 +136,46 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
               >
                 <span className="text-sm">{student.name}</span>
                 <div className="flex items-center gap-3">
-                  {ended && record?.present && (
+                  {ended && present && (
                     <span className="font-mono text-xs tabular-nums text-neutral-500">
-                      {record.minutes} min
+                      {record?.minutes} min
                     </span>
                   )}
-                  <form action={markAttendanceAction}>
-                    <input type="hidden" name="sessionId" value={session.id} />
-                    <input type="hidden" name="studentId" value={student.id} />
-                    <input type="hidden" name="present" value={present ? "false" : "true"} />
-                    <button
-                      type="submit"
-                      disabled={ended}
-                      className={`rounded border px-3 py-1 text-xs font-medium disabled:opacity-40 ${
-                        present
-                          ? "border-green-600 bg-green-50 text-green-800 dark:bg-green-950/40 dark:text-green-300"
-                          : "border-neutral-300 text-neutral-500 dark:border-neutral-700"
-                      }`}
-                    >
-                      {present ? "Présent" : "Absent"}
-                    </button>
-                  </form>
+                  {/* Deux boutons plutôt qu'un seul qui bascule : un bouton dont
+                      le libellé est l'état actuel se lit comme une étiquette, pas
+                      comme une commande. Ici l'état actif est rempli, l'autre est
+                      cliquable, et on ne se demande jamais ce qu'un clic va faire. */}
+                  <div className="flex overflow-hidden rounded border border-neutral-300 dark:border-neutral-700">
+                    {(
+                      [
+                        { value: true, label: "Présent" },
+                        { value: false, label: "Absent" },
+                      ] as const
+                    ).map((opt) => {
+                      const active = present === opt.value;
+                      return (
+                        <form key={opt.label} action={markAttendanceAction}>
+                          <input type="hidden" name="sessionId" value={session.id} />
+                          <input type="hidden" name="studentId" value={student.id} />
+                          <input type="hidden" name="present" value={String(opt.value)} />
+                          <button
+                            type="submit"
+                            disabled={ended || active}
+                            aria-pressed={active}
+                            className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+                              active
+                                ? opt.value
+                                  ? "bg-green-600 text-white"
+                                  : "bg-neutral-500 text-white"
+                                : "text-neutral-500 hover:bg-neutral-100 disabled:opacity-40 dark:hover:bg-neutral-900"
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        </form>
+                      );
+                    })}
+                  </div>
                 </div>
               </li>
             );
@@ -140,21 +185,24 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
 
       <section className="mb-8">
         <h2 className="mb-3 font-mono text-xs uppercase tracking-wider text-neutral-500">
-          Exercices
+          Étape 3 · Exercices
         </h2>
         <p className="mb-4 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
-          Chaque exercice porte une compétence du programme. C&apos;est ce qui rend le bilan
-          acceptable : la Direction de l&apos;enseignement à la maison renvoie les bilans qui ne
-          couvrent pas toutes les compétences d&apos;une matière.
+          Cochez le prénom d&apos;un élève quand il a complété l&apos;exercice. Chaque exercice porte
+          une compétence du programme, et c&apos;est ce qui rend le bilan acceptable : la Direction
+          de l&apos;enseignement à la maison renvoie les bilans qui ne couvrent pas toutes les
+          compétences d&apos;une matière.
         </p>
 
         {!live && !ended && (
-          <p className="text-sm text-neutral-400">Ouvrez la séance pour assigner des exercices.</p>
+          <p className="rounded border border-dashed border-neutral-300 px-4 py-3 text-sm text-neutral-500 dark:border-neutral-700">
+            Ouvrez d&apos;abord la séance.
+          </p>
         )}
 
         {live && presentStudents.length === 0 && (
-          <p className="text-sm text-neutral-400">
-            Pointez au moins un élève présent avant d&apos;assigner un exercice.
+          <p className="rounded border border-dashed border-neutral-300 px-4 py-3 text-sm text-neutral-500 dark:border-neutral-700">
+            Marquez au moins un élève présent, puis les exercices apparaîtront ici.
           </p>
         )}
 
@@ -173,27 +221,36 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
               </div>
               <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{ex.prompt}</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                {presentStudents.map((s) => (
-                  <form key={s.id} action={completeExerciseAction}>
-                    <input type="hidden" name="sessionId" value={session.id} />
-                    <input type="hidden" name="exerciseId" value={ex.id} />
-                    <input type="hidden" name="studentId" value={s.id} />
-                    <button
-                      type="submit"
-                      className="rounded border border-neutral-300 px-3 py-1 text-xs hover:border-neutral-900 dark:border-neutral-700 dark:hover:border-neutral-100"
-                    >
-                      ✓ {s.name.split(" ")[0]}
-                    </button>
-                  </form>
-                ))}
+                {presentStudents.map((s) => {
+                  const done = completedKeys.has(`${ex.id}:${s.id}`);
+                  return (
+                    <form key={s.id} action={toggleExerciseAction}>
+                      <input type="hidden" name="sessionId" value={session.id} />
+                      <input type="hidden" name="exerciseId" value={ex.id} />
+                      <input type="hidden" name="studentId" value={s.id} />
+                      <button
+                        type="submit"
+                        title={done ? "Cliquer pour annuler" : "Marquer comme complété"}
+                        className={`rounded border px-3 py-1.5 text-xs font-medium transition-colors ${
+                          done
+                            ? "border-green-600 bg-green-600 text-white"
+                            : "border-neutral-300 text-neutral-600 hover:border-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-100"
+                        }`}
+                      >
+                        {done ? "✓ " : ""}
+                        {s.name.split(" ")[0]}
+                      </button>
+                    </form>
+                  );
+                })}
               </div>
             </div>
           ))}
 
-        {doneThisSession.length > 0 && (
-          <div className="mt-4">
-            <p className="mb-2 font-mono text-xs uppercase tracking-wider text-neutral-500">
-              Complétés dans ce bloc
+        {ended && doneThisSession.length > 0 && (
+          <div>
+            <p className="mb-2 text-sm text-neutral-500">
+              {doneThisSession.length} exercices complétés pendant ce bloc.
             </p>
             <ul className="grid gap-1">
               {doneThisSession.map((a) => (
