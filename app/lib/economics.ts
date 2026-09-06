@@ -26,8 +26,9 @@
  * - Crédit pour activités des enfants : 20 % jusqu'à 500 $ de frais, donc
  *   100 $ par enfant, programme d'au moins 8 semaines consécutives, revenu
  *   familial sous 168 470 $ [Revenu Québec].
- * - Bâtisse commerciale à Gatineau : 349 900 $ à 595 000 $ sur les annonces
- *   courantes [Centris, LesPAC].
+ * - Local commercial à Montréal : à partir de 400 000 $ pour un petit local,
+ *   souvent plus de 3 M$ selon le quartier, plex médian à 880 000 $ [Centris].
+ *   Le modèle prend 700 000 $, et le conclusion tient aussi à ce prix-là.
  * - Hypothèque commerciale : mise de fonds de 20 % à 30 %, taux de 6 % à 8 %
  *   fin 2025, amortissement de 20 à 25 ans [Desjardins, LendCity].
  * - Salle au tarif communautaire : 85 $ le bloc de 4 h [Centre St-Pierre].
@@ -167,13 +168,16 @@ export const COSTS = {
  * organismes communautaires.
  */
 export const BUILDING = {
-  price: 500_000,
+  /** Montreal, petit local commercial. Les annonces partent de 400 000 $ et
+   *  depassent souvent 3 M$ selon le quartier ; le plex median est a 880 000 $.
+   *  700 000 $ est un choix prudent au milieu de la fourchette basse. */
+  price: 700_000,
   downPayment: 0.25,
   rate: 0.07,
   years: 25,
-  taxes: 12_000,
-  insurance: 4000,
-  upkeep: 12_000,
+  taxes: 16_000,
+  insurance: 5000,
+  upkeep: 14_000,
   /** Heures louées à des tiers par semaine, hors de nos heures. [hypothèse] */
   subletHoursPerWeek: 30,
   subletRate: 30,

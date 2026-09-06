@@ -37,10 +37,15 @@ export type Slide = {
 export const SLIDES: Slide[] = [
   {
     eyebrow: "MuslimHacks 2026 · Défi 04",
-    title: "Elle a payé 1 800 $ et son fils n'a gagné aucune unité",
-    lede: "Une mère apprend en avril que l'inscription aux évaluations fermait le 1er mars.",
-    say: "Ouvrir là-dessus, lentement. Pas de statistique en ouverture. Une personne, un mois, une conséquence chiffrée. À remplacer par la vraie famille rencontrée sur place.",
-    source: "À remplacer par une citation réelle.",
+    title: "« Il n'y a pas de cloche qui met fin à mon quart de travail »",
+    lede: "Une mère qui fait l'école à la maison, sur r/homeschool.",
+    bullets: [
+      "« Ce qui m'a prise par surprise, c'est la charge mentale d'être responsable de tout, tout le temps. »",
+      "Elle est l'enseignante, la surveillante, la secrétaire et l'archiviste.",
+      "Personne ne prend le relais.",
+    ],
+    say: "Le dire lentement, puis marquer une seconde avant la dernière phrase : nous, on sonne la cloche.",
+    source: "r/homeschool. Témoignage réel, cité mot à mot.",
   },
 
   {
@@ -103,6 +108,24 @@ export const SLIDES: Slide[] = [
   },
 
   {
+    eyebrow: "Le besoin",
+    title: "Les cinq raisons pour lesquelles les familles abandonnent",
+    lede: "Documentées sur r/homeschool et r/HomeschoolRecovery. On les règle une par une.",
+    table: {
+      head: ["Pourquoi elles arrêtent", "Ce qu'on fait"],
+      rows: [
+        { label: "L'épuisement du parent", values: ["On prend les heures d'enseignement et la paperasse"], tone: "good" },
+        { label: "La socialisation", values: ["Cohorte, encadrement et activités, chaque jour de présence"], tone: "good" },
+        { label: "Les maths et sciences qu'il ne peut pas enseigner", values: ["Un instructeur les enseigne"], tone: "good" },
+        { label: "Le retard découvert trop tard", values: ["Le tableau dit quelle compétence n'a aucune trace"], tone: "good" },
+        { label: "Les heures de travail qui augmentent", values: ["On vend la journée, pas cinq heures par semaine"], tone: "good" },
+      ],
+    },
+    say: "C'est le seul endroit du pitch où on répond à un besoin documenté plutôt qu'imaginé. Ne pas l'improviser.",
+    source: "r/homeschool, r/HomeschoolRecovery.",
+  },
+
+  {
     eyebrow: "Démonstration",
     title: "Ce qui tourne, en direct",
     bullets: [
@@ -145,9 +168,10 @@ export const SLIDES: Slide[] = [
       ],
     },
     bullets: [
-      "Un camp de jour privé coûte pareil et n'enseigne rien.",
-      "L'école privée subventionnée : 2 500 à 5 000 $, avec 60 % payé par l'État.",
-      "Un tuteur privé : 45 $ de l'heure, pour un enfant.",
+      "Les Apprenants Épanouis, le seul comparable québécois : 13,33 $/h, six enfants par groupe.",
+      "Nous : le même prix de l'heure avec quatre enfants, plus la garde, les activités et le bilan.",
+      "Un tuteur privé : 40 à 60 $ de l'heure, pour un enfant.",
+      "Un camp de jour privé : 200 $ la semaine, et il n'enseigne rien.",
     ],
     say: "L'admissibilité de nos heures d'encadrement au relevé 24 n'est pas confirmée. Je le dis avant qu'on le demande. Dans l'app, c'est un menu déroulant : mettez-le à zéro, nos coûts ne changent pas.",
     source: "Le relevé 24 est produit par une garderie, un pensionnat, une colonie de vacances ou un camp de jour. Question à poser à Revenu Québec.",
