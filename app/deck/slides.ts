@@ -32,12 +32,19 @@ export type Slide = {
   demo?: string;
   /** Source ou étiquette d'hypothèse, en pied de slide. */
   source?: string;
+  /**
+   * Une image, depuis public/deck/. Écris juste le nom du fichier.
+   * `full` la met en fond plein cadre avec le texte par-dessus.
+   * `side` la met à droite, moitié de l'écran.
+   */
+  image?: { file: string; mode: "full" | "side"; alt: string };
 };
 
 export const SLIDES: Slide[] = [
   {
     eyebrow: "MuslimHacks 2026 · Défi 04",
     title: "« Il n'y a pas de cloche qui met fin à mon quart de travail »",
+    image: { file: "cuisine.jpg", mode: "full", alt: "Une mère et son enfant travaillent à la table de cuisine, le soir" },
     lede: "Une mère qui fait l'école à la maison, sur r/homeschool.",
     bullets: [
       "« Ce qui m'a prise par surprise, c'est la charge mentale d'être responsable de tout, tout le temps. »",
@@ -93,6 +100,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "L'offre",
     title: "On vend la journée, pas l'heure",
+    image: { file: "cohorte.jpg", mode: "side", alt: "Quatre enfants autour d'une table avec un instructeur" },
     lede: "Deux journées complètes par semaine, 9 h à 15 h, 36 semaines.",
     table: {
       head: ["Ligne", "Prix / an", "Crédit d'impôt"],
@@ -110,6 +118,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "Le besoin",
     title: "Les cinq raisons pour lesquelles les familles abandonnent",
+    image: { file: "fatigue.jpg", mode: "side", alt: "Un parent épuisé devant des papiers" },
     lede: "Documentées sur r/homeschool et r/HomeschoolRecovery. On les règle une par une.",
     table: {
       head: ["Pourquoi elles arrêtent", "Ce qu'on fait"],
@@ -180,6 +189,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "Viabilité 3 sur 3",
     title: "On achète le local au lieu de le louer",
+    image: { file: "salle.jpg", mode: "side", alt: "Une salle communautaire vide en semaine" },
     lede: "Le loyer monte avec chaque instructeur. Une hypothèque, non.",
     table: {
       head: ["Coût du local", "16 enfants", "48", "96"],
@@ -259,6 +269,7 @@ export const SLIDES: Slide[] = [
   {
     eyebrow: "La demande",
     title: "Lundi, on vend la conformité",
+    image: { file: "porte.jpg", mode: "full", alt: "La porte d'un centre communautaire" },
     bullets: [
       "Elle se vend partout au Québec, sans local et sans permis.",
       "Il nous faut un organisme avec des salles vides le mardi.",

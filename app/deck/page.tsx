@@ -50,9 +50,23 @@ export default function DeckPage() {
         ? "text-red-700 dark:text-red-400"
         : "";
 
+  const full = s.image?.mode === "full";
+  const side = s.image?.mode === "side";
+
   return (
-    <div className="flex min-h-[calc(100vh-3rem)] flex-col">
-      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-8 py-8">
+    <div className="relative flex min-h-[calc(100vh-3rem)] flex-col">
+      {/* Image plein cadre : le texte passe par-dessus, donc il faut un voile
+          assez opaque pour rester lisible sur n'importe quelle photo. */}
+      {full && s.image && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`/deck/${s.image.file}`} alt={s.image.alt}
+            className="absolute inset-0 -z-20 size-full object-cover" />
+          <div className="absolute inset-0 -z-10 bg-white/80 dark:bg-neutral-950/80" />
+        </>
+      )}
+      <div className={`mx-auto flex w-full max-w-5xl flex-1 px-8 py-8 ${side ? "gap-10" : ""}`}>
+      <div className="flex flex-1 flex-col">
         <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">{s.eyebrow}</p>
 
         <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-balance sm:text-5xl">
@@ -130,6 +144,15 @@ export default function DeckPage() {
         <div className="flex-1" />
 
         {s.source && <p className="mt-8 max-w-3xl text-xs text-neutral-500">{s.source}</p>}
+      </div>
+
+      {side && s.image && (
+        <div className="hidden w-2/5 shrink-0 lg:block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`/deck/${s.image.file}`} alt={s.image.alt}
+            className="size-full rounded object-cover" />
+        </div>
+      )}
       </div>
 
       {/* Les notes ne sont visibles que si tu les ouvres. La salle voit le slide. */}

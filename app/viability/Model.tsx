@@ -20,6 +20,7 @@ import {
   subletRevenue,
   type Occupancy,
 } from "../lib/economics";
+import { HourlyBars, SpaceBars, Waterfall } from "./Charts";
 
 const SCENARIOS: Occupancy[] = ["partenaire", "marche", "achat"];
 
@@ -188,26 +189,13 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           Si une heure ne rapporte pas, aucune échelle ne sauve l&apos;entreprise. Elle accélère la
           perte.
         </p>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {[
-            ["Enseignement, 4 élèves", h.teaching],
-            ["Encadrement, 4 élèves", h.care4],
-            ["Encadrement, 8 élèves", h.care8],
-          ].map(([label, m]) => {
-            const v = m as { revenue: number; cost: number; margin: number };
-            return (
-              <div key={String(label)} className="border-l-2 border-neutral-300 pl-3 dark:border-neutral-700">
-                <p className="text-xs text-neutral-500">{String(label)}</p>
-                <p className={`font-mono text-xl tabular-nums ${TONE(v.margin)}`}>
-                  +{v.margin.toFixed(2)} $/h
-                </p>
-                <p className="font-mono text-xs text-neutral-500">
-                  {v.revenue.toFixed(2)} reçus − {v.cost.toFixed(2)} payés
-                </p>
-              </div>
-            );
-          })}
-        </div>
+        <HourlyBars
+          rows={[
+            { label: "Enseignement, 4 élèves", ...h.teaching },
+            { label: "Encadrement, 4 élèves", ...h.care4 },
+            { label: "Encadrement, 8 élèves", ...h.care8 },
+          ]}
+        />
       </section>
 
       {/* 2. Ce que le parent paie vraiment. */}
@@ -221,28 +209,14 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           selon le revenu, jusqu&apos;à {money(CREDIT.care.ceiling)} par enfant de 7 à 13 ans.
         </p>
 
-        <dl className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div>
-            <dt className="text-xs text-neutral-500">Facturé</dt>
-            <dd className="font-mono text-xl tabular-nums">{money(bill.billed)}</dd>
-          </div>
-          <div>
-            <dt className="text-xs text-neutral-500">Crédit garde</dt>
-            <dd className="font-mono text-xl tabular-nums text-green-700 dark:text-green-400">
-              −{money(bill.creditCare)}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs text-neutral-500">Crédit activités</dt>
-            <dd className="font-mono text-xl tabular-nums text-green-700 dark:text-green-400">
-              −{money(bill.creditActivities)}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs text-neutral-500">Coût net</dt>
-            <dd className="font-mono text-xl font-bold tabular-nums">{money(bill.net)}</dd>
-          </div>
-        </dl>
+        <div className="mt-4">
+          <Waterfall
+            billed={bill.billed}
+            creditCare={bill.creditCare}
+            creditActivities={bill.creditActivities}
+            net={bill.net}
+          />
+        </div>
 
         <p className="mt-3 font-mono text-sm">
           {bill.netPerDay.toFixed(0)} $ par journée
@@ -294,7 +268,19 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           Et notre programme occupe le bâtiment aux heures dont personne ne veut : le soir et la fin
           de semaine se louent.
         </p>
-        <div className="overflow-x-auto">
+        <SpaceBars
+          data={[16, 48, 96].map((c) => {
+            const i = Math.ceil(c / 16);
+            return {
+              children: c,
+              marche: rentCost(i, "marche"),
+              partenaire: rentCost(i, "partenaire"),
+              achat: rentCost(i, "achat"),
+            };
+          })}
+        />
+
+        <div className="mt-6 overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-neutral-400 text-left text-xs uppercase tracking-wider text-neutral-500 dark:border-neutral-600">

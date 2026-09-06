@@ -1,0 +1,14 @@
+Depose les images ici. Juste le nom du fichier dans app/deck/slides.ts.
+
+  cuisine.jpg  slide 1   plein cadre  une mere et son enfant a la table de cuisine, le soir
+  cohorte.jpg  slide 5   a droite     quatre enfants autour d'une table avec un instructeur
+  fatigue.jpg  slide 6   a droite     un parent epuise devant des papiers
+  salle.jpg    slide 10  a droite     une salle communautaire vide en semaine
+  porte.jpg    slide 13  plein cadre  la porte d'un centre communautaire
+
+Plein cadre : 1920x1080 minimum, sujet decentre, le texte passe par-dessus
+avec un voile blanc ou noir a 80 %.
+A droite : 900x1200, portrait.
+
+Pour en ajouter une, ouvre app/deck/slides.ts et ecris dans le slide :
+  image: { file: "monfichier.jpg", mode: "side", alt: "description" },
