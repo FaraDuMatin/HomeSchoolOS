@@ -148,7 +148,7 @@ export default async function HorairePage(props: { searchParams: Promise<{ e?: s
             className="grid gap-x-2"
             style={{
               gridTemplateColumns: "56px repeat(5, minmax(0, 1fr))",
-              gridTemplateRows: `repeat(${ROWS}, 13px)`,
+              gridTemplateRows: `repeat(${ROWS}, 15px)`,
             }}
           >
             {/* L'axe des heures, et un filet par heure sur toute la largeur. */}
@@ -177,7 +177,7 @@ export default async function HorairePage(props: { searchParams: Promise<{ e?: s
                 return (
                   <div
                     key={b.id}
-                    className={`overflow-hidden rounded-sm border-l-4 px-2 py-1 ${KIND_STYLE[b.kind]}`}
+                    className={`mb-1 overflow-hidden rounded-md border-l-4 px-2.5 py-1.5 ${KIND_STYLE[b.kind]}`}
                     style={{ gridColumn: di + 2, ...span(b) }}
                   >
                     <div className="flex items-baseline gap-2">
