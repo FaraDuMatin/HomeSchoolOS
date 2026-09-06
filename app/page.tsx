@@ -11,51 +11,6 @@ import Link from "next/link";
  * reprend à la fin, quand tout le reste fonctionne.
  */
 
-const ROLES = [
-  {
-    href: "/cohorts",
-    role: "Gestionnaire",
-    label: "Cohortes",
-    what: "Quatre élèves par instructeur, refusé au cinquième. La loi est dans la base de données, pas dans une politique.",
-  },
-  {
-    href: "/sessions",
-    role: "Instructeur",
-    label: "Blocs",
-    what: "Ouvrir un bloc, pointer les présences, cocher les exercices. Chaque geste devient un événement horodaté.",
-  },
-  {
-    href: "/supervisor",
-    role: "Enseignant breveté",
-    label: "Supervision",
-    what: "Quatre instructeurs vus d'un coup. Des comptes, pas le jugement d'un modèle.",
-  },
-  {
-    href: "/parent",
-    role: "Parent",
-    label: "Espace parent",
-    what: "La progression de l'enfant, et le bouton qui génère le bilan exigé par le ministère.",
-  },
-  {
-    href: "/obligations",
-    role: "Parent",
-    label: "Échéances",
-    what: "Huit documents, deux organismes, huit dates. Rater une date annule la reconnaissance de l'année.",
-  },
-  {
-    href: "/privacy",
-    role: "Parent",
-    label: "Confidentialité",
-    what: "Consentement, durée de conservation, et une suppression qui supprime pour de vrai.",
-  },
-  {
-    href: "/viability",
-    role: "Direction",
-    label: "Viabilité",
-    what: "Le compte d'un site, recalculé en direct. Local prêté contre local loué.",
-  },
-];
-
 export default function Home() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
@@ -78,32 +33,6 @@ export default function Home() {
           l&apos;éducateur légal.
         </p>
       </header>
-
-      <section className="mb-10">
-        <h2 className="mb-4 font-mono text-xs uppercase tracking-wider text-neutral-500">
-          Les écrans, par rôle
-        </h2>
-        <ul className="grid gap-1">
-          {ROLES.map((r) => (
-            <li key={r.href}>
-              <Link
-                href={r.href}
-                className="block border-b border-neutral-200 py-3 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
-              >
-                <div className="flex flex-wrap items-baseline gap-x-3">
-                  <span className="font-medium">{r.label}</span>
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400">
-                    {r.role}
-                  </span>
-                </div>
-                <p className="mt-1 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
-                  {r.what}
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
 
       {/* L'ordre de la démo, pour ne pas avoir à s'en souvenir sur scène. */}
       <section className="mb-10 rounded border border-neutral-200 p-5 dark:border-neutral-800">
@@ -135,6 +64,11 @@ export default function Home() {
           Écrit au complet pendant la fin de semaine, sans réutiliser de code existant. Base locale,
           aucun réseau requis. L&apos;enregistrement des séances n&apos;est pas branché : les segments
           de transcription présents dans la démonstration sont des données de test.
+        </p>
+        <p className="mt-3">
+          <Link href="/routes" className="underline underline-offset-2">
+            Index de toutes les pages
+          </Link>
         </p>
       </footer>
     </main>
