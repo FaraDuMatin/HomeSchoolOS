@@ -11,7 +11,7 @@ export function PrintButton() {
   return (
     <button
       onClick={() => window.print()}
-      className="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-neutral-900"
+      className="rounded bg-ink px-4 py-2 text-sm font-medium text-bg dark:bg-surface dark:text-bg"
     >
       Imprimer ou enregistrer en PDF
     </button>
@@ -44,7 +44,7 @@ export function WordButton({ filename }: { filename: string }) {
   return (
     <button
       onClick={download}
-      className="rounded border border-neutral-400 px-4 py-2 text-sm dark:border-neutral-600"
+      className="rounded border border-rule px-4 py-2 text-sm dark:border-rule"
     >
       Exporter en Word
     </button>

@@ -1,26 +1,146 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/**
+ * Les jetons de couleur.
+ *
+ * Ils viennent de la maquette produite dans Claude Design. Chaque couleur est
+ * definie deux fois, une fois en clair et une fois en sombre, et JAMAIS ailleurs
+ * qu'ici : une page qui ecrit une couleur en dur casse le theme sombre sans
+ * qu'on s'en apercoive avant la projection.
+ *
+ * Les trois couleurs semantiques (fait, en retard, bientot) ne servent qu'a dire
+ * un etat. Elles ne sont jamais decoratives, sinon un rouge ornemental se lit
+ * comme un retard a trois metres.
+ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --bg: #f7fbfe;
+  --surface: #ffffff;
+  --surface-2: #eef6fc;
+  --ink: #213543;
+  --ink-2: #6e8698;
+  --rule: #d6e8f5;
+  --rule-soft: #e6f1f9;
+  --accent: #6fb3dd;
+  --accent-soft: #eaf4fc;
+
+  --grad-page: linear-gradient(180deg, #fbfdff 0%, #eef6fc 100%);
+  --grad-surface: linear-gradient(165deg, #ffffff 0%, #f6fbfe 100%);
+  --grad-panel: linear-gradient(180deg, #f4fafd 0%, #e9f3fb 100%);
+  --grad-accent: linear-gradient(165deg, #f2f9fe 0%, #e2f0fa 100%);
+
+  --sem-done: #0f7a52;
+  --sem-late: #c2190a;
+  --sem-soon: #8f5c00;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #1d2835;
+    --surface: #243342;
+    --surface-2: #2a3a4a;
+    --ink: #edf5fb;
+    --ink-2: #a6bccd;
+    --rule: #41576c;
+    --rule-soft: #374b5e;
+    --accent: #9ed2f2;
+    --accent-soft: #2e4356;
+
+    --grad-page: linear-gradient(180deg, #22303e 0%, #1a2431 100%);
+    --grad-surface: linear-gradient(165deg, #273747 0%, #223140 100%);
+    --grad-panel: linear-gradient(180deg, #2b3c4c 0%, #243342 100%);
+    --grad-accent: linear-gradient(165deg, #2f4556 0%, #283a49 100%);
+
+    --sem-done: #4fd3a0;
+    --sem-late: #ff7d67;
+    --sem-soon: #e8b355;
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-done: var(--sem-done);
+  --color-late: var(--sem-late);
+  --color-soon: var(--sem-soon);
+
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-geist-mono);
+
+  --radius: 11px;
+  --radius-sm: 11px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--grad-page);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Les titres portent la graisse 800 de la maquette. Ecrit ici une fois plutot
+   que repete sur chaque page. */
+h1, h2 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--accent) 24%, transparent);
+}
+
+/* Le bloc de contenu de la maquette : un degrade tres doux, un filet de 2 px,
+   des coins larges. Trois pages l'utilisent, donc il vit ici. */
+.card {
+  background: var(--grad-surface);
+  border: 2px solid var(--rule);
+  border-radius: var(--radius-lg);
+}
+
+.panel {
+  background: var(--grad-panel);
+  border: 2px solid var(--rule-soft);
+  border-radius: var(--radius-lg);
+}
+
+/* L'etiquette en petites capitales espacees. La maquette ne se sert pas d'une
+   police a chasse fixe pour ca : c'est l'espacement qui fait l'etiquette. */
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+/* Le grand chiffre. Tabulaire, sinon les colonnes de nombres dansent. */
+.stat {
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
 }

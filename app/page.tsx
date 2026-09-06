@@ -14,26 +14,26 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-10 border-b-2 border-neutral-900 pb-6 dark:border-neutral-100">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+      <header className="mb-10 border-b-2 border-ink pb-6 dark:border-ink">
+        <p className="eyebrow">
           HomeSchoolOs · MuslimHacks 2026 · Défi 04
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">
           Une séance qui devient un document légal
         </h1>
-        <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
+        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
           8 700 enfants scolarisés à la maison au Québec. Le parent doit déposer un bilan couvrant
           toutes les compétences du programme, et beaucoup ne peuvent pas enseigner.
         </p>
-        <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
+        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
           Ici, quatre enfants et un instructeur dans une salle communautaire prêtée. Rien du bilan
           n&apos;est saisi à la main. Le parent reste l&apos;éducateur légal.
         </p>
       </header>
 
       {/* L'ordre de la démo, pour ne pas avoir à s'en souvenir sur scène. */}
-      <section className="mb-10 rounded border border-neutral-200 p-5 dark:border-neutral-800">
-        <h2 className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+      <section className="mb-10 rounded border border-rule p-5 dark:border-rule">
+        <h2 className="eyebrow">
           Ordre de la démonstration
         </h2>
         <ol className="mt-3 grid gap-2 text-sm">
@@ -46,17 +46,17 @@ export default function Home() {
             ["Confidentialité", "supprimer, le compteur tombe à zéro"],
           ].map(([where, what], i) => (
             <li key={where} className="flex gap-3">
-              <span className="font-mono text-xs tabular-nums text-neutral-400">{i + 1}</span>
+              <span className="font-mono text-xs tabular-nums text-ink-2">{i + 1}</span>
               <span>
                 <span className="font-medium">{where}</span>
-                <span className="text-neutral-600 dark:text-neutral-400"> — {what}</span>
+                <span className="text-ink-2 dark:text-ink-2"> — {what}</span>
               </span>
             </li>
           ))}
         </ol>
       </section>
 
-      <footer className="border-t border-neutral-200 pt-6 text-sm text-neutral-500 dark:border-neutral-800">
+      <footer className="border-t border-rule pt-6 text-sm text-ink-2 dark:border-rule">
         <p className="max-w-prose text-xs">
           Écrit pendant la fin de semaine, sans code réutilisé. Base locale, aucun réseau.
           L&apos;enregistrement des séances n&apos;est pas branché.

@@ -16,14 +16,14 @@ export default async function CohortsPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-10 border-b-2 border-neutral-900 pb-6 dark:border-neutral-100">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+      <header className="mb-10 border-b-2 border-ink pb-6 dark:border-ink">
+        <p className="eyebrow">
           HomeSchoolOs · Cohortes
         </p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight">
           Quatre élèves, jamais cinq
         </h1>
-        <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
+        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
           La Loi sur l&apos;enseignement privé exempte de permis une personne qui enseigne seule à
           moins de cinq élèves à la fois. Ce plafond n&apos;est pas une politique interne, il est
           appliqué par le code à chaque inscription.
@@ -37,20 +37,20 @@ export default async function CohortsPage() {
         return (
           <section
             key={cohort.id}
-            className="mb-8 rounded border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-950"
+            className="mb-8 rounded border border-rule bg-surface p-6 dark:border-rule dark:bg-ink"
           >
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <h2 className="text-xl font-semibold">{cohort.name}</h2>
               <span
                 className={`font-mono text-sm tabular-nums ${
-                  full ? "text-red-600 dark:text-red-400" : "text-neutral-500"
+                  full ? "text-late" : "text-ink-2"
                 }`}
               >
                 {size} / {LEGAL_COHORT_CAP}
               </span>
             </div>
 
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-1 text-sm text-ink-2">
               {cohort.gradeBand} · Instructeur {cohort.instructor.name}
               {cohort.supervisor && ` · Supervision ${cohort.supervisor.name}`}
             </p>
@@ -59,7 +59,7 @@ export default async function CohortsPage() {
               {cohort.members.map((m) => (
                 <li
                   key={m.id}
-                  className="rounded border border-neutral-200 px-3 py-2 text-sm dark:border-neutral-800"
+                  className="rounded border border-rule px-3 py-2 text-sm dark:border-rule"
                 >
                   {m.student.name}
                 </li>
@@ -67,7 +67,7 @@ export default async function CohortsPage() {
               {Array.from({ length: LEGAL_COHORT_CAP - size }).map((_, i) => (
                 <li
                   key={`empty-${i}`}
-                  className="rounded border border-dashed border-neutral-300 px-3 py-2 text-sm text-neutral-400 dark:border-neutral-700"
+                  className="rounded border border-dashed border-rule px-3 py-2 text-sm text-ink-2 dark:border-rule"
                 >
                   Place libre
                 </li>

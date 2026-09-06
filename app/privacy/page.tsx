@@ -33,7 +33,7 @@ export default async function PrivacyPage() {
   if (!parent) {
     return (
       <main className="mx-auto max-w-2xl px-6 py-24">
-        <p className="text-neutral-500">Aucun parent dans les données. Relancez le seed.</p>
+        <p className="text-ink-2">Aucun parent dans les données. Relancez le seed.</p>
       </main>
     );
   }
@@ -42,18 +42,18 @@ export default async function PrivacyPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-8 border-b-2 border-neutral-900 pb-6 dark:border-neutral-100">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+      <header className="mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+        <p className="eyebrow">
           HomeSchoolOs · Confidentialité
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">
           On enregistre la voix d&apos;un enfant
         </h1>
-        <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
+        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
           Loi 25 : consentement du parent, durée de conservation annoncée, effacement réel.
         </p>
-        <p className="mt-3 max-w-prose rounded border border-neutral-200 p-3 text-sm text-neutral-600 dark:border-neutral-800 dark:text-neutral-400">
-          <span className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+        <p className="mt-3 max-w-prose rounded border border-rule p-3 text-sm text-ink-2 dark:border-rule dark:text-ink-2">
+          <span className="eyebrow">
             À quoi vous consentez :{" "}
           </span>
           {PURPOSE}
@@ -63,13 +63,13 @@ export default async function PrivacyPage() {
       {views.map((v) => (
         <section
           key={v.student.id}
-          className="mb-8 rounded border border-neutral-200 p-6 dark:border-neutral-800"
+          className="mb-8 rounded border border-rule p-6 dark:border-rule"
         >
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <h2 className="text-xl font-semibold">{v.student.name}</h2>
             <span
               className={`font-mono text-xs uppercase tracking-wider ${
-                v.granted ? "text-green-700 dark:text-green-400" : "text-neutral-500"
+                v.granted ? "text-done" : "text-ink-2"
               }`}
             >
               {v.granted ? "Enregistrement autorisé" : "Enregistrement interdit"}
@@ -77,17 +77,17 @@ export default async function PrivacyPage() {
           </div>
 
           {/* 1. Consentement. Le défaut est non, et le bouton dit ce qui change. */}
-          <div className="mt-5 border-l-2 border-neutral-300 pl-4 dark:border-neutral-700">
-            <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+          <div className="mt-5 border-l-2 border-rule pl-4 dark:border-rule">
+            <p className="eyebrow">
               1 · Consentement
             </p>
-            <p className="mt-2 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
+            <p className="mt-2 max-w-prose text-sm text-ink-2 dark:text-ink-2">
               {v.granted
                 ? "Retirable en tout temps, sans justification."
                 : "État par défaut : rien n'est enregistré tant que vous n'avez rien accordé."}
             </p>
             {v.decidedAt && (
-              <p className="mt-1 font-mono text-xs text-neutral-500">
+              <p className="mt-1 font-mono text-xs text-ink-2">
                 Dernière décision le {day.format(v.decidedAt)}
               </p>
             )}
@@ -98,8 +98,8 @@ export default async function PrivacyPage() {
                 type="submit"
                 className={
                   v.granted
-                    ? "rounded border border-neutral-400 px-3 py-1.5 text-sm dark:border-neutral-600"
-                    : "rounded bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white dark:bg-white dark:text-neutral-900"
+                    ? "rounded border border-rule px-3 py-1.5 text-sm dark:border-rule"
+                    : "rounded bg-ink px-3 py-1.5 text-sm font-medium text-bg dark:bg-surface dark:text-bg"
                 }
               >
                 {v.granted ? "Retirer mon consentement" : "J'autorise l'enregistrement"}
@@ -108,11 +108,11 @@ export default async function PrivacyPage() {
           </div>
 
           {/* 2. Conservation. Un nombre affiché, et modifiable vers le bas. */}
-          <div className="mt-6 border-l-2 border-neutral-300 pl-4 dark:border-neutral-700">
-            <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+          <div className="mt-6 border-l-2 border-rule pl-4 dark:border-rule">
+            <p className="eyebrow">
               2 · Durée de conservation
             </p>
-            <p className="mt-2 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
+            <p className="mt-2 max-w-prose text-sm text-ink-2 dark:text-ink-2">
               Destruction après <span className="font-mono tabular-nums">{v.retentionDays}</span>{" "}
               jours.
             </p>
@@ -126,8 +126,8 @@ export default async function PrivacyPage() {
                     disabled={d === v.retentionDays}
                     className={
                       d === v.retentionDays
-                        ? "rounded bg-neutral-900 px-3 py-1 font-mono text-xs text-white dark:bg-white dark:text-neutral-900"
-                        : "rounded border border-neutral-300 px-3 py-1 font-mono text-xs hover:border-neutral-900 dark:border-neutral-700 dark:hover:border-neutral-100"
+                        ? "rounded bg-ink px-3 py-1 font-mono text-xs text-bg dark:bg-surface dark:text-bg"
+                        : "rounded border border-rule px-3 py-1 font-mono text-xs hover:border-ink dark:border-rule dark:hover:border-rule"
                     }
                   >
                     {d} j
@@ -138,28 +138,28 @@ export default async function PrivacyPage() {
           </div>
 
           {/* 3. Ce qui est détenu, et les deux façons de le détruire. */}
-          <div className="mt-6 border-l-2 border-neutral-300 pl-4 dark:border-neutral-700">
-            <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+          <div className="mt-6 border-l-2 border-rule pl-4 dark:border-rule">
+            <p className="eyebrow">
               3 · Ce que nous détenons en ce moment
             </p>
 
             <dl className="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-3">
               <div>
-                <dt className="text-xs text-neutral-500">Segments conservés</dt>
+                <dt className="text-xs text-ink-2">Segments conservés</dt>
                 <dd className="font-mono text-xl tabular-nums">{v.segments}</dd>
               </div>
               <div>
-                <dt className="text-xs text-neutral-500">Au-delà de la durée</dt>
+                <dt className="text-xs text-ink-2">Au-delà de la durée</dt>
                 <dd
                   className={`font-mono text-xl tabular-nums ${
-                    v.expired > 0 ? "text-amber-700 dark:text-amber-500" : ""
+                    v.expired > 0 ? "text-soon" : ""
                   }`}
                 >
                   {v.expired}
                 </dd>
               </div>
               <div>
-                <dt className="text-xs text-neutral-500">Plus ancien</dt>
+                <dt className="text-xs text-ink-2">Plus ancien</dt>
                 <dd className="font-mono text-sm tabular-nums">
                   {v.oldest ? day.format(v.oldest) : "—"}
                 </dd>
@@ -172,7 +172,7 @@ export default async function PrivacyPage() {
                 <button
                   type="submit"
                   disabled={v.expired === 0}
-                  className="rounded border border-neutral-400 px-3 py-1.5 text-sm disabled:opacity-40 dark:border-neutral-600"
+                  className="rounded border border-rule px-3 py-1.5 text-sm disabled:opacity-40 dark:border-rule"
                 >
                   Appliquer la conservation maintenant
                 </button>
@@ -181,11 +181,11 @@ export default async function PrivacyPage() {
               {/* Deux clics pour un geste irréversible. Le premier ouvre, le
                   second exécute, et le texte dit ce qui disparaît. */}
               <details className="group">
-                <summary className="cursor-pointer list-none rounded border border-red-600 px-3 py-1.5 text-sm text-red-700 dark:text-red-400">
+                <summary className="cursor-pointer list-none rounded border border-late px-3 py-1.5 text-sm text-late">
                   Supprimer toutes les transcriptions
                 </summary>
-                <div className="mt-3 max-w-prose rounded border border-red-600 p-3">
-                  <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                <div className="mt-3 max-w-prose rounded border border-late p-3">
+                  <p className="text-sm text-ink dark:text-ink-2">
                     {v.segments} segments détruits. Irréversible. Présences, exercices et bilans
                     intacts.
                   </p>
@@ -193,7 +193,7 @@ export default async function PrivacyPage() {
                     <input type="hidden" name="studentId" value={v.student.id} />
                     <button
                       type="submit"
-                      className="rounded bg-red-700 px-3 py-1.5 text-sm font-medium text-white"
+                      className="rounded bg-late px-3 py-1.5 text-sm font-medium text-bg"
                     >
                       Oui, supprimer les {v.segments} segments
                     </button>
@@ -202,45 +202,45 @@ export default async function PrivacyPage() {
               </details>
             </div>
 
-            <p className="mt-3 max-w-prose text-xs text-neutral-500">
+            <p className="mt-3 max-w-prose text-xs text-ink-2">
               Retirer le consentement arrête les enregistrements futurs. Ça ne supprime pas ce qui
               existe déjà : les deux gestes sont séparés.
             </p>
           </div>
 
           {/* 4. La preuve. Un bouton sans trace est invérifiable. */}
-          <div className="mt-6 border-l-2 border-neutral-300 pl-4 dark:border-neutral-700">
-            <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+          <div className="mt-6 border-l-2 border-rule pl-4 dark:border-rule">
+            <p className="eyebrow">
               4 · Registre des gestes
             </p>
             {v.events.length === 0 ? (
-              <p className="mt-2 text-sm text-neutral-500">Aucun geste enregistré.</p>
+              <p className="mt-2 text-sm text-ink-2">Aucun geste enregistré.</p>
             ) : (
               <ul className="mt-2 grid gap-1">
                 {v.events.map((e) => (
                   <li
                     key={e.id}
-                    className="flex flex-wrap items-baseline gap-x-3 border-b border-neutral-200 py-1.5 text-sm dark:border-neutral-800"
+                    className="flex flex-wrap items-baseline gap-x-3 border-b border-rule py-1.5 text-sm dark:border-rule"
                   >
-                    <span className="font-mono text-xs tabular-nums text-neutral-500">
+                    <span className="font-mono text-xs tabular-nums text-ink-2">
                       {stamp.format(e.occurredAt)}
                     </span>
                     <span className="font-medium">{EVENT_LABEL[e.type] ?? e.type}</span>
                     {e.detail && (
-                      <span className="w-full text-xs text-neutral-500 sm:w-auto">{e.detail}</span>
+                      <span className="w-full text-xs text-ink-2 sm:w-auto">{e.detail}</span>
                     )}
                   </li>
                 ))}
               </ul>
             )}
-            <p className="mt-3 max-w-prose text-xs text-neutral-500">
+            <p className="mt-3 max-w-prose text-xs text-ink-2">
               Survit à la suppression des données qu&apos;il décrit.
             </p>
           </div>
         </section>
       ))}
 
-      <footer className="border-t border-neutral-200 pt-6 text-xs text-neutral-500 dark:border-neutral-800">
+      <footer className="border-t border-rule pt-6 text-xs text-ink-2 dark:border-rule">
         <p>Segments issus du jeu de données de test. Enregistrement pas encore branché.</p>
       </footer>
     </main>

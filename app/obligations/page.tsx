@@ -20,17 +20,17 @@ function countdown(row: ObligationRow): string {
 }
 
 const TONE: Record<ObligationRow["status"], string> = {
-  fait: "text-green-700 dark:text-green-400",
-  "en-retard": "text-red-700 dark:text-red-400",
-  bientot: "text-amber-700 dark:text-amber-500",
-  "a-venir": "text-neutral-500",
+  fait: "text-done",
+  "en-retard": "text-late",
+  bientot: "text-soon",
+  "a-venir": "text-ink-2",
 };
 
 const BORDER: Record<ObligationRow["status"], string> = {
-  fait: "border-green-600",
-  "en-retard": "border-red-600",
-  bientot: "border-amber-500",
-  "a-venir": "border-neutral-200 dark:border-neutral-800",
+  fait: "border-done",
+  "en-retard": "border-late",
+  bientot: "border-soon",
+  "a-venir": "border-rule dark:border-rule",
 };
 
 export default async function ObligationsPage(props: {
@@ -60,7 +60,7 @@ export default async function ObligationsPage(props: {
   if (!current) {
     return (
       <main className="mx-auto max-w-2xl px-6 py-24">
-        <p className="text-neutral-500">Aucun élève. Relancez le seed.</p>
+        <p className="text-ink-2">Aucun élève. Relancez le seed.</p>
       </main>
     );
   }
@@ -74,8 +74,8 @@ export default async function ObligationsPage(props: {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-6 border-b-2 border-neutral-900 pb-5 dark:border-neutral-100">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+      <header className="mb-6 border-b-2 border-ink pb-5 dark:border-ink">
+        <p className="eyebrow">
           HomeSchoolOs · Échéances {schoolYear}
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">
@@ -90,17 +90,17 @@ export default async function ObligationsPage(props: {
             href={`/obligations?e=${st.id}`}
             className={
               st.id === current.id
-                ? "rounded bg-neutral-900 px-3 py-1.5 text-sm text-white dark:bg-white dark:text-neutral-900"
-                : "rounded border border-neutral-300 px-3 py-1.5 text-sm hover:border-neutral-900 dark:border-neutral-700 dark:hover:border-neutral-100"
+                ? "rounded bg-ink px-3 py-1.5 text-sm text-bg dark:bg-surface dark:text-bg"
+                : "rounded border border-rule px-3 py-1.5 text-sm hover:border-ink dark:border-rule dark:hover:border-rule"
             }
           >
             {st.name}
           </Link>
         ))}
-        <span className="ml-auto font-mono text-xs tabular-nums text-neutral-500">
+        <span className="ml-auto font-mono text-xs tabular-nums text-ink-2">
           {s.done}/{s.total} envoyés
           {s.late > 0 && (
-            <span className="ml-2 text-red-700 dark:text-red-400">{s.late} en retard</span>
+            <span className="ml-2 text-late">{s.late} en retard</span>
           )}
         </span>
       </div>
@@ -112,13 +112,13 @@ export default async function ObligationsPage(props: {
           return (
             <li key={row.key} className={`border-l-2 ${BORDER[row.status]} py-2.5 pl-4`}>
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="w-28 shrink-0 font-mono text-xs text-neutral-500">
+                <span className="w-28 shrink-0 font-mono text-xs text-ink-2">
                   {row.legalDate}
                 </span>
-                <span className={`flex-1 ${done ? "text-neutral-500 line-through" : ""}`}>
+                <span className={`flex-1 ${done ? "text-ink-2 line-through" : ""}`}>
                   {row.label}
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400">
+                <span className="eyebrow text-[10px]">
                   {row.to === "Centre de services scolaire" ? "CSS" : "DEM"}
                 </span>
                 <span className={`w-28 text-right font-mono text-xs tabular-nums ${TONE[row.status]}`}>
@@ -131,7 +131,7 @@ export default async function ObligationsPage(props: {
                   <input type="hidden" name="done" value={done ? "false" : "true"} />
                   <button
                     type="submit"
-                    className="rounded border border-neutral-300 px-2 py-0.5 text-xs text-neutral-500 hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:hover:border-neutral-100 dark:hover:text-neutral-100"
+                    className="rounded border border-rule px-2 py-0.5 text-xs text-ink-2 hover:border-ink hover:text-ink dark:border-rule dark:hover:border-rule dark:hover:text-ink-2"
                   >
                     {done ? "Annuler" : "Envoyé"}
                   </button>
@@ -139,12 +139,12 @@ export default async function ObligationsPage(props: {
               </div>
 
               {row.status === "en-retard" && row.consequence && (
-                <p className="mt-1.5 max-w-prose text-sm text-red-700 dark:text-red-400">
+                <p className="mt-1.5 max-w-prose text-sm text-late">
                   {row.consequence}
                 </p>
               )}
               {isNext && row.status !== "en-retard" && (
-                <p className="mt-1.5 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
+                <p className="mt-1.5 max-w-prose text-sm text-ink-2 dark:text-ink-2">
                   {row.what}
                 </p>
               )}

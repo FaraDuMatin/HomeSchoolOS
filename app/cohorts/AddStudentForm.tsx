@@ -17,12 +17,12 @@ export function AddStudentForm({
   const [state, action, pending] = useActionState(addStudentAction, initial);
 
   return (
-    <form action={action} className="mt-4 border-t border-neutral-200 pt-4 dark:border-neutral-800">
+    <form action={action} className="mt-4 border-t border-rule pt-4 dark:border-rule">
       <input type="hidden" name="cohortId" value={cohortId} />
       <div className="flex flex-wrap items-center gap-2">
         <select
           name="studentId"
-          className="rounded border border-neutral-300 bg-white px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+          className="rounded border border-rule bg-surface px-3 py-2 text-sm dark:border-rule dark:bg-surface-2"
           defaultValue=""
         >
           <option value="" disabled>
@@ -37,12 +37,12 @@ export function AddStudentForm({
         <button
           type="submit"
           disabled={pending}
-          className="rounded bg-neutral-900 px-3 py-2 text-sm font-medium text-white disabled:opacity-50 dark:bg-white dark:text-neutral-900"
+          className="rounded bg-ink px-3 py-2 text-sm font-medium text-bg disabled:opacity-50 dark:bg-surface dark:text-bg"
         >
           {pending ? "Ajout…" : "Ajouter à la cohorte"}
         </button>
         {full && (
-          <span className="text-xs text-amber-700 dark:text-amber-500">
+          <span className="text-xs text-soon">
             Cohorte pleine. Essayez quand même, c&apos;est le point.
           </span>
         )}
@@ -52,10 +52,10 @@ export function AddStudentForm({
         <p
           className={
             state.legal
-              ? "mt-3 rounded border-l-4 border-red-600 bg-red-50 p-3 text-sm text-red-900 dark:bg-red-950/40 dark:text-red-200"
+              ? "mt-3 rounded border-l-4 border-late bg-late p-3 text-sm text-late bg-late/40"
               : state.ok
-                ? "mt-3 text-sm text-green-700 dark:text-green-400"
-                : "mt-3 text-sm text-red-700 dark:text-red-400"
+                ? "mt-3 text-sm text-done"
+                : "mt-3 text-sm text-late"
           }
         >
           {state.legal && (

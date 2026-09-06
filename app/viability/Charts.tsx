@@ -13,9 +13,9 @@ import { money } from "../lib/economics";
  * dépendance de plus est une dépendance qui peut casser le matin du pitch.
  */
 
-const GOOD = "fill-green-600";
-const BAD = "fill-red-600";
-const NEUTRAL = "fill-neutral-400 dark:fill-neutral-600";
+const GOOD = "fill-done";
+const BAD = "fill-late";
+const NEUTRAL = "fill-ink-2 dark:fill-ink-2";
 
 /**
  * Barres appariées : ce qu'on reçoit contre ce qu'on paie, pour chaque heure.
@@ -42,7 +42,7 @@ export function HourlyBars({
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full min-w-[520px]" role="img"
         aria-label="Revenu et coût de chaque heure travaillée">
         <line x1={PAD.l} x2={W - PAD.r} y1={H - PAD.b} y2={H - PAD.b}
-          className="stroke-neutral-300 dark:stroke-neutral-700" strokeWidth={1} />
+          className="stroke-rule dark:stroke-rule" strokeWidth={1} />
 
         {rows.map((r, i) => {
           const cx = PAD.l + band * i + band / 2;
@@ -54,28 +54,28 @@ export function HourlyBars({
               <rect x={cx + 5} y={yC} width={bw} height={h(r.cost)} className={NEUTRAL} />
 
               <text x={cx} y={yR - 12} textAnchor="middle"
-                className="fill-green-700 font-mono text-[15px] font-bold tabular-nums dark:fill-green-400">
+                className="fill-done font-mono text-[15px] font-bold tabular-nums">
                 +{r.margin.toFixed(2)} $
               </text>
               <text x={cx - bw / 2 - 5} y={yR - 1} textAnchor="middle"
-                className="fill-neutral-500 font-mono text-[10px] tabular-nums">
+                className="fill-ink-2 font-mono text-[10px] tabular-nums">
                 {r.revenue.toFixed(0)}
               </text>
               <text x={cx + bw / 2 + 5} y={yC - 1} textAnchor="middle"
-                className="fill-neutral-500 font-mono text-[10px] tabular-nums">
+                className="fill-ink-2 font-mono text-[10px] tabular-nums">
                 {r.cost.toFixed(0)}
               </text>
               <text x={cx} y={H - PAD.b + 16} textAnchor="middle"
-                className="fill-neutral-600 text-[11px] dark:fill-neutral-400">
+                className="fill-ink-2 text-[11px] dark:fill-ink-2">
                 {r.label}
               </text>
             </g>
           );
         })}
       </svg>
-      <div className="mt-1 flex flex-wrap justify-center gap-x-6 text-xs text-neutral-500">
-        <span className="flex items-center gap-2"><span className="inline-block size-2.5 bg-green-600" /> reçu par heure</span>
-        <span className="flex items-center gap-2"><span className="inline-block size-2.5 bg-neutral-400 dark:bg-neutral-600" /> payé par heure</span>
+      <div className="mt-1 flex flex-wrap justify-center gap-x-6 text-xs text-ink-2">
+        <span className="flex items-center gap-2"><span className="inline-block size-2.5 bg-done" /> reçu par heure</span>
+        <span className="flex items-center gap-2"><span className="inline-block size-2.5 bg-rule dark:bg-rule" /> payé par heure</span>
       </div>
     </div>
   );
@@ -109,7 +109,7 @@ export function Waterfall({
     { label: "Facturé", value: billed, top: base - h(billed), height: h(billed), cls: NEUTRAL, show: money(billed) },
     { label: "Crédit garde", value: creditCare, top: base - h(billed), height: h(creditCare), cls: GOOD, show: `−${money(creditCare)}` },
     { label: "Crédit activités", value: creditActivities, top: base - h(billed - creditCare), height: h(creditActivities), cls: GOOD, show: `−${money(creditActivities)}` },
-    { label: "Payé par le parent", value: net, top: base - h(net), height: h(net), cls: "fill-neutral-900 dark:fill-neutral-100", show: money(net) },
+    { label: "Payé par le parent", value: net, top: base - h(net), height: h(net), cls: "fill-ink dark:fill-ink", show: money(net) },
   ];
 
   const band = (W - PAD.l - PAD.r) / steps.length;
@@ -120,24 +120,24 @@ export function Waterfall({
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full min-w-[520px]" role="img"
         aria-label="Du montant facturé au montant payé par le parent, après crédits d'impôt">
         <line x1={PAD.l} x2={W - PAD.r} y1={base} y2={base}
-          className="stroke-neutral-300 dark:stroke-neutral-700" strokeWidth={1} />
+          className="stroke-rule dark:stroke-rule" strokeWidth={1} />
         {steps.map((s, i) => {
           const cx = PAD.l + band * i + band / 2;
           return (
             <g key={s.label}>
               <rect x={cx - bw / 2} y={s.top} width={bw} height={Math.max(s.height, 2)} className={s.cls} />
               <text x={cx} y={s.top - 8} textAnchor="middle"
-                className="fill-neutral-800 font-mono text-[13px] font-bold tabular-nums dark:fill-neutral-100">
+                className="fill-ink font-mono text-[13px] font-bold tabular-nums dark:fill-ink">
                 {s.show}
               </text>
               <text x={cx} y={H - PAD.b + 16} textAnchor="middle"
-                className="fill-neutral-600 text-[11px] dark:fill-neutral-400">
+                className="fill-ink-2 text-[11px] dark:fill-ink-2">
                 {s.label}
               </text>
               {i < steps.length - 1 && (
                 <line x1={cx + bw / 2} x2={cx + band - bw / 2} y1={s.top} y2={s.top}
                   strokeDasharray="3 3" strokeWidth={1}
-                  className="stroke-neutral-400 dark:stroke-neutral-600" />
+                  className="stroke-rule dark:stroke-rule" />
               )}
             </g>
           );
@@ -170,7 +170,7 @@ export function SpaceBars({
 
   const series: { key: "marche" | "partenaire" | "achat"; cls: string; label: string }[] = [
     { key: "marche", cls: BAD, label: "Marché" },
-    { key: "partenaire", cls: "fill-sky-600", label: "Partenaire" },
+    { key: "partenaire", cls: "fill-accent", label: "Partenaire" },
     { key: "achat", cls: GOOD, label: "Acheté" },
   ];
 
@@ -179,7 +179,7 @@ export function SpaceBars({
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full min-w-[520px]" role="img"
         aria-label="Coût annuel du local selon le nombre d'enfants, pour trois façons de l'occuper">
         <line x1={PAD.l} x2={W - PAD.r} y1={base} y2={base}
-          className="stroke-neutral-300 dark:stroke-neutral-700" strokeWidth={1} />
+          className="stroke-rule dark:stroke-rule" strokeWidth={1} />
         {data.map((d, i) => {
           const cx = PAD.l + band * i + band / 2;
           return (
@@ -191,21 +191,21 @@ export function SpaceBars({
                   <g key={s.key}>
                     <rect x={x} y={base - h(v)} width={bw} height={h(v)} className={s.cls} />
                     <text x={x + bw / 2} y={base - h(v) - 5} textAnchor="middle"
-                      className="fill-neutral-500 font-mono text-[9.5px] tabular-nums">
+                      className="fill-ink-2 font-mono text-[9.5px] tabular-nums">
                       {Math.round(v / 1000)}k
                     </text>
                   </g>
                 );
               })}
               <text x={cx} y={base + 17} textAnchor="middle"
-                className="fill-neutral-600 text-[12px] font-medium dark:fill-neutral-400">
+                className="fill-ink-2 text-[12px] font-medium dark:fill-ink-2">
                 {d.children} enfants
               </text>
             </g>
           );
         })}
       </svg>
-      <div className="mt-1 flex flex-wrap justify-center gap-x-6 text-xs text-neutral-500">
+      <div className="mt-1 flex flex-wrap justify-center gap-x-6 text-xs text-ink-2">
         {series.map((s) => (
           <span key={s.key} className="flex items-center gap-2">
             <span className={`inline-block size-2.5 ${s.cls.replace("fill-", "bg-")}`} />

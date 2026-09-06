@@ -47,9 +47,9 @@ export default function DeckPage() {
 
   const tone = (t?: "good" | "bad") =>
     t === "good"
-      ? "text-green-700 dark:text-green-400"
+      ? "text-done"
       : t === "bad"
-        ? "text-red-700 dark:text-red-400"
+        ? "text-late"
         : "";
 
   const full = s.image?.mode === "full";
@@ -64,27 +64,27 @@ export default function DeckPage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`/deck/${s.image.file}`} alt={s.image.alt}
             className="absolute inset-0 -z-20 size-full object-cover" />
-          <div className="absolute inset-0 -z-10 bg-white/80 dark:bg-neutral-950/80" />
+          <div className="absolute inset-0 -z-10 bg-surface/80 dark:bg-ink/80" />
         </>
       )}
       <div className={`mx-auto flex w-full max-w-5xl flex-1 px-8 py-8 ${side ? "gap-10" : ""}`}>
       <div className="flex flex-1 flex-col">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">{s.eyebrow}</p>
+        <p className="eyebrow">{s.eyebrow}</p>
 
         <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-balance sm:text-5xl">
           {s.title}
         </h1>
 
         {s.lede && (
-          <p className="mt-4 max-w-3xl text-xl text-neutral-600 dark:text-neutral-400">{s.lede}</p>
+          <p className="mt-4 max-w-3xl text-xl text-ink-2 dark:text-ink-2">{s.lede}</p>
         )}
 
         {s.stats && (
           <dl className="mt-8 grid gap-6 sm:grid-cols-3">
             {s.stats.map((st) => (
-              <div key={st.label} className="border-l-2 border-neutral-400 pl-4 dark:border-neutral-600">
+              <div key={st.label} className="border-l-2 border-rule pl-4 dark:border-rule">
                 <dd className={`font-mono text-4xl tabular-nums ${tone(st.tone)}`}>{st.value}</dd>
-                <dt className="mt-1 text-sm text-neutral-500">{st.label}</dt>
+                <dt className="mt-1 text-sm text-ink-2">{st.label}</dt>
               </div>
             ))}
           </dl>
@@ -122,11 +122,11 @@ export default function DeckPage() {
           <div className="mt-8 overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b-2 border-neutral-900 dark:border-neutral-100">
+                <tr className="border-b-2 border-ink dark:border-ink">
                   {s.table.head.map((h) => (
                     <th
                       key={h}
-                      className="py-2 pr-6 font-mono text-xs font-normal uppercase tracking-wider text-neutral-500 last:pr-0"
+                      className="py-2 pr-6 eyebrow last:pr-0"
                     >
                       {h}
                     </th>
@@ -135,7 +135,7 @@ export default function DeckPage() {
               </thead>
               <tbody>
                 {s.table.rows.map((r) => (
-                  <tr key={r.label} className="border-b border-neutral-200 dark:border-neutral-800">
+                  <tr key={r.label} className="border-b border-rule dark:border-rule">
                     <td className="py-2.5 pr-6 text-lg">{r.label}</td>
                     {r.values.map((v, k) => (
                       <td
@@ -158,7 +158,7 @@ export default function DeckPage() {
           <ul className="mt-8 grid gap-3">
             {s.bullets.map((b) => (
               <li key={b} className="flex gap-3 text-lg">
-                <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-400" />
+                <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rule" />
                 <span>{b}</span>
               </li>
             ))}
@@ -166,14 +166,14 @@ export default function DeckPage() {
         )}
 
         {s.demo && (
-          <p className="mt-8 border-l-2 border-neutral-900 pl-4 font-mono text-sm uppercase tracking-wider dark:border-neutral-100">
+          <p className="mt-8 border-l-2 border-ink pl-4 font-mono text-sm uppercase tracking-wider dark:border-ink">
             {s.demo}
           </p>
         )}
 
         <div className="flex-1" />
 
-        {s.source && <p className="mt-8 max-w-3xl text-xs text-neutral-500">{s.source}</p>}
+        {s.source && <p className="mt-8 max-w-3xl text-xs text-ink-2">{s.source}</p>}
       </div>
 
       {side && s.image && (
@@ -187,40 +187,40 @@ export default function DeckPage() {
 
       {/* Les notes ne sont visibles que si tu les ouvres. La salle voit le slide. */}
       {notes && (
-        <div className="border-t-2 border-neutral-900 bg-neutral-100 px-8 py-4 dark:border-neutral-100 dark:bg-neutral-900">
+        <div className="border-t-2 border-ink bg-surface-2 px-8 py-4 dark:border-ink dark:bg-surface-2">
           <div className="mx-auto max-w-5xl">
-            <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">Ce que tu dis</p>
-            <p className="mt-1 text-neutral-800 dark:text-neutral-200">{s.say}</p>
+            <p className="eyebrow">Ce que tu dis</p>
+            <p className="mt-1 text-ink dark:text-ink">{s.say}</p>
           </div>
         </div>
       )}
 
-      <div className="border-t border-neutral-200 px-8 py-2 dark:border-neutral-800">
+      <div className="border-t border-rule px-8 py-2 dark:border-rule">
         <div className="mx-auto flex max-w-5xl items-center gap-4">
           <button
             onClick={() => go(-1)}
             disabled={i === 0}
-            className="rounded border border-neutral-300 px-3 py-1 text-sm disabled:opacity-30 dark:border-neutral-700"
+            className="rounded border border-rule px-3 py-1 text-sm disabled:opacity-30 dark:border-rule"
           >
             ←
           </button>
           <button
             onClick={() => go(1)}
             disabled={i === SLIDES.length - 1}
-            className="rounded border border-neutral-300 px-3 py-1 text-sm disabled:opacity-30 dark:border-neutral-700"
+            className="rounded border border-rule px-3 py-1 text-sm disabled:opacity-30 dark:border-rule"
           >
             →
           </button>
-          <span className="font-mono text-sm tabular-nums text-neutral-500">
+          <span className="font-mono text-sm tabular-nums text-ink-2">
             {i + 1} / {SLIDES.length}
           </span>
           <button
             onClick={() => setNotes(!notes)}
-            className="ml-auto rounded border border-neutral-300 px-3 py-1 font-mono text-xs dark:border-neutral-700"
+            className="ml-auto rounded border border-rule px-3 py-1 font-mono text-xs dark:border-rule"
           >
             N · notes
           </button>
-          <span className="font-mono text-xs text-neutral-500">F · plein écran</span>
+          <span className="font-mono text-xs text-ink-2">F · plein écran</span>
         </div>
       </div>
     </div>

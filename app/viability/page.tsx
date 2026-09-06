@@ -37,50 +37,50 @@ export default async function ViabilityPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-8 border-b-2 border-neutral-900 pb-6 dark:border-neutral-100">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+      <header className="mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+        <p className="eyebrow">
           HomeSchoolOs · Viabilité
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">Est-ce que ça tient debout</h1>
-        <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
+        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
           Oui, à trois conditions : gagner sur chaque heure, vendre la journée et non
           l&apos;heure, et finir par acheter le local au lieu de le louer.
         </p>
       </header>
 
       {/* Ce qui vient de la base, séparé de ce qui vient du modèle. */}
-      <section className="mb-8 rounded border border-neutral-200 p-5 dark:border-neutral-800">
-        <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+      <section className="mb-8 rounded border border-rule p-5 dark:border-rule">
+        <p className="eyebrow">
           Ce que le système observe aujourd&apos;hui
         </p>
         <dl className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div className="border-l-2 border-neutral-300 pl-3 dark:border-neutral-700">
-            <dt className="text-xs text-neutral-500">Enfants inscrits</dt>
+          <div className="border-l-2 border-rule pl-3 dark:border-rule">
+            <dt className="text-xs text-ink-2">Enfants inscrits</dt>
             <dd className="font-mono text-xl tabular-nums">{enrolled}</dd>
           </div>
-          <div className="border-l-2 border-neutral-300 pl-3 dark:border-neutral-700">
-            <dt className="text-xs text-neutral-500">Cohortes ouvertes</dt>
+          <div className="border-l-2 border-rule pl-3 dark:border-rule">
+            <dt className="text-xs text-ink-2">Cohortes ouvertes</dt>
             <dd className="font-mono text-xl tabular-nums">
               {cohorts.length}
-              <span className="text-sm text-neutral-500"> / 24</span>
+              <span className="text-sm text-ink-2"> / 24</span>
             </dd>
           </div>
-          <div className="border-l-2 border-neutral-300 pl-3 dark:border-neutral-700">
-            <dt className="text-xs text-neutral-500">Heures-élève livrées</dt>
+          <div className="border-l-2 border-rule pl-3 dark:border-rule">
+            <dt className="text-xs text-ink-2">Heures-élève livrées</dt>
             <dd className="font-mono text-xl tabular-nums">{deliveredHours}</dd>
           </div>
-          <div className="border-l-2 border-neutral-300 pl-3 dark:border-neutral-700">
-            <dt className="text-xs text-neutral-500">Sur facturées</dt>
+          <div className="border-l-2 border-rule pl-3 dark:border-rule">
+            <dt className="text-xs text-ink-2">Sur facturées</dt>
             <dd
               className={`font-mono text-xl tabular-nums ${
-                deliveryRatio >= 0.9 ? "text-green-700 dark:text-green-400" : "text-amber-700 dark:text-amber-500"
+                deliveryRatio >= 0.9 ? "text-done" : "text-soon"
               }`}
             >
               {contractedHours}
             </dd>
           </div>
         </dl>
-        <p className="mt-3 max-w-prose text-xs text-neutral-500">
+        <p className="mt-3 max-w-prose text-xs text-ink-2">
           {contractedHours - deliveredHours} heures facturées non livrées, faute de présence. La
           famille paie quand même :{" "}
           <Link href="/supervisor" className="underline underline-offset-2">
@@ -92,7 +92,7 @@ export default async function ViabilityPage() {
 
       <Model initialStudents={Math.max(enrolled, 1)} />
 
-      <footer className="border-t border-neutral-200 pt-6 text-xs text-neutral-500 dark:border-neutral-800">
+      <footer className="border-t border-rule pt-6 text-xs text-ink-2 dark:border-rule">
         <p className="max-w-prose">
           Sourcé : crédits d&apos;impôt et plafonds [Revenu Québec 2025], 85 $ le bloc de 4 h
           [Centre St-Pierre], prix d&apos;immeuble [annonces Gatineau], conditions hypothécaires

@@ -25,7 +25,7 @@ import { HourlyBars, SpaceBars, Waterfall } from "./Charts";
 const SCENARIOS: Occupancy[] = ["partenaire", "marche", "achat"];
 
 const TONE = (v: number) =>
-  v >= 0 ? "text-green-700 dark:text-green-400" : "text-red-700 dark:text-red-400";
+  v >= 0 ? "text-done" : "text-late";
 
 function Ledger({ children, occupancy, yearOne }: { children: number; occupancy: Occupancy; yearOne: boolean }) {
   const p = plan(children, occupancy, yearOne);
@@ -50,14 +50,14 @@ function Ledger({ children, occupancy, yearOne }: { children: number; occupancy:
   return (
     <div
       className={`rounded border p-5 ${
-        ok ? "border-green-600/50" : "border-red-600/50"
+        ok ? "border-done/50" : "border-late/50"
       }`}
     >
-      <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+      <p className="eyebrow">
         {OCCUPANCY_LABEL[occupancy]}
       </p>
       <p className={`mt-3 font-mono text-3xl tabular-nums ${TONE(p.result)}`}>{money(p.result)}</p>
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-ink-2">
         par an, {Math.abs(Math.round(p.margin * 100))} % du revenu
       </p>
 
@@ -65,10 +65,10 @@ function Ledger({ children, occupancy, yearOne }: { children: number; occupancy:
         {lines.map(([label, value]) => (
           <div
             key={label}
-            className="flex items-baseline justify-between gap-3 border-b border-neutral-200/70 py-1 dark:border-neutral-800"
+            className="flex items-baseline justify-between gap-3 border-b border-rule/70 py-1 dark:border-rule"
           >
-            <dt className="text-neutral-600 dark:text-neutral-400">{label}</dt>
-            <dd className={`shrink-0 font-mono text-xs tabular-nums ${value < 0 ? "text-neutral-500" : ""}`}>
+            <dt className="text-ink-2 dark:text-ink-2">{label}</dt>
+            <dd className={`shrink-0 font-mono text-xs tabular-nums ${value < 0 ? "text-ink-2" : ""}`}>
               {money(value)}
             </dd>
           </div>
@@ -97,15 +97,15 @@ function Curve({ students, yearOne }: { students: number; yearOne: boolean }) {
 
   const stroke: Record<Occupancy, string> = {
     achat: "stroke-green-600",
-    partenaire: "stroke-sky-600",
+    partenaire: "stroke-accent",
     marche: "stroke-red-600",
-    prete: "stroke-neutral-400",
+    prete: "stroke-rule",
   };
   const fill: Record<Occupancy, string> = {
-    achat: "fill-green-600",
-    partenaire: "fill-sky-600",
-    marche: "fill-red-600",
-    prete: "fill-neutral-400",
+    achat: "fill-done",
+    partenaire: "fill-accent",
+    marche: "fill-late",
+    prete: "fill-ink-2",
   };
 
   return (
@@ -125,13 +125,13 @@ function Curve({ students, yearOne }: { students: number; yearOne: boolean }) {
               y2={y(v)}
               stroke="currentColor"
               strokeWidth={v === 0 ? 1.5 : 0.5}
-              className={v === 0 ? "text-neutral-500" : "text-neutral-300 dark:text-neutral-700"}
+              className={v === 0 ? "text-ink-2" : "text-ink-2 dark:text-ink"}
             />
             <text
               x={PAD.l - 8}
               y={y(v) + 4}
               textAnchor="end"
-              className="fill-neutral-500 font-mono text-[10px] tabular-nums"
+              className="fill-ink-2 font-mono text-[10px] tabular-nums"
             >
               {money(v)}
             </text>
@@ -143,7 +143,7 @@ function Curve({ students, yearOne }: { students: number; yearOne: boolean }) {
             x={x(n)}
             y={H - 9}
             textAnchor="middle"
-            className="fill-neutral-500 font-mono text-[10px] tabular-nums"
+            className="fill-ink-2 font-mono text-[10px] tabular-nums"
           >
             {n}
           </text>
@@ -158,7 +158,7 @@ function Curve({ students, yearOne }: { students: number; yearOne: boolean }) {
           y2={H - PAD.b}
           strokeWidth={1}
           strokeDasharray="3 3"
-          className="stroke-neutral-500"
+          className="stroke-rule"
         />
         {series.map((s) => (
           <circle key={s.key} cx={x(students)} cy={y(s.points[students])} r={4} className={fill[s.key]} />
@@ -182,10 +182,10 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
     <>
       {/* 1. Le premier test : gagne-t-on sur chaque heure ? */}
       <section className="mb-8">
-        <h2 className="mb-1 font-mono text-xs uppercase tracking-wider text-neutral-500">
+        <h2 className="mb-1 eyebrow">
           1 · La marge sur chaque heure travaillée
         </h2>
-        <p className="mb-4 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="mb-4 max-w-prose text-sm text-ink-2 dark:text-ink-2">
           Si une heure ne rapporte pas, aucune échelle ne sauve l&apos;entreprise. Elle accélère la
           perte.
         </p>
@@ -199,11 +199,11 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
       </section>
 
       {/* 2. Ce que le parent paie vraiment. */}
-      <section className="mb-8 rounded border border-neutral-200 p-5 dark:border-neutral-800">
-        <h2 className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+      <section className="mb-8 rounded border border-rule p-5 dark:border-rule">
+        <h2 className="eyebrow">
           2 · Ce que le parent paie vraiment
         </h2>
-        <p className="mt-1 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="mt-1 max-w-prose text-sm text-ink-2 dark:text-ink-2">
           Deux journées complètes par semaine, {OFFER.weeks} semaines. Le crédit pour frais de garde
           rembourse de {Math.round(CREDIT.care.low * 100)} % à {Math.round(CREDIT.care.high * 100)} %
           selon le revenu, jusqu&apos;à {money(CREDIT.care.ceiling)} par enfant de 7 à 13 ans.
@@ -220,18 +220,18 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
 
         <p className="mt-3 font-mono text-sm">
           {bill.netPerDay.toFixed(0)} $ par journée
-          <span className="ml-3 text-xs text-neutral-500">
+          <span className="ml-3 text-xs text-ink-2">
             un camp de jour privé est autour de 50 $ et n&apos;enseigne rien
           </span>
         </p>
 
         <div className="mt-4 flex flex-wrap gap-4">
           <label className="text-xs">
-            <span className="text-neutral-500">Taux du crédit</span>
+            <span className="text-ink-2">Taux du crédit</span>
             <select
               value={creditRate}
               onChange={(e) => setCreditRate(Number(e.target.value))}
-              className="ml-2 rounded border border-neutral-300 bg-transparent px-2 py-1 font-mono dark:border-neutral-700"
+              className="ml-2 rounded border border-rule bg-transparent px-2 py-1 font-mono dark:border-rule"
             >
               <option value={0.67}>67 % (revenu élevé)</option>
               <option value={0.7}>70 %</option>
@@ -239,11 +239,11 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
             </select>
           </label>
           <label className="text-xs">
-            <span className="text-neutral-500">Encadrement admissible au RL-24</span>
+            <span className="text-ink-2">Encadrement admissible au RL-24</span>
             <select
               value={careEligible}
               onChange={(e) => setCareEligible(Number(e.target.value))}
-              className="ml-2 rounded border border-neutral-300 bg-transparent px-2 py-1 font-mono dark:border-neutral-700"
+              className="ml-2 rounded border border-rule bg-transparent px-2 py-1 font-mono dark:border-rule"
             >
               <option value={1}>oui, en entier</option>
               <option value={0.5}>la moitié</option>
@@ -251,7 +251,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
             </select>
           </label>
         </div>
-        <p className="mt-2 text-xs text-neutral-500">
+        <p className="mt-2 text-xs text-ink-2">
           L&apos;admissibilité au relevé 24 n&apos;est pas confirmée. Mettez-la à zéro : le parent
           paie {money(parentBill(creditRate, 0).net)} et le modèle tient quand même, parce que nos
           coûts ne changent pas.
@@ -260,10 +260,10 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
 
       {/* 3. Louer ou acheter. */}
       <section className="mb-8">
-        <h2 className="mb-1 font-mono text-xs uppercase tracking-wider text-neutral-500">
+        <h2 className="mb-1 eyebrow">
           3 · Louer ou acheter
         </h2>
-        <p className="mb-4 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="mb-4 max-w-prose text-sm text-ink-2 dark:text-ink-2">
           Un loyer monte avec chaque instructeur et ne s&apos;arrête jamais. Une hypothèque est fixe.
           Et notre programme occupe le bâtiment aux heures dont personne ne veut : le soir et la fin
           de semaine se louent.
@@ -283,7 +283,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
         <div className="mt-6 overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-neutral-400 text-left text-xs uppercase tracking-wider text-neutral-500 dark:border-neutral-600">
+              <tr className="border-b border-rule text-left text-xs uppercase tracking-wider text-ink-2 dark:border-rule">
                 <th className="py-2 pr-4 font-normal">Enfants</th>
                 <th className="py-2 pr-4 text-right font-normal">Tarif partenaire</th>
                 <th className="py-2 pr-4 text-right font-normal">Tarif du marché</th>
@@ -294,15 +294,15 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
               {[16, 48, 96].map((n) => {
                 const i = Math.ceil(n / 16);
                 return (
-                  <tr key={n} className="border-b border-neutral-200 dark:border-neutral-800">
+                  <tr key={n} className="border-b border-rule dark:border-rule">
                     <td className="py-2 pr-4 font-mono tabular-nums">{n}</td>
                     <td className="py-2 pr-4 text-right font-mono tabular-nums">
                       {money(rentCost(i, "partenaire"))}
                     </td>
-                    <td className="py-2 pr-4 text-right font-mono tabular-nums text-red-700 dark:text-red-400">
+                    <td className="py-2 pr-4 text-right font-mono tabular-nums text-late">
                       {money(rentCost(i, "marche"))}
                     </td>
-                    <td className="py-2 text-right font-mono tabular-nums text-green-700 dark:text-green-400">
+                    <td className="py-2 text-right font-mono tabular-nums text-done">
                       {money(rentCost(i, "achat"))}
                     </td>
                   </tr>
@@ -311,7 +311,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
             </tbody>
           </table>
         </div>
-        <p className="mt-3 max-w-prose text-xs text-neutral-500">
+        <p className="mt-3 max-w-prose text-xs text-ink-2">
           Immeuble à {money(BUILDING.price)} [annonces à Montréal : à partir de 400 000 $, plex
           médian 880 000 $]. <strong>Aucune hypothèque, aucun financement par intérêt.</strong> Sans
           dette il ne reste que {money(BUILDING.taxes + BUILDING.insurance + BUILDING.upkeep)} de
@@ -322,10 +322,10 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
 
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {ACQUISITION.map((a) => (
-            <div key={a.key} className="border-l-2 border-neutral-300 pl-3 dark:border-neutral-700">
+            <div key={a.key} className="border-l-2 border-rule pl-3 dark:border-rule">
               <p className="text-sm font-medium">{a.label}</p>
-              <p className="mt-1 text-xs text-neutral-500">{a.what}</p>
-              <p className="mt-1 font-mono text-xs text-neutral-500">
+              <p className="mt-1 text-xs text-ink-2">{a.what}</p>
+              <p className="mt-1 font-mono text-xs text-ink-2">
                 Capital requis : {a.capital === 0 ? "aucun" : money(a.capital)}
               </p>
             </div>
@@ -334,14 +334,14 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
       </section>
 
       {/* 4. Le curseur. */}
-      <div className="mb-6 rounded border border-neutral-200 p-5 dark:border-neutral-800">
+      <div className="mb-6 rounded border border-rule p-5 dark:border-rule">
         <label htmlFor="students" className="flex flex-wrap items-baseline justify-between gap-3">
-          <span className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+          <span className="eyebrow">
             4 · Enfants inscrits
           </span>
           <span className="font-mono text-2xl tabular-nums">
             {students}
-            <span className="text-sm text-neutral-500"> / 96</span>
+            <span className="text-sm text-ink-2"> / 96</span>
           </span>
         </label>
         <input
@@ -351,7 +351,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           max={96}
           value={students}
           onChange={(e) => setStudents(Number(e.target.value))}
-          className="mt-3 w-full accent-neutral-900 dark:accent-neutral-100"
+          className="mt-3 w-full accent-ink dark:accent-ink"
         />
         <div className="mt-2 flex flex-wrap items-center gap-2">
           {[16, 48, 96].map((n) => (
@@ -359,7 +359,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
               key={n}
               type="button"
               onClick={() => setStudents(n)}
-              className="rounded border border-neutral-300 px-2.5 py-1 font-mono text-xs hover:border-neutral-900 dark:border-neutral-700 dark:hover:border-neutral-100"
+              className="rounded border border-rule px-2.5 py-1 font-mono text-xs hover:border-ink dark:border-rule dark:hover:border-rule"
             >
               {n}
             </button>
@@ -367,7 +367,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
           <button
             type="button"
             onClick={() => setYearOne(!yearOne)}
-            className="ml-auto rounded border border-neutral-300 px-2.5 py-1 font-mono text-xs hover:border-neutral-900 dark:border-neutral-700 dark:hover:border-neutral-100"
+            className="ml-auto rounded border border-rule px-2.5 py-1 font-mono text-xs hover:border-ink dark:border-rule dark:hover:border-rule"
           >
             {yearOne ? "An 1, frais légaux inclus" : "Régime de croisière"}
           </button>
@@ -380,28 +380,28 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
         ))}
       </div>
 
-      <section className="mb-8 rounded border border-neutral-200 p-5 dark:border-neutral-800">
-        <h2 className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+      <section className="mb-8 rounded border border-rule p-5 dark:border-rule">
+        <h2 className="eyebrow">
           Résultat annuel selon le remplissage
         </h2>
-        <p className="mt-1 text-xs text-neutral-500">
+        <p className="mt-1 text-xs text-ink-2">
           Les dents de scie sont les embauches : un instructeur arrive avant les enfants qui le
           paient. D&apos;où la règle, on embauche quand la cohorte suivante est remplie.
         </p>
         <div className="mt-3">
           <Curve students={students} yearOne={yearOne} />
         </div>
-        <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-xs text-neutral-500">
-          <span className="flex items-center gap-2"><span className="inline-block h-0.5 w-5 bg-green-600" /> Acheté</span>
-          <span className="flex items-center gap-2"><span className="inline-block h-0.5 w-5 bg-sky-600" /> Partenaire</span>
-          <span className="flex items-center gap-2"><span className="inline-block h-0.5 w-5 bg-red-600" /> Marché</span>
+        <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-xs text-ink-2">
+          <span className="flex items-center gap-2"><span className="inline-block h-0.5 w-5 bg-done" /> Acheté</span>
+          <span className="flex items-center gap-2"><span className="inline-block h-0.5 w-5 bg-accent" /> Partenaire</span>
+          <span className="flex items-center gap-2"><span className="inline-block h-0.5 w-5 bg-late" /> Marché</span>
         </div>
         <div className="mt-4 grid gap-2 text-sm sm:grid-cols-3">
           {SCENARIOS.map((s) => {
             const be = breakEven(s, yearOne);
             return (
-              <p key={s} className="text-neutral-600 dark:text-neutral-400">
-                <span className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+              <p key={s} className="text-ink-2 dark:text-ink-2">
+                <span className="eyebrow">
                   {OCCUPANCY_LABEL[s]}
                 </span>
                 <br />
@@ -418,17 +418,17 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
 
       {/* 5. Le chemin. */}
       <section className="mb-8">
-        <h2 className="mb-1 font-mono text-xs uppercase tracking-wider text-neutral-500">
+        <h2 className="mb-1 eyebrow">
           5 · Le chemin jusqu&apos;à l&apos;immeuble
         </h2>
-        <p className="mb-4 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="mb-4 max-w-prose text-sm text-ink-2 dark:text-ink-2">
           On reste au tarif partenaire tant que l&apos;immeuble n&apos;est pas acquis sans dette.
           Le surplus s&apos;accumule, il ne sert pas à rembourser un prêt.
         </p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-neutral-400 text-left text-xs uppercase tracking-wider text-neutral-500 dark:border-neutral-600">
+              <tr className="border-b border-rule text-left text-xs uppercase tracking-wider text-ink-2 dark:border-rule">
                 <th className="py-2 pr-4 font-normal">An</th>
                 <th className="py-2 pr-4 font-normal">Enfants</th>
                 <th className="py-2 pr-4 font-normal">Local</th>
@@ -438,7 +438,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
             </thead>
             <tbody>
               {steps.map((s) => (
-                <tr key={s.year} className="border-b border-neutral-200 dark:border-neutral-800">
+                <tr key={s.year} className="border-b border-rule dark:border-rule">
                   <td className="py-2 pr-4 font-mono tabular-nums">{s.year}</td>
                   <td className="py-2 pr-4 font-mono tabular-nums">{s.children}</td>
                   <td className="py-2 pr-4 text-xs">{OCCUPANCY_LABEL[s.occupancy]}</td>
@@ -453,7 +453,7 @@ export default function Model({ initialStudents }: { initialStudents: number }) 
             </tbody>
           </table>
         </div>
-        <p className="mt-3 max-w-prose text-xs text-neutral-500">
+        <p className="mt-3 max-w-prose text-xs text-ink-2">
           Sept ans en autofinancement pur. C&apos;est long, et c&apos;est le vrai chiffre. Trois
           leviers le raccourcissent : un financement d&apos;immeuble occupé par son propriétaire
           demande parfois moins de 25 % de mise de fonds, un organisme communautaire peut coinvestir

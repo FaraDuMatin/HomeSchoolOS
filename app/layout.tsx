@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Archivo, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Archivo porte la maquette : graisse 800 pour les titres, 400 a 700 pour le
+// reste. Une seule famille, parce qu'un deuxieme caractere de titre n'ajoute
+// rien a trois metres et coute un chargement de plus le matin du pitch.
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const geistMono = Geist_Mono({
@@ -40,12 +44,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${archivo.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <nav className="border-b border-neutral-200 print:hidden dark:border-neutral-800">
+        <nav className="border-b border-rule print:hidden dark:border-rule">
           <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-6 gap-y-1 px-6 py-3">
-            <Link href="/" className="font-mono text-xs uppercase tracking-widest">
+            <Link href="/" className="eyebrow">
               HomeSchoolOs
             </Link>
             {/* Le rôle n'est affiché qu'une fois par groupe. Répété sur chacun
@@ -55,13 +59,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               {NAV.map((n, i) => (
                 <span key={n.href} className="flex items-baseline gap-1.5">
                   {n.role !== NAV[i - 1]?.role && (
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400">
+                    <span className="eyebrow text-[10px]">
                       {n.role}
                     </span>
                   )}
                   <Link
                     href={n.href}
-                    className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+                    className="text-sm text-ink-2 hover:text-ink dark:text-ink-2 dark:hover:text-ink-2"
                   >
                     {n.label}
                   </Link>

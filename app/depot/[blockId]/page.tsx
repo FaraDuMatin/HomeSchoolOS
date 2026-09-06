@@ -43,21 +43,21 @@ export default async function DepotPage(props: {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <Link href={`/horaire?e=${current.id}`} className="font-mono text-sm text-neutral-500">
+      <Link href={`/horaire?e=${current.id}`} className="font-mono text-sm text-ink-2">
         ← Ma semaine
       </Link>
 
-      <header className="mt-6 mb-8 border-b-2 border-neutral-900 pb-6 dark:border-neutral-100">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+      <header className="mt-6 mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+        <p className="eyebrow">
           {block.day} · {block.start} à {block.end} · {block.where === "centre" ? "au centre" : "à la maison"}
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">{block.title}</h1>
-        <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400">{block.deposit}</p>
+        <p className="mt-3 text-lg text-ink-2 dark:text-ink-2">{block.deposit}</p>
 
-        <p className="mt-4 font-mono text-xs text-neutral-500">
+        <p className="mt-4 font-mono text-xs text-ink-2">
           {block.competency} · {labelOf(block.competency)}
         </p>
-        <p className="mt-1 text-sm text-neutral-500">
+        <p className="mt-1 text-sm text-ink-2">
           {auMinistere
             ? "Ce travail compte comme trace datée dans le bilan remis au ministère."
             : "Ce travail est consigné pour la famille. Le bilan remis au ministère ne le lit pas."}
@@ -76,27 +76,27 @@ export default async function DepotPage(props: {
           rows={5}
           required
           placeholder={block.deposit}
-          className="w-full rounded border border-neutral-300 bg-transparent p-3 dark:border-neutral-700"
+          className="w-full rounded border border-rule bg-transparent p-3 dark:border-rule"
         />
         <button
           type="submit"
-          className="justify-self-start rounded bg-neutral-900 px-4 py-2 text-white dark:bg-neutral-100 dark:text-neutral-900"
+          className="justify-self-start rounded bg-ink px-4 py-2 text-bg dark:bg-ink dark:text-bg"
         >
           Déposer
         </button>
       </form>
 
       <section className="mt-10">
-        <h2 className="mb-3 font-mono text-xs uppercase tracking-wider text-neutral-500">
+        <h2 className="mb-3 eyebrow">
           Déjà déposé, {deposits.length}
         </h2>
         {deposits.length === 0 ? (
-          <p className="text-neutral-500">Rien encore pour ce bloc.</p>
+          <p className="text-ink-2">Rien encore pour ce bloc.</p>
         ) : (
           <ul className="grid gap-1">
             {deposits.map((d) => (
-              <li key={d.id} className="border-b border-neutral-200 py-3 dark:border-neutral-800">
-                <p className="font-mono text-xs text-neutral-500">{fmt.format(d.completedAt)}</p>
+              <li key={d.id} className="border-b border-rule py-3 dark:border-rule">
+                <p className="font-mono text-xs text-ink-2">{fmt.format(d.completedAt)}</p>
                 <p className="mt-1 whitespace-pre-wrap">{d.answer}</p>
               </li>
             ))}
@@ -104,7 +104,7 @@ export default async function DepotPage(props: {
         )}
       </section>
 
-      <p className="mt-10 border-t border-neutral-200 pt-4 text-sm text-neutral-500 dark:border-neutral-800">
+      <p className="mt-10 border-t border-rule pt-4 text-sm text-ink-2 dark:border-rule">
         {auMinistere ? (
           <>
             Le dépôt apparaît immédiatement dans{" "}

@@ -90,12 +90,12 @@ export default async function RoutesPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-8 border-b-2 border-neutral-900 pb-6 dark:border-neutral-100">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+      <header className="mb-8 border-b-2 border-ink pb-6 dark:border-ink">
+        <p className="eyebrow">
           HomeSchoolOs · Index
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">Toutes les pages</h1>
-        <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
+        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
           Page de développement, pas de démonstration. Les liens vers les routes dynamiques sont
           résolus en base, donc ils restent valides après chaque{" "}
           <span className="font-mono text-sm">npx tsx prisma/seed.ts</span>.
@@ -103,7 +103,7 @@ export default async function RoutesPage() {
       </header>
 
       <section className="mb-10">
-        <h2 className="mb-3 font-mono text-xs uppercase tracking-wider text-neutral-500">
+        <h2 className="mb-3 eyebrow">
           Pages fixes
         </h2>
         <ul className="grid gap-1">
@@ -111,16 +111,16 @@ export default async function RoutesPage() {
             <li key={r.href}>
               <Link
                 href={r.href}
-                className="block border-b border-neutral-200 py-3 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
+                className="block border-b border-rule py-3 hover:bg-surface-2 dark:border-rule dark:hover:bg-surface-2"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3">
                   <span className="font-mono text-sm">{r.href}</span>
                   <span className="font-medium">{r.label}</span>
-                  <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-neutral-400">
+                  <span className="ml-auto eyebrow text-[10px]">
                     {r.role}
                   </span>
                 </div>
-                <p className="mt-1 max-w-prose text-sm text-neutral-600 dark:text-neutral-400">
+                <p className="mt-1 max-w-prose text-sm text-ink-2 dark:text-ink-2">
                   {r.what}
                 </p>
               </Link>
@@ -130,7 +130,7 @@ export default async function RoutesPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-3 font-mono text-xs uppercase tracking-wider text-neutral-500">
+        <h2 className="mb-3 eyebrow">
           Blocs
         </h2>
         <ul className="grid gap-1">
@@ -138,12 +138,12 @@ export default async function RoutesPage() {
             <li>
               <Link
                 href={`/sessions/${openSession.id}`}
-                className="block border-b border-neutral-200 py-3 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
+                className="block border-b border-rule py-3 hover:bg-surface-2 dark:border-rule dark:hover:bg-surface-2"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3">
                   <span className="font-mono text-sm">/sessions/{openSession.id}</span>
                   <span className="font-medium">Le bloc à ouvrir en démo</span>
-                  <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-green-700 dark:text-green-400">
+                  <span className="ml-auto eyebrow text-[10px] text-done">
                     {openSession.status}
                   </span>
                 </div>
@@ -154,12 +154,12 @@ export default async function RoutesPage() {
             <li>
               <Link
                 href={`/sessions/${lastSession.id}`}
-                className="block border-b border-neutral-200 py-3 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
+                className="block border-b border-rule py-3 hover:bg-surface-2 dark:border-rule dark:hover:bg-surface-2"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3">
                   <span className="font-mono text-sm">/sessions/{lastSession.id}</span>
                   <span className="font-medium">Le dernier bloc terminé</span>
-                  <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-neutral-400">
+                  <span className="ml-auto eyebrow text-[10px]">
                     {lastSession.status}
                   </span>
                 </div>
@@ -170,7 +170,7 @@ export default async function RoutesPage() {
       </section>
 
       <section>
-        <h2 className="mb-3 font-mono text-xs uppercase tracking-wider text-neutral-500">
+        <h2 className="mb-3 eyebrow">
           Bilans de progression
         </h2>
         <ul className="grid gap-1">
@@ -178,7 +178,7 @@ export default async function RoutesPage() {
             <li key={s.id}>
               <Link
                 href={`/report/${s.id}`}
-                className="block border-b border-neutral-200 py-3 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
+                className="block border-b border-rule py-3 hover:bg-surface-2 dark:border-rule dark:hover:bg-surface-2"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3">
                   <span className="font-mono text-sm">/report/{s.id}</span>
@@ -188,7 +188,7 @@ export default async function RoutesPage() {
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-xs text-neutral-500">
+        <p className="mt-3 text-xs text-ink-2">
           Sara Farouk n&apos;est dans aucune cohorte : son bilan est vide, et c&apos;est voulu.
           C&apos;est elle qu&apos;on essaie d&apos;ajouter pendant la démo pour déclencher le refus
           légal.

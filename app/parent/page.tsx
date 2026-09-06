@@ -18,7 +18,7 @@ export default async function ParentPage() {
   if (!parent) {
     return (
       <main className="mx-auto max-w-2xl px-6 py-24">
-        <p className="text-neutral-500">Aucun parent dans les données. Relancez le seed.</p>
+        <p className="text-ink-2">Aucun parent dans les données. Relancez le seed.</p>
       </main>
     );
   }
@@ -36,12 +36,12 @@ export default async function ParentPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-10 border-b-2 border-neutral-900 pb-6 dark:border-neutral-100">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+      <header className="mb-10 border-b-2 border-ink pb-6 dark:border-ink">
+        <p className="eyebrow">
           HomeSchoolOs · Espace parent
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">{parent.name}</h1>
-        <p className="mt-3 max-w-prose text-neutral-600 dark:text-neutral-400">
+        <p className="mt-3 max-w-prose text-ink-2 dark:text-ink-2">
           Ce que les blocs ont produit. Vous restez l&apos;éducateur légal.
         </p>
       </header>
@@ -54,13 +54,13 @@ export default async function ParentPage() {
         return (
           <section
             key={r.student.id}
-            className="mb-8 rounded border border-neutral-200 p-6 dark:border-neutral-800"
+            className="mb-8 rounded border border-rule p-6 dark:border-rule"
           >
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <h2 className="text-xl font-semibold">{r.student.name}</h2>
               <Link
                 href={`/report/${r.student.id}`}
-                className="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-neutral-900"
+                className="rounded bg-ink px-4 py-2 text-sm font-medium text-bg dark:bg-surface dark:text-bg"
               >
                 Générer le bilan de progression
               </Link>
@@ -75,16 +75,16 @@ export default async function ParentPage() {
               ].map(([label, value]) => (
                 <div
                   key={String(label)}
-                  className="border-l-2 border-neutral-300 pl-3 dark:border-neutral-700"
+                  className="border-l-2 border-rule pl-3 dark:border-rule"
                 >
-                  <dt className="text-xs text-neutral-500">{label}</dt>
+                  <dt className="text-xs text-ink-2">{label}</dt>
                   <dd className="font-mono text-xl tabular-nums">{value}</dd>
                 </div>
               ))}
             </dl>
 
             <div className="mt-6">
-              <p className="mb-2 font-mono text-xs uppercase tracking-wider text-neutral-500">
+              <p className="mb-2 eyebrow">
                 Couverture par matière
               </p>
               <ul className="grid gap-1">
@@ -93,15 +93,15 @@ export default async function ParentPage() {
                   return (
                     <li key={s.subject.key} className="flex items-center gap-3 text-sm">
                       <span className="w-56 shrink-0 truncate">{s.subject.label}</span>
-                      <span className="h-1.5 flex-1 overflow-hidden rounded bg-neutral-200 dark:bg-neutral-800">
+                      <span className="h-1.5 flex-1 overflow-hidden rounded bg-rule dark:bg-surface-2">
                         <span
                           className={`block h-full ${
-                            pct === 100 ? "bg-green-600" : pct === 0 ? "bg-amber-600" : "bg-neutral-500"
+                            pct === 100 ? "bg-done" : pct === 0 ? "bg-soon" : "bg-ink-2"
                           }`}
                           style={{ width: `${pct}%` }}
                         />
                       </span>
-                      <span className="w-16 shrink-0 text-right font-mono text-xs tabular-nums text-neutral-500">
+                      <span className="w-16 shrink-0 text-right font-mono text-xs tabular-nums text-ink-2">
                         {s.covered}/{s.total}
                       </span>
                     </li>
@@ -111,7 +111,7 @@ export default async function ParentPage() {
             </div>
 
             {r.gaps.length > 0 && (
-              <p className="mt-5 border-l-2 border-amber-600 pl-3 text-sm text-amber-800 dark:text-amber-500">
+              <p className="mt-5 border-l-2 border-soon pl-3 text-sm text-soon">
                 {r.gaps.length} compétences sans trace. Un bilan incomplet est renvoyé.
               </p>
             )}
@@ -122,36 +122,36 @@ export default async function ParentPage() {
       <section className="grid gap-4 sm:grid-cols-2">
         <Link
           href="/obligations"
-          className="rounded border border-neutral-200 p-5 hover:border-neutral-900 dark:border-neutral-800 dark:hover:border-neutral-100"
+          className="rounded border border-rule p-5 hover:border-ink dark:border-rule dark:hover:border-rule"
         >
-          <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+          <p className="eyebrow">
             Vos échéances
           </p>
           <p className="mt-2 font-mono text-2xl tabular-nums">
             {compliance.done}/{compliance.total}
             {compliance.late > 0 && (
-              <span className="ml-3 text-base text-red-700 dark:text-red-400">
+              <span className="ml-3 text-base text-late">
                 {compliance.late} en retard
               </span>
             )}
           </p>
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+          <p className="mt-2 text-sm text-ink-2 dark:text-ink-2">
             Prochaine : {next ? next.legalDate.toLowerCase() : "—"}.
           </p>
         </Link>
 
         <Link
           href="/privacy"
-          className="rounded border border-neutral-200 p-5 hover:border-neutral-900 dark:border-neutral-800 dark:hover:border-neutral-100"
+          className="rounded border border-rule p-5 hover:border-ink dark:border-rule dark:hover:border-rule"
         >
-          <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">
+          <p className="eyebrow">
             Confidentialité
           </p>
           <p className="mt-2 font-mono text-2xl tabular-nums">
             {segments}
-            <span className="text-base text-neutral-500"> segments</span>
+            <span className="text-base text-ink-2"> segments</span>
           </p>
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+          <p className="mt-2 text-sm text-ink-2 dark:text-ink-2">
             Consentement, conservation, suppression.
           </p>
         </Link>
